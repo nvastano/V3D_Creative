@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Custom Name Plates - 3D Printing Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: linear-gradient(135deg, #667eea 0%, #1a1a1a 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: rgba(26, 26, 26, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 2px solid #667eea;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .product-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .product-image-container {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .product-image {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .product-details h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+
+        .product-details p {
+            color: #e0e0e0;
+            font-size: 1.15em;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .features {
+            background: rgba(102, 126, 234, 0.15);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 2px solid #667eea;
+        }
+
+        .features h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.05em;
+            color: #e0e0e0;
+        }
+
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        /* Order Form */
+        .order-section {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 40px;
+            border: 2px solid #667eea;
+        }
+
+        .order-section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.05em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .submit-btn {
+            background: #667eea;
+            color: white;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+            background: #7d8ef5;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #667eea;
+        }
+
+        @media (max-width: 968px) {
+            .product-section {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image-container {
+                position: relative;
+                top: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(26, 26, 26, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+                border-top: 2px solid #667eea;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .product-details h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🖨️ 3D Print Shop</div>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="payment-info.html">Payment Info</a></li>
+                <li><a href="request-print.html">Request a Print</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="products.html" class="back-link">← Back to Products</a>
+
+        <div class="product-section">
+            <div class="product-image-container">
+                <img src="minecraft-nameplate.jpg" alt="Minecraft Custom Name Plate" class="product-image" id="productImage">
+            </div>
+
+            <div class="product-details">
+                <h1>Minecraft Custom Name Plates</h1>
+                <div class="price">$7 per name</div>
+                
+                <p>Transform your gaming setup or desk with a personalized Minecraft-style name plate! Each plate features iconic blocky letters that capture the authentic Minecraft aesthetic.</p>
+
+                <div class="features">
+                    <h3>Product Features:</h3>
+                    <ul>
+                        <li>Custom text - your name or any word you choose</li>
+                        <li>Authentic Minecraft blocky letter design</li>
+                        <li>Sturdy base with grass block style</li>
+                        <li>High-quality PLA filament</li>
+                        <li>Multiple color options available</li>
+                        <li>Perfect for desks, shelves, or gaming setups</li>
+                        <li>Made with care and attention to detail</li>
+                        <li>Great gift for Minecraft fans!</li>
+                    </ul>
+                </div>
+
+                <p><strong>Dimensions:</strong> Varies based on name length. Average plate is approximately 6-8 inches wide.</p>
+                
+                <p><strong>Turnaround Time:</strong> Most orders are completed within 3-5 days after payment.</p>
+            </div>
+        </div>
+
+        <div class="order-section">
+            <h2>Order Your Custom Name Plate</h2>
+            <form id="orderForm">
+                <input type="hidden" name="productName" value="Minecraft Custom Name Plate">
+                <input type="hidden" name="pricePerUnit" value="$7">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nameText">Name for Your Plate <span class="required">*</span></label>
+                    <input type="text" id="nameText" name="nameText" required placeholder="What name should we print?" maxlength="20">
+                    <small style="color: #666; display: block; margin-top: 5px;">Maximum 20 characters</small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantity">Quantity <span class="required">*</span></label>
+                        <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+                        <small style="color: #666; display: block; margin-top: 5px;">$7 per name plate</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Preferred Color <span class="required">*</span></label>
+                        <select id="color" name="color" required>
+                            <option value="">Select a color...</option>
+                            <option value="Gray (like photo)">Gray (like photo)</option>
+                            <option value="Black">Black</option>
+                            <option value="White">White</option>
+                            <option value="Red">Red</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Green (Minecraft grass)">Green (Minecraft grass)</option>
+                            <option value="Brown">Brown</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Orange">Orange</option>
+                            <option value="Purple">Purple</option>
+                            <option value="Custom (specify in notes)">Custom (specify in notes)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Special Requests or Notes</label>
+                    <textarea id="notes" name="notes" placeholder="Any special instructions? Different colors for different letters? Multiple names? Let us know!"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Place Order</button>
+
+                <div class="message" id="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Form submission
+        const form = document.getElementById('orderForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const message = document.getElementById('message');
+
+        // IMPORTANT: Replace this URL with your Google Apps Script web app URL
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            // Hide any previous messages
+            message.style.display = 'none';
+
+            // Collect form data
+            const formData = new FormData(form);
+            const quantity = formData.get('quantity');
+            const pricePerUnit = 7;
+            const totalPrice = quantity * pricePerUnit;
+            
+            const data = {
+                timestamp: new Date().toLocaleString(),
+                productName: formData.get('productName'),
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                nameText: formData.get('nameText'),
+                quantity: quantity,
+                color: formData.get('color'),
+                notes: formData.get('notes') || 'None',
+                pricePerUnit: '$' + pricePerUnit,
+                totalPrice: '$' + totalPrice
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Since we're using no-cors, we can't read the response
+                // but if we get here without error, it likely worked
+                message.textContent = `✓ Order submitted successfully! Total: $${totalPrice}. We'll contact you soon via email or phone to confirm and send a Venmo payment request.`;
+                message.className = 'message success';
+                message.style.display = 'block';
+                form.reset();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = '✗ There was an error submitting your order. Please try again or contact us directly.';
+                message.className = 'message error';
+                message.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Place Order';
+                
+                // Scroll to message
+                message.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    </script>
+</body>
+</html>
