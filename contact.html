@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - V3D Creative</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: linear-gradient(135deg, #461D7C 0%, #000000 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid #461D7C;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #FDD023;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .logo-subtitle {
+            font-size: 0.5em;
+            color: #ffffff;
+            font-weight: normal;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #461D7C;
+            color: #FDD023;
+        }
+
+        .nav-links a.active {
+            background: #461D7C;
+            color: #FDD023;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 3px solid #461D7C;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            color: #FDD023;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .page-header p {
+            font-size: 1.2em;
+            color: #ffffff;
+            line-height: 1.8;
+        }
+
+        .info-box {
+            background: rgba(70, 29, 124, 0.3);
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #461D7C;
+            margin: 30px 0;
+        }
+
+        .info-box h3 {
+            color: #FDD023;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .info-box p {
+            color: #ffffff;
+            font-size: 1.05em;
+            margin-bottom: 10px;
+        }
+
+        /* Form Styles */
+        .form-section {
+            margin-top: 40px;
+        }
+
+        .form-section h2 {
+            color: #FDD023;
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.05em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #461D7C;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FDD023;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .required {
+            color: #FDD023;
+        }
+
+        .submit-btn {
+            background: #461D7C;
+            color: #FDD023;
+            padding: 18px 50px;
+            border: 2px solid #FDD023;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background: #FDD023;
+            color: #461D7C;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(253, 208, 35, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(40, 167, 69, 0.8);
+            color: #ffffff;
+            border: 2px solid #28a745;
+        }
+
+        .message.error {
+            background: rgba(220, 53, 69, 0.8);
+            color: #ffffff;
+            border: 2px solid #dc3545;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #FDD023;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+                border-top: 3px solid #461D7C;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .container {
+                margin: 30px 20px;
+                padding: 30px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 2em;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                V3D Creative
+                <span class="logo-subtitle">Custom 3D Prints</span>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Our Prints</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Get in Touch</h1>
+            <p>Have a custom project in mind or just want to say hello? We'd love to hear from you!</p>
+        </div>
+
+        <div class="info-box">
+            <h3>What We Can Do:</h3>
+            <p>We specialize in custom 3D prints for all kinds of projects - from gaming accessories and desk decorations to functional parts and personalized gifts. If you have an STL file or an idea you'd like us to bring to life, let us know!</p>
+        </div>
+
+        <div class="form-section">
+            <h2>Send Us a Message</h2>
+            <form id="contactForm">
+                <input type="hidden" name="formType" value="Custom Print Request">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescription">What would you like us to create? <span class="required">*</span></label>
+                    <textarea id="projectDescription" name="projectDescription" required placeholder="Describe your project - what do you need printed? Include size, purpose, any specific requirements..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="hasFile">Do you have a 3D model file?</label>
+                        <select id="hasFile" name="hasFile">
+                            <option value="No - need help designing">No - need help designing</option>
+                            <option value="Yes - I have a file">Yes - I have a file</option>
+                            <option value="Not sure">Not sure</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeline">When do you need this?</label>
+                        <input type="text" id="timeline" name="timeline" placeholder="e.g., No rush, Within 2 weeks, etc.">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalNotes">Additional Notes</label>
+                    <textarea id="additionalNotes" name="additionalNotes" placeholder="Any other details, color preferences, or questions? If you have a file, mention how you'd like to share it."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+
+                <div class="message" id="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Form submission
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const message = document.getElementById('message');
+
+        // IMPORTANT: Replace this URL with your Google Apps Script web app URL
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            message.style.display = 'none';
+
+            const formData = new FormData(form);
+            const data = {
+                timestamp: new Date().toLocaleString(),
+                formType: formData.get('formType'),
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                projectDescription: formData.get('projectDescription'),
+                hasFile: formData.get('hasFile'),
+                preferredColor: 'Not specified',
+                quantity: '1',
+                timeline: formData.get('timeline') || 'Not specified',
+                additionalNotes: formData.get('additionalNotes') || 'None'
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                message.textContent = '✓ Message sent! We\'ll review your request and get back to you within 24-48 hours.';
+                message.className = 'message success';
+                message.style.display = 'block';
+                form.reset();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = '✗ There was an error sending your message. Please try again or email us directly.';
+                message.className = 'message error';
+                message.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+                message.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    </script>
+</body>
+</html>

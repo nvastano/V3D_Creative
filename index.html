@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Printing Store - Home</title>
+    <title>V3D Creative - Custom 3D Prints</title>
     <style>
         * {
             margin: 0;
@@ -15,18 +15,18 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #ffffff;
-            background: linear-gradient(135deg, #667eea 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #461D7C 0%, #000000 100%);
             min-height: 100vh;
         }
 
         /* Navigation */
         nav {
-            background: rgba(26, 26, 26, 0.95);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 3px solid #461D7C;
         }
 
         .nav-container {
@@ -35,13 +35,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 40px;
+            padding: 20px 40px;
         }
 
         .logo {
-            font-size: 1.5em;
+            font-size: 1.8em;
             font-weight: bold;
-            color: #667eea;
+            color: #FDD023;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .logo-subtitle {
+            font-size: 0.5em;
+            color: #ffffff;
+            font-weight: normal;
+            display: block;
         }
 
         .nav-links {
@@ -60,26 +68,27 @@
         }
 
         .nav-links a:hover {
-            background: #667eea;
-            color: white;
+            background: #461D7C;
+            color: #FDD023;
         }
 
         .nav-links a.active {
-            background: #667eea;
-            color: white;
+            background: #461D7C;
+            color: #FDD023;
         }
 
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 80px 40px;
+            padding: 80px 40px 60px;
             color: white;
         }
 
         .hero h1 {
             font-size: 3.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            color: #FDD023;
         }
 
         .hero p {
@@ -88,129 +97,214 @@
             opacity: 0.95;
         }
 
-        .cta-button {
-            display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 18px 50px;
-            text-decoration: none;
-            font-size: 1.2em;
-            font-weight: bold;
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-
-        /* Features Section */
-        .features-section {
-            background: rgba(26, 26, 26, 0.9);
-            padding: 80px 40px;
-            border-top: 2px solid #667eea;
-        }
-
-        .features-container {
+        /* Products Section */
+        .products-section {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 40px;
         }
 
-        .features-container h2 {
+        .section-title {
             text-align: center;
             font-size: 2.5em;
-            color: #667eea;
-            margin-bottom: 60px;
+            color: #FDD023;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .feature-card {
-            text-align: center;
+        .product-item {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
             padding: 40px;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 15px;
-            transition: transform 0.3s;
-            border: 2px solid #667eea;
+            margin-bottom: 40px;
+            border: 3px solid #461D7C;
+            box-shadow: 0 10px 40px rgba(70, 29, 124, 0.3);
         }
 
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        .product-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
-        .feature-icon {
-            font-size: 4em;
+        .product-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #461D7C;
+        }
+
+        .product-image.large {
+            grid-column: 1 / -1;
+        }
+
+        .product-info h2 {
+            color: #FDD023;
+            font-size: 2.5em;
             margin-bottom: 20px;
         }
 
-        .feature-card h3 {
-            color: #667eea;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
-
-        .feature-card p {
-            color: #e0e0e0;
-            font-size: 1.1em;
-        }
-
-        /* How It Works Section */
-        .how-it-works {
-            background: linear-gradient(135deg, #667eea 0%, #1a1a1a 100%);
-            color: white;
-            padding: 80px 40px;
-            border-top: 2px solid #667eea;
-        }
-
-        .how-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .how-container h2 {
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 60px;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-
-        .step {
-            text-align: center;
-        }
-
-        .step-number {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            background: white;
-            color: #667eea;
-            border-radius: 50%;
-            line-height: 60px;
+        .price {
             font-size: 2em;
             font-weight: bold;
+            color: #FDD023;
             margin-bottom: 20px;
         }
 
-        .step h3 {
-            font-size: 1.5em;
+        .product-info p {
+            color: #ffffff;
+            font-size: 1.15em;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .features {
+            background: rgba(70, 29, 124, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #461D7C;
+        }
+
+        .features h3 {
+            color: #FDD023;
             margin-bottom: 15px;
         }
 
-        .step p {
-            font-size: 1.1em;
-            opacity: 0.95;
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #ffffff;
+        }
+
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #FDD023;
+            font-weight: bold;
+        }
+
+        /* Order Form */
+        .order-form {
+            background: rgba(70, 29, 124, 0.2);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid #461D7C;
+        }
+
+        .order-form h3 {
+            color: #FDD023;
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.05em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #461D7C;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FDD023;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .required {
+            color: #FDD023;
+        }
+
+        .submit-btn {
+            background: #461D7C;
+            color: #FDD023;
+            padding: 18px 50px;
+            border: 2px solid #FDD023;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background: #FDD023;
+            color: #461D7C;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(253, 208, 35, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(40, 167, 69, 0.8);
+            color: #ffffff;
+            border: 2px solid #28a745;
+        }
+
+        .message.error {
+            background: rgba(220, 53, 69, 0.8);
+            color: #ffffff;
+            border: 2px solid #dc3545;
         }
 
         /* Mobile Menu */
@@ -220,7 +314,17 @@
             border: none;
             font-size: 1.5em;
             cursor: pointer;
-            color: #667eea;
+            color: #FDD023;
+        }
+
+        @media (max-width: 968px) {
+            .product-header {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -234,11 +338,11 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: rgba(26, 26, 26, 0.98);
+                background: rgba(0, 0, 0, 0.98);
                 flex-direction: column;
                 padding: 20px;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-                border-top: 2px solid #667eea;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+                border-top: 3px solid #461D7C;
             }
 
             .nav-links.active {
@@ -246,15 +350,18 @@
             }
 
             .hero h1 {
-                font-size: 2em;
+                font-size: 2.2em;
             }
 
-            .hero p {
-                font-size: 1.1em;
+            .products-section {
+                padding: 20px;
             }
 
-            .features-grid,
-            .steps {
+            .product-item {
+                padding: 20px;
+            }
+
+            .product-images {
                 grid-template-columns: 1fr;
             }
         }
@@ -263,86 +370,129 @@
 <body>
     <nav>
         <div class="nav-container">
-            <div class="logo">🖨️ 3D Print Shop</div>
+            <div class="logo">
+                V3D Creative
+                <span class="logo-subtitle">Custom 3D Prints</span>
+            </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="products.html">Products</a></li>
+                <li><a href="index.html" class="active">Our Prints</a></li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="payment-info.html">Payment Info</a></li>
-                <li><a href="request-print.html">Request a Print</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
             </ul>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>Welcome to Our 3D Print Shop!</h1>
-        <p>Custom 3D printed items made with care by father & son</p>
-        <a href="products.html" class="cta-button">Browse Products</a>
+        <h1>Custom 3D Printed Creations</h1>
+        <p>Personalized designs made with quality and care</p>
     </section>
 
-    <section class="features-section">
-        <div class="features-container">
-            <h2>Why Choose Us?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">✨</div>
-                    <h3>Custom Designs</h3>
-                    <p>Every item is made to order with your personalization in mind</p>
+    <section class="products-section">
+        <h2 class="section-title">Available Prints</h2>
+
+        <!-- Minecraft Name Plates Product -->
+        <div class="product-item">
+            <div class="product-header">
+                <div class="product-images">
+                    <img src="minecraft-1.jpg" alt="Minecraft Name Plates Collection" class="product-image large">
+                    <img src="minecraft-2.jpg" alt="Minecraft Name Plate Close Up" class="product-image">
+                    <img src="minecraft-3.jpg" alt="Minecraft Name Plates Display" class="product-image">
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Quality Materials</h3>
-                    <p>We use high-quality PLA filament for durable, beautiful prints</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Affordable Prices</h3>
-                    <p>Great quality at prices that won't break the bank</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👨‍👦</div>
-                    <h3>Family-Run</h3>
-                    <p>A father and son team dedicated to your satisfaction</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h3>Fast Turnaround</h3>
-                    <p>Most orders completed within a few days</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>Multiple Colors</h3>
-                    <p>Choose from a variety of colors to match your style</p>
+
+                <div class="product-info">
+                    <h2>Minecraft Custom Name Plates</h2>
+                    <div class="price">$7 per name</div>
+                    
+                    <p>Bring your gaming setup to life with a personalized Minecraft-style name plate! Each plate features authentic blocky letters on a grass block base - perfect for desks, shelves, or as a unique gift.</p>
+
+                    <div class="features">
+                        <h3>Features:</h3>
+                        <ul>
+                            <li>Custom text - your name or any word</li>
+                            <li>Authentic Minecraft blocky design</li>
+                            <li>Grass block style base included</li>
+                            <li>High-quality PLA filament</li>
+                            <li>Multiple color options</li>
+                            <li>Perfect for gamers and Minecraft fans</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Turnaround:</strong> 3-5 days after order confirmation</p>
+                    <p><strong>Payment:</strong> Venmo @hudsonvastano - we'll send you a payment request after confirming your order</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="how-it-works">
-        <div class="how-container">
-            <h2>How It Works</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Browse & Choose</h3>
-                    <p>Check out our products and pick what you like</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Place Your Order</h3>
-                    <p>Fill out the order form with your details and preferences</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>We'll Contact You</h3>
-                    <p>We'll reach out to confirm details and send a Venmo payment request</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3>We Print & Deliver</h3>
-                    <p>Once payment is received, we'll print and arrange delivery</p>
-                </div>
+            <!-- Order Form -->
+            <div class="order-form">
+                <h3>Order Your Custom Name Plate</h3>
+                <form id="minecraftForm">
+                    <input type="hidden" name="productName" value="Minecraft Custom Name Plate">
+                    <input type="hidden" name="pricePerUnit" value="$7">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nameText">Name for Plate <span class="required">*</span></label>
+                        <input type="text" id="nameText" name="nameText" required placeholder="What should we print?" maxlength="20">
+                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">Maximum 20 characters</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantity">Quantity <span class="required">*</span></label>
+                            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+                            <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$7 per name plate</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="color">Color <span class="required">*</span></label>
+                            <select id="color" name="color" required>
+                                <option value="">Select a color...</option>
+                                <option value="Gray (like photo)">Gray (like photo)</option>
+                                <option value="Pink">Pink</option>
+                                <option value="Black">Black</option>
+                                <option value="White">White</option>
+                                <option value="Red">Red</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Green">Green</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Orange">Orange</option>
+                                <option value="Purple">Purple (LSU)</option>
+                                <option value="Gold">Gold (LSU)</option>
+                                <option value="Custom (specify in notes)">Custom (specify in notes)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Special Requests or Notes</label>
+                        <textarea id="notes" name="notes" placeholder="Any special instructions? Different colors? Multiple names? Let us know!"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Place Order</button>
+
+                    <div class="message" id="message"></div>
+                </form>
             </div>
         </div>
     </section>
@@ -352,6 +502,68 @@
             const navLinks = document.getElementById('navLinks');
             navLinks.classList.toggle('active');
         }
+
+        // Form submission
+        const form = document.getElementById('minecraftForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const message = document.getElementById('message');
+
+        // IMPORTANT: Replace this URL with your Google Apps Script web app URL
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            message.style.display = 'none';
+
+            const formData = new FormData(form);
+            const quantity = formData.get('quantity');
+            const pricePerUnit = 7;
+            const totalPrice = quantity * pricePerUnit;
+            
+            const data = {
+                timestamp: new Date().toLocaleString(),
+                productName: formData.get('productName'),
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                nameText: formData.get('nameText'),
+                quantity: quantity,
+                color: formData.get('color'),
+                notes: formData.get('notes') || 'None',
+                pricePerUnit: '$' + pricePerUnit,
+                totalPrice: '$' + totalPrice
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                message.textContent = `✓ Order submitted! Total: $${totalPrice}. We'll contact you soon to confirm and send a Venmo payment request to @hudsonvastano.`;
+                message.className = 'message success';
+                message.style.display = 'block';
+                form.reset();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = '✗ There was an error submitting your order. Please try again or contact us directly.';
+                message.className = 'message error';
+                message.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Place Order';
+                message.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
     </script>
 </body>
 </html>

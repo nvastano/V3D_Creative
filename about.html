@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - 3D Printing Store</title>
+    <title>About Us - V3D Creative</title>
     <style>
         * {
             margin: 0;
@@ -15,18 +15,18 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #ffffff;
-            background: linear-gradient(135deg, #667eea 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #461D7C 0%, #000000 100%);
             min-height: 100vh;
         }
 
         /* Navigation */
         nav {
-            background: rgba(26, 26, 26, 0.95);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 3px solid #461D7C;
         }
 
         .nav-container {
@@ -35,13 +35,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 40px;
+            padding: 20px 40px;
         }
 
         .logo {
-            font-size: 1.5em;
+            font-size: 1.8em;
             font-weight: bold;
-            color: #667eea;
+            color: #FDD023;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .logo-subtitle {
+            font-size: 0.5em;
+            color: #ffffff;
+            font-weight: normal;
+            display: block;
         }
 
         .nav-links {
@@ -60,13 +68,13 @@
         }
 
         .nav-links a:hover {
-            background: #667eea;
-            color: white;
+            background: #461D7C;
+            color: #FDD023;
         }
 
         .nav-links a.active {
-            background: #667eea;
-            color: white;
+            background: #461D7C;
+            color: #FDD023;
         }
 
         /* Main Content */
@@ -74,10 +82,10 @@
             max-width: 1000px;
             margin: 60px auto;
             padding: 60px;
-            background: rgba(26, 26, 26, 0.9);
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            border: 2px solid #667eea;
+            border: 3px solid #461D7C;
         }
 
         .page-header {
@@ -86,7 +94,7 @@
         }
 
         .page-header h1 {
-            color: #667eea;
+            color: #FDD023;
             font-size: 3.5em;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -94,8 +102,18 @@
 
         .page-header p {
             font-size: 1.3em;
-            color: #e0e0e0;
+            color: #ffffff;
             line-height: 1.8;
+        }
+
+        .family-photo {
+            width: 100%;
+            max-width: 700px;
+            border-radius: 15px;
+            margin: 40px auto;
+            display: block;
+            border: 3px solid #461D7C;
+            box-shadow: 0 10px 30px rgba(70, 29, 124, 0.5);
         }
 
         .about-section {
@@ -103,138 +121,104 @@
         }
 
         .about-section h2 {
-            color: #667eea;
+            color: #FDD023;
             font-size: 2.2em;
             margin-bottom: 25px;
-            text-align: center;
         }
 
         .about-section p {
             font-size: 1.15em;
-            color: #e0e0e0;
+            color: #ffffff;
             margin-bottom: 20px;
             line-height: 1.9;
         }
 
         .team-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
             margin: 50px 0;
         }
 
         .team-member {
-            background: rgba(102, 126, 234, 0.1);
-            padding: 40px;
+            background: rgba(70, 29, 124, 0.3);
+            padding: 30px;
             border-radius: 15px;
             text-align: center;
-            border: 2px solid #667eea;
+            border: 2px solid #461D7C;
             transition: transform 0.3s;
         }
 
         .team-member:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 15px 40px rgba(70, 29, 124, 0.5);
         }
 
         .team-icon {
-            font-size: 5em;
-            margin-bottom: 20px;
+            font-size: 4em;
+            margin-bottom: 15px;
         }
 
         .team-member h3 {
-            color: #667eea;
-            font-size: 2em;
+            color: #FDD023;
+            font-size: 1.8em;
             margin-bottom: 10px;
         }
 
         .team-member .role {
-            color: #b8b8b8;
-            font-size: 1.2em;
-            margin-bottom: 20px;
+            color: #FDD023;
+            font-size: 1.1em;
+            margin-bottom: 15px;
             font-style: italic;
+            opacity: 0.8;
         }
 
         .team-member p {
-            color: #e0e0e0;
+            color: #ffffff;
             font-size: 1.05em;
-            line-height: 1.8;
-        }
-
-        .values-section {
-            background: rgba(102, 126, 234, 0.15);
-            padding: 40px;
-            border-radius: 15px;
-            margin: 50px 0;
-            border: 2px solid #667eea;
-        }
-
-        .values-section h2 {
-            color: #667eea;
-            font-size: 2.2em;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .value-item {
-            padding: 20px;
-        }
-
-        .value-item h3 {
-            color: #667eea;
-            font-size: 1.4em;
-            margin-bottom: 10px;
-        }
-
-        .value-item p {
-            color: #e0e0e0;
-            font-size: 1.05em;
+            line-height: 1.7;
         }
 
         .cta-section {
             text-align: center;
             margin-top: 60px;
             padding: 40px;
-            background: rgba(102, 126, 234, 0.2);
+            background: rgba(70, 29, 124, 0.3);
             border-radius: 15px;
-            border: 2px solid #667eea;
+            border: 2px solid #461D7C;
         }
 
         .cta-section h2 {
-            color: #667eea;
+            color: #FDD023;
             font-size: 2em;
             margin-bottom: 20px;
         }
 
         .cta-section p {
             font-size: 1.2em;
-            color: #e0e0e0;
+            color: #ffffff;
             margin-bottom: 30px;
         }
 
         .cta-button {
             display: inline-block;
-            background: #667eea;
-            color: white;
+            background: #461D7C;
+            color: #FDD023;
             padding: 18px 50px;
             text-decoration: none;
             border-radius: 10px;
-            font-weight: 600;
+            font-weight: bold;
             font-size: 1.2em;
             transition: all 0.3s;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            border: 2px solid #FDD023;
+            text-transform: uppercase;
         }
 
         .cta-button:hover {
+            background: #FDD023;
+            color: #461D7C;
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
-            background: #7d8ef5;
+            box-shadow: 0 10px 30px rgba(253, 208, 35, 0.4);
         }
 
         /* Mobile Menu */
@@ -244,7 +228,7 @@
             border: none;
             font-size: 1.5em;
             cursor: pointer;
-            color: #667eea;
+            color: #FDD023;
         }
 
         @media (max-width: 768px) {
@@ -258,11 +242,11 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: rgba(26, 26, 26, 0.98);
+                background: rgba(0, 0, 0, 0.98);
                 flex-direction: column;
                 padding: 20px;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-                border-top: 2px solid #667eea;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+                border-top: 3px solid #461D7C;
             }
 
             .nav-links.active {
@@ -278,8 +262,7 @@
                 font-size: 2.2em;
             }
 
-            .team-grid,
-            .values-grid {
+            .team-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -288,80 +271,68 @@
 <body>
     <nav>
         <div class="nav-container">
-            <div class="logo">🖨️ 3D Print Shop</div>
+            <div class="logo">
+                V3D Creative
+                <span class="logo-subtitle">Custom 3D Prints</span>
+            </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
+                <li><a href="index.html">Our Prints</a></li>
                 <li><a href="about.html" class="active">About Us</a></li>
-                <li><a href="payment-info.html">Payment Info</a></li>
-                <li><a href="request-print.html">Request a Print</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
             </ul>
         </div>
     </nav>
 
     <div class="container">
         <div class="page-header">
-            <h1>About Us</h1>
-            <p>A Father & Son Team Building the Future, One Print at a Time</p>
+            <h1>Meet the Team</h1>
+            <p>A father and sons bringing creativity to life, one print at a time</p>
         </div>
+
+        <img src="family-photo.jpg" alt="Nick, Hudson, and Jackson" class="family-photo">
 
         <div class="about-section">
             <h2>Our Story</h2>
-            <p>Welcome to our 3D printing shop! We're Nick and Hudson, a father and son team who share a passion for creating awesome 3D printed items. What started as a fun project with our 3D printer has grown into a small business where we get to combine technology, creativity, and quality craftsmanship.</p>
+            <p>Welcome to V3D Creative! We're Nick, Hudson, and Jackson - a dad and his two sons who turned our love of technology and creativity into a small 3D printing business. What started as a fun weekend project with our 3D printer has grown into something we're really proud of.</p>
             
-            <p>Every item we create is printed with care and attention to detail. We love seeing our customers' ideas come to life, whether it's a personalized Minecraft nameplate for a gaming setup or a custom design for a special project. This isn't just a business for us—it's a way for us to spend time together doing something we both enjoy while helping others bring their visions to reality.</p>
+            <p>Every item we create is made with care and attention to detail. We love the challenge of bringing ideas to life through 3D printing, whether it's a custom Minecraft nameplate for a gaming setup or a one-of-a-kind design for a special project. This isn't just a business for us—it's quality time together doing something we all enjoy while creating cool stuff for others.</p>
         </div>
 
         <div class="team-grid">
             <div class="team-member">
                 <div class="team-icon">👨</div>
                 <h3>Nick</h3>
-                <p class="role">Dad & Co-Founder</p>
-                <p>Bringing years of problem-solving experience and a love for technology to every project. I help manage the technical side and make sure every print meets our quality standards.</p>
+                <p class="role">Dad & Founder</p>
+                <p>The tech guy behind the operation, making sure every print meets our quality standards.</p>
             </div>
 
             <div class="team-member">
                 <div class="team-icon">👦</div>
                 <h3>Hudson</h3>
-                <p class="role">Son & Co-Founder</p>
-                <p>The creative force behind many of our designs! I love working with the 3D printer and coming up with new ideas for products that people will enjoy.</p>
+                <p class="role">Creative Director</p>
+                <p>The creative force, always coming up with new ideas and designs people will love.</p>
             </div>
-        </div>
 
-        <div class="values-section">
-            <h2>What We Stand For</h2>
-            <div class="values-grid">
-                <div class="value-item">
-                    <h3>🎯 Quality First</h3>
-                    <p>Every item is inspected and tested to ensure it meets our standards before it reaches you.</p>
-                </div>
-                <div class="value-item">
-                    <h3>💡 Customer Focus</h3>
-                    <p>We listen to your ideas and work with you to create exactly what you're looking for.</p>
-                </div>
-                <div class="value-item">
-                    <h3>🤝 Fair Pricing</h3>
-                    <p>We believe in affordable prices that reflect the quality and care we put into every print.</p>
-                </div>
-                <div class="value-item">
-                    <h3>👨‍👦 Family Values</h3>
-                    <p>As a family business, we treat every customer like they're part of our extended family.</p>
-                </div>
+            <div class="team-member">
+                <div class="team-icon">👶</div>
+                <h3>Jackson</h3>
+                <p class="role">Junior Designer</p>
+                <p>Our youngest team member, bringing fresh perspectives and enthusiasm to every project.</p>
             </div>
         </div>
 
         <div class="about-section">
             <h2>Why 3D Printing?</h2>
-            <p>3D printing opens up endless possibilities for customization and creativity. Whether you need something practical, decorative, or just plain cool, we can bring it to life. From gaming accessories to personalized gifts, we're constantly amazed by what we can create with our printer—and we love sharing that with our customers.</p>
+            <p>3D printing lets us turn ideas into reality in ways that were impossible just a few years ago. Whether you need something practical, decorative, or just plain cool, we can create it. From gaming accessories to personalized gifts, we're constantly amazed by what's possible with our printer.</p>
             
-            <p>We're always learning, always improving, and always excited to take on new challenges. If you have an idea, we'd love to hear about it and see if we can make it happen!</p>
+            <p>We're always learning, always improving, and always excited to take on new challenges. If you have an idea, we'd love to hear about it!</p>
         </div>
 
         <div class="cta-section">
-            <h2>Ready to Work With Us?</h2>
-            <p>Let's create something amazing together!</p>
-            <a href="products.html" class="cta-button">Browse Our Products</a>
+            <h2>Ready to Create Something?</h2>
+            <p>Let's bring your ideas to life!</p>
+            <a href="index.html" class="cta-button">See Our Prints</a>
         </div>
     </div>
 
