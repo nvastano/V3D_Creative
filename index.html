@@ -371,7 +371,7 @@
     <nav>
         <div class="nav-container">
             <div class="logo">
-                <img src="logo.svg" alt="V3D Creative" style="height: 60px; vertical-align: middle;">
+                <img src="logo.svg" alt="V3D Creative" style="height: 80px; vertical-align: middle;">
             </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-links" id="navLinks">
@@ -429,15 +429,9 @@
                     <input type="hidden" name="productName" value="Minecraft Custom Name Plate">
                     <input type="hidden" name="pricePerUnit" value="$7">
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="firstName">First Name <span class="required">*</span></label>
-                            <input type="text" id="firstName" name="firstName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name <span class="required">*</span></label>
-                            <input type="text" id="lastName" name="lastName" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="name">Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
                     </div>
 
                     <div class="form-group">
@@ -446,37 +440,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="nameText">Name for Plate <span class="required">*</span></label>
-                        <input type="text" id="nameText" name="nameText" required placeholder="What should we print?" maxlength="20">
-                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">Maximum 20 characters</small>
+                        <label for="quantity">Quantity <span class="required">*</span></label>
+                        <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required onchange="updatePlateFields()">
+                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$7 per name plate</small>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="quantity">Quantity <span class="required">*</span></label>
-                            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-                            <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$7 per name plate</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="color">Color <span class="required">*</span></label>
-                            <select id="color" name="color" required>
-                                <option value="">Select a color...</option>
-                                <option value="Standard Grey">Standard Grey</option>
-                                <option value="Pink">Pink</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Red">Red</option>
-                                <option value="Yellow">Yellow</option>
-                                <option value="Black">Black</option>
-                                <option value="White">White</option>
-                                <option value="Purple">Purple</option>
-                                <option value="Orange">Orange</option>
-                            </select>
-                        </div>
-                    </div>
+                    <!-- Dynamic plate fields will be inserted here -->
+                    <div id="plateFieldsContainer"></div>
 
                     <div class="form-group">
                         <label for="notes">Special Requests or Notes</label>
-                        <textarea id="notes" name="notes" placeholder="Any special instructions? Different colors? Multiple names? Let us know!"></textarea>
+                        <textarea id="notes" name="notes" placeholder="Any special instructions or requests?"></textarea>
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">Place Order</button>
@@ -486,18 +460,18 @@
             </div>
 
             <!-- Venmo Payment Section -->
-            <div style="background: linear-gradient(135deg, #461D7C 0%, #FDD023 100%); padding: 40px; border-radius: 15px; margin-top: 40px; text-align: center; border: 3px solid #FDD023; box-shadow: 0 10px 40px rgba(253, 208, 35, 0.4);">
-                <h3 style="color: #000; font-size: 2.2em; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(255,255,255,0.3);">
+            <div style="background: linear-gradient(135deg, #461D7C 0%, #FDD023 100%); padding: 25px; border-radius: 12px; margin-top: 30px; text-align: center; border: 2px solid #FDD023;">
+                <h3 style="color: #000; font-size: 1.5em; margin-bottom: 12px;">
                     💳 NEXT STEP: Pay via Venmo
                 </h3>
-                <p style="color: #000; font-size: 1.3em; margin-bottom: 30px; font-weight: 600;">
-                    After submitting your order above, complete your payment to Hudson's Venmo:
+                <p style="color: #000; font-size: 1em; margin-bottom: 15px; font-weight: 600;">
+                    After submitting your order, complete payment to Hudson's Venmo:
                 </p>
-                <div style="background: white; padding: 30px; border-radius: 15px; display: inline-block; box-shadow: 0 5px 20px rgba(0,0,0,0.3);">
-                    <img src="hudson-venmo.png" alt="Pay Hudson via Venmo @hudsonvastano" style="max-width: 350px; width: 100%; border-radius: 10px;">
+                <div style="background: white; padding: 15px; border-radius: 10px; display: inline-block;">
+                    <img src="hudson-venmo.png" alt="Pay Hudson via Venmo @hudsonvastano" style="max-width: 250px; width: 100%; border-radius: 8px;">
                 </div>
-                <p style="color: #000; font-size: 1.4em; margin-top: 25px; font-weight: bold;">
-                    Scan the QR code or send to: <span style="color: #fff; background: #000; padding: 5px 15px; border-radius: 5px;">@hudsonvastano</span>
+                <p style="color: #000; font-size: 1.1em; margin-top: 12px; font-weight: bold;">
+                    Scan QR code or send to: <span style="color: #fff; background: #000; padding: 3px 10px; border-radius: 4px;">@hudsonvastano</span>
                 </p>
             </div>
         </div>
@@ -509,13 +483,56 @@
             navLinks.classList.toggle('active');
         }
 
+        // Dynamic plate fields based on quantity
+        function updatePlateFields() {
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const container = document.getElementById('plateFieldsContainer');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= quantity; i++) {
+                const plateDiv = document.createElement('div');
+                plateDiv.style.marginBottom = '30px';
+                plateDiv.style.padding = '20px';
+                plateDiv.style.background = 'rgba(70, 29, 124, 0.2)';
+                plateDiv.style.borderRadius = '10px';
+                plateDiv.style.border = '2px solid #461D7C';
+                
+                plateDiv.innerHTML = `
+                    <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Name Plate ${i}</h4>
+                    <div class="form-group">
+                        <label for="plateName${i}">Name on Plate ${i} <span class="required">*</span></label>
+                        <input type="text" id="plateName${i}" name="plateName${i}" required maxlength="20" placeholder="Max 20 characters">
+                    </div>
+                    <div class="form-group">
+                        <label for="plateColor${i}">Color of Name ${i} <span class="required">*</span></label>
+                        <select id="plateColor${i}" name="plateColor${i}" required>
+                            <option value="">Select a color...</option>
+                            <option value="Standard Grey">Standard Grey</option>
+                            <option value="Pink">Pink</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Red">Red</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Black">Black</option>
+                            <option value="White">White</option>
+                            <option value="Purple">Purple</option>
+                            <option value="Orange">Orange</option>
+                        </select>
+                    </div>
+                `;
+                container.appendChild(plateDiv);
+            }
+        }
+
+        // Initialize with one plate
+        updatePlateFields();
+
         // Form submission
         const form = document.getElementById('minecraftForm');
         const submitBtn = document.getElementById('submitBtn');
         const message = document.getElementById('message');
 
         // IMPORTANT: Replace this URL with your Google Apps Script web app URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjPIsU6kQvWpiyoSBBvta4xTuRFGGnOwbBT33SYBpy_OG4fGsTHn8RiRn0SeztG2Hg2w/exec';
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -525,19 +542,26 @@
             message.style.display = 'none';
 
             const formData = new FormData(form);
-            const quantity = formData.get('quantity');
+            const quantity = parseInt(formData.get('quantity'));
             const pricePerUnit = 7;
             const totalPrice = quantity * pricePerUnit;
+            
+            // Collect all plate details
+            const plates = [];
+            for (let i = 1; i <= quantity; i++) {
+                plates.push({
+                    name: formData.get(`plateName${i}`),
+                    color: formData.get(`plateColor${i}`)
+                });
+            }
             
             const data = {
                 timestamp: new Date().toLocaleString(),
                 productName: formData.get('productName'),
-                firstName: formData.get('firstName'),
-                lastName: formData.get('lastName'),
+                name: formData.get('name'),
                 email: formData.get('email'),
-                nameText: formData.get('nameText'),
                 quantity: quantity,
-                color: formData.get('color'),
+                plates: JSON.stringify(plates),
                 notes: formData.get('notes') || 'None',
                 pricePerUnit: '$' + pricePerUnit,
                 totalPrice: '$' + totalPrice

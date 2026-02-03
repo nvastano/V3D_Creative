@@ -45,12 +45,10 @@ function handleProductOrder(spreadsheet, data) {
     sheet.appendRow([
       'Timestamp',
       'Product',
-      'First Name',
-      'Last Name',
+      'Name',
       'Email',
-      'Name/Text',
-      'Color',
       'Quantity',
+      'Plate Details',
       'Price Per Unit',
       'Total Price',
       'Notes',
@@ -58,7 +56,7 @@ function handleProductOrder(spreadsheet, data) {
     ]);
     
     // Format header row
-    const headerRange = sheet.getRange(1, 1, 1, 12);
+    const headerRange = sheet.getRange(1, 1, 1, 10);
     headerRange.setFontWeight('bold');
     headerRange.setBackground('#667eea');
     headerRange.setFontColor('#ffffff');
@@ -68,12 +66,10 @@ function handleProductOrder(spreadsheet, data) {
   sheet.appendRow([
     data.timestamp,
     data.productName,
-    data.firstName,
-    data.lastName,
+    data.name,
     data.email,
-    data.nameText,
-    data.color,
     data.quantity,
+    data.plates,
     data.pricePerUnit,
     data.totalPrice,
     data.notes,
@@ -81,7 +77,7 @@ function handleProductOrder(spreadsheet, data) {
   ]);
   
   // Auto-resize columns
-  sheet.autoResizeColumns(1, 12);
+  sheet.autoResizeColumns(1, 10);
 }
 
 function handleCustomRequest(spreadsheet, data) {
@@ -141,12 +137,13 @@ function testProductOrder() {
       contents: JSON.stringify({
         timestamp: new Date().toLocaleString(),
         productName: 'Minecraft Custom Name Plate',
-        firstName: 'Test',
-        lastName: 'Customer',
+        name: 'Test Customer',
         email: 'test@example.com',
-        nameText: 'STEVE',
-        color: 'Standard Grey',
         quantity: '2',
+        plates: JSON.stringify([
+          { name: 'STEVE', color: 'Standard Grey' },
+          { name: 'ALEX', color: 'Pink' }
+        ]),
         pricePerUnit: '$7',
         totalPrice: '$14',
         notes: 'This is a test order'
