@@ -48,7 +48,6 @@ function handleProductOrder(spreadsheet, data) {
       'First Name',
       'Last Name',
       'Email',
-      'Phone',
       'Name/Text',
       'Color',
       'Quantity',
@@ -59,7 +58,7 @@ function handleProductOrder(spreadsheet, data) {
     ]);
     
     // Format header row
-    const headerRange = sheet.getRange(1, 1, 1, 13);
+    const headerRange = sheet.getRange(1, 1, 1, 12);
     headerRange.setFontWeight('bold');
     headerRange.setBackground('#667eea');
     headerRange.setFontColor('#ffffff');
@@ -72,7 +71,6 @@ function handleProductOrder(spreadsheet, data) {
     data.firstName,
     data.lastName,
     data.email,
-    data.phone,
     data.nameText,
     data.color,
     data.quantity,
@@ -83,7 +81,7 @@ function handleProductOrder(spreadsheet, data) {
   ]);
   
   // Auto-resize columns
-  sheet.autoResizeColumns(1, 13);
+  sheet.autoResizeColumns(1, 12);
 }
 
 function handleCustomRequest(spreadsheet, data) {
@@ -146,9 +144,8 @@ function testProductOrder() {
         firstName: 'Test',
         lastName: 'Customer',
         email: 'test@example.com',
-        phone: '555-1234',
         nameText: 'STEVE',
-        color: 'Green',
+        color: 'Standard Grey',
         quantity: '2',
         pricePerUnit: '$7',
         totalPrice: '$14',

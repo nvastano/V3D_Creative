@@ -371,8 +371,7 @@
     <nav>
         <div class="nav-container">
             <div class="logo">
-                V3D Creative
-                <span class="logo-subtitle">Custom 3D Prints</span>
+                <img src="logo.svg" alt="V3D Creative" style="height: 60px; vertical-align: middle;">
             </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-links" id="navLinks">
@@ -419,7 +418,7 @@
                     </div>
 
                     <p><strong>Turnaround:</strong> 3-5 days after order confirmation</p>
-                    <p><strong>Payment:</strong> Venmo @hudsonvastano - we'll send you a payment request after confirming your order</p>
+                    <p><strong>Payment:</strong> After submitting your order, pay via Venmo @hudsonvastano (see QR code below)</p>
                 </div>
             </div>
 
@@ -441,15 +440,9 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email <span class="required">*</span></label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number <span class="required">*</span></label>
-                            <input type="tel" id="phone" name="phone" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
                     </div>
 
                     <div class="form-group">
@@ -468,18 +461,15 @@
                             <label for="color">Color <span class="required">*</span></label>
                             <select id="color" name="color" required>
                                 <option value="">Select a color...</option>
-                                <option value="Gray (like photo)">Gray (like photo)</option>
+                                <option value="Standard Grey">Standard Grey</option>
                                 <option value="Pink">Pink</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Red">Red</option>
+                                <option value="Yellow">Yellow</option>
                                 <option value="Black">Black</option>
                                 <option value="White">White</option>
-                                <option value="Red">Red</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Green">Green</option>
-                                <option value="Yellow">Yellow</option>
+                                <option value="Purple">Purple</option>
                                 <option value="Orange">Orange</option>
-                                <option value="Purple">Purple (LSU)</option>
-                                <option value="Gold">Gold (LSU)</option>
-                                <option value="Custom (specify in notes)">Custom (specify in notes)</option>
                             </select>
                         </div>
                     </div>
@@ -493,6 +483,22 @@
 
                     <div class="message" id="message"></div>
                 </form>
+            </div>
+
+            <!-- Venmo Payment Section -->
+            <div style="background: linear-gradient(135deg, #461D7C 0%, #FDD023 100%); padding: 40px; border-radius: 15px; margin-top: 40px; text-align: center; border: 3px solid #FDD023; box-shadow: 0 10px 40px rgba(253, 208, 35, 0.4);">
+                <h3 style="color: #000; font-size: 2.2em; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(255,255,255,0.3);">
+                    💳 NEXT STEP: Pay via Venmo
+                </h3>
+                <p style="color: #000; font-size: 1.3em; margin-bottom: 30px; font-weight: 600;">
+                    After submitting your order above, complete your payment to Hudson's Venmo:
+                </p>
+                <div style="background: white; padding: 30px; border-radius: 15px; display: inline-block; box-shadow: 0 5px 20px rgba(0,0,0,0.3);">
+                    <img src="hudson-venmo.png" alt="Pay Hudson via Venmo @hudsonvastano" style="max-width: 350px; width: 100%; border-radius: 10px;">
+                </div>
+                <p style="color: #000; font-size: 1.4em; margin-top: 25px; font-weight: bold;">
+                    Scan the QR code or send to: <span style="color: #fff; background: #000; padding: 5px 15px; border-radius: 5px;">@hudsonvastano</span>
+                </p>
             </div>
         </div>
     </section>
@@ -529,7 +535,6 @@
                 firstName: formData.get('firstName'),
                 lastName: formData.get('lastName'),
                 email: formData.get('email'),
-                phone: formData.get('phone'),
                 nameText: formData.get('nameText'),
                 quantity: quantity,
                 color: formData.get('color'),
@@ -548,7 +553,7 @@
                     body: JSON.stringify(data)
                 });
 
-                message.textContent = `✓ Order submitted! Total: $${totalPrice}. We'll contact you soon to confirm and send a Venmo payment request to @hudsonvastano.`;
+                message.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
                 message.className = 'message success';
                 message.style.display = 'block';
                 form.reset();
