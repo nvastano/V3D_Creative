@@ -1,0 +1,39 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="purpleGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#461D7C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FDD023;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#purpleGold)" opacity="0.2"/>
+  
+  <!-- Main V3D text with 3D effect -->
+  <text x="100" y="85" font-family="Arial Black, sans-serif" font-size="48" font-weight="bold" 
+        text-anchor="middle" fill="#000" opacity="0.3">V3D</text>
+  <text x="100" y="83" font-family="Arial Black, sans-serif" font-size="48" font-weight="bold" 
+        text-anchor="middle" fill="url(#purpleGold)" filter="url(#glow)">V3D</text>
+  
+  <!-- Creative text -->
+  <text x="100" y="115" font-family="Arial, sans-serif" font-size="18" font-weight="normal" 
+        text-anchor="middle" fill="#FDD023" letter-spacing="4">CREATIVE</text>
+  
+  <!-- 3D printer icon elements -->
+  <rect x="75" y="130" width="50" height="5" fill="#FDD023" opacity="0.8"/>
+  <rect x="80" y="138" width="40" height="3" fill="#FDD023" opacity="0.6"/>
+  <rect x="85" y="143" width="30" height="3" fill="#FDD023" opacity="0.4"/>
+  
+  <!-- Corner accents -->
+  <path d="M 20 20 L 40 20 L 40 25 L 25 25 L 25 40 L 20 40 Z" fill="#FDD023" opacity="0.6"/>
+  <path d="M 180 20 L 160 20 L 160 25 L 175 25 L 175 40 L 180 40 Z" fill="#FDD023" opacity="0.6"/>
+  <path d="M 20 180 L 40 180 L 40 175 L 25 175 L 25 160 L 20 160 Z" fill="#FDD023" opacity="0.6"/>
+  <path d="M 180 180 L 160 180 L 160 175 L 175 175 L 175 160 L 180 160 Z" fill="#FDD023" opacity="0.6"/>
+</svg>
