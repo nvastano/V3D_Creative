@@ -13,8 +13,8 @@ function doPost(e) {
     // Determine which type of product was ordered
     if (data.productName === 'Minecraft Custom Name Plate') {
       handleMinecraftOrder(spreadsheet, data);
-    } else if (data.productName === 'Under-Desk Storage Hook') {
-      handleStorageHookOrder(spreadsheet, data);
+    } else if (data.productName === 'Headphone/Backpack/Purse Desk Hook') {
+      handleDeskHookOrder(spreadsheet, data);
     } else if (data.formType === 'Custom Print Request') {
       handleCustomRequest(spreadsheet, data);
     }
@@ -80,12 +80,12 @@ function handleMinecraftOrder(spreadsheet, data) {
   sheet.autoResizeColumns(1, 10);
 }
 
-function handleStorageHookOrder(spreadsheet, data) {
-  // Get or create "Storage Hook Orders" sheet
-  let sheet = spreadsheet.getSheetByName('Storage Hook Orders');
+function handleDeskHookOrder(spreadsheet, data) {
+  // Get or create "Desk Hook Orders" sheet
+  let sheet = spreadsheet.getSheetByName('Desk Hook Orders');
   
   if (!sheet) {
-    sheet = spreadsheet.insertSheet('Storage Hook Orders');
+    sheet = spreadsheet.insertSheet('Desk Hook Orders');
     
     // Create headers
     sheet.appendRow([
@@ -203,13 +203,13 @@ function testMinecraftOrder() {
   Logger.log(result.getContent());
 }
 
-// Test function for storage hook orders
-function testStorageHookOrder() {
+// Test function for desk hook orders
+function testDeskHookOrder() {
   const testData = {
     postData: {
       contents: JSON.stringify({
         timestamp: new Date().toLocaleString(),
-        productName: 'Under-Desk Storage Hook',
+        productName: 'Headphone/Backpack/Purse Desk Hook',
         name: 'Test Customer',
         email: 'test@example.com',
         quantity: '1',
