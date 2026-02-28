@@ -583,7 +583,151 @@
             </div>
         </div>
 
-        <!-- Minecraft Name Plates Product (THIRD) -->
+        <!-- Hello Spring Sign (THIRD) -->
+        <div class="product-item">
+            <div class="product-header">
+                <div class="product-images">
+                    <img src="images/hello-spring-1.jpg" alt="Hello Spring Sign" class="product-image">
+                    <img src="images/hello-spring-2.jpg" alt="Hello Spring Sign Display" class="product-image">
+                </div>
+
+                <div class="product-info">
+                    <h2>Hello Spring Sign</h2>
+                    <div class="price">$5 each</div>
+                    
+                    <p>Welcome the season with this charming "Hello Spring" sign! Perfect for mantels, shelves, tiered trays, or as part of your spring decor. This delicate script design brings a fresh, cheerful touch to any space.</p>
+
+                    <div class="features">
+                        <h3>Features:</h3>
+                        <ul>
+                            <li>Beautiful script "Hello Spring" design</li>
+                            <li>Perfect for tiered trays and shelves</li>
+                            <li>Seasonal spring decoration</li>
+                            <li>Lightweight and easy to display</li>
+                            <li>Multiple color options</li>
+                            <li>Great for home decor and gifts</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Turnaround:</strong> 2-3 days</p>
+                </div>
+            </div>
+
+            <!-- Order Button -->
+            <button class="order-toggle-btn" onclick="toggleOrderForm('hellospring')">
+                📦 Order Hello Spring Sign
+            </button>
+
+            <!-- Order Form (Collapsible) -->
+            <div class="order-form order-section" id="hellospringOrderSection">
+                <form id="hellospringForm">
+                    <input type="hidden" name="productName" value="Hello Spring Sign">
+                    <input type="hidden" name="pricePerUnit" value="$5">
+
+                    <div class="form-group">
+                        <label for="hellospringName">Name <span class="required">*</span></label>
+                        <input type="text" id="hellospringName" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hellospringEmail">Email <span class="required">*</span></label>
+                        <input type="email" id="hellospringEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hellospringQuantity">Quantity <span class="required">*</span></label>
+                        <input type="number" id="hellospringQuantity" name="quantity" min="1" max="10" value="1" required onchange="updateHelloSpringFields()">
+                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$5 per sign</small>
+                    </div>
+
+                    <!-- Dynamic hello spring color fields -->
+                    <div id="hellospringColorFieldsContainer"></div>
+
+                    <div class="form-group">
+                        <label for="hellospringNotes">Special Requests or Notes</label>
+                        <textarea id="hellospringNotes" name="notes" placeholder="Any special instructions or requests?"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="hellospringSubmitBtn">Place Order</button>
+
+                    <div class="message" id="hellospringMessage"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Hello Spring Circle (FOURTH) -->
+        <div class="product-item">
+            <div class="product-header">
+                <div class="product-images">
+                    <img src="images/hello-spring-circle-1.jpg" alt="Hello Spring Circle" class="product-image">
+                    <img src="images/hello-spring-circle-2.jpg" alt="Hello Spring Circle Display" class="product-image">
+                </div>
+
+                <div class="product-info">
+                    <h2>Hello Spring Circle Sign</h2>
+                    <div class="price">$6 each</div>
+                    
+                    <p>Elegant circular "Hello Spring" sign with a charming butterfly accent. This beautiful spring decoration is perfect for wreaths, wall hangings, or as a standalone piece. The circular design adds a sophisticated touch to your seasonal decor.</p>
+
+                    <div class="features">
+                        <h3>Features:</h3>
+                        <ul>
+                            <li>Circular design with butterfly accent</li>
+                            <li>Perfect for wreaths and wall displays</li>
+                            <li>Elegant spring decoration</li>
+                            <li>Beautiful script lettering</li>
+                            <li>Multiple color options</li>
+                            <li>Versatile seasonal decor piece</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Turnaround:</strong> 2-3 days</p>
+                </div>
+            </div>
+
+            <!-- Order Button -->
+            <button class="order-toggle-btn" onclick="toggleOrderForm('hellospringcircle')">
+                📦 Order Hello Spring Circle
+            </button>
+
+            <!-- Order Form (Collapsible) -->
+            <div class="order-form order-section" id="hellospringcircleOrderSection">
+                <form id="hellospringcircleForm">
+                    <input type="hidden" name="productName" value="Hello Spring Circle Sign">
+                    <input type="hidden" name="pricePerUnit" value="$6">
+
+                    <div class="form-group">
+                        <label for="hellospringcircleName">Name <span class="required">*</span></label>
+                        <input type="text" id="hellospringcircleName" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hellospringcircleEmail">Email <span class="required">*</span></label>
+                        <input type="email" id="hellospringcircleEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hellospringcircleQuantity">Quantity <span class="required">*</span></label>
+                        <input type="number" id="hellospringcircleQuantity" name="quantity" min="1" max="10" value="1" required onchange="updateHelloSpringCircleFields()">
+                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$6 per sign</small>
+                    </div>
+
+                    <!-- Dynamic hello spring circle color fields -->
+                    <div id="hellospringcircleColorFieldsContainer"></div>
+
+                    <div class="form-group">
+                        <label for="hellospringcircleNotes">Special Requests or Notes</label>
+                        <textarea id="hellospringcircleNotes" name="notes" placeholder="Any special instructions or requests?"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="hellospringcircleSubmitBtn">Place Order</button>
+
+                    <div class="message" id="hellospringcircleMessage"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Minecraft Name Plates Product (FIFTH) -->
         <div class="product-item">
             <div class="product-header">
                 <div class="product-images">
@@ -786,6 +930,218 @@
 
         // Initialize bunny fields
         updateBunnyFields();
+
+        // Hello Spring fields
+        function updateHelloSpringFields() {
+            const quantity = parseInt(document.getElementById('hellospringQuantity').value) || 1;
+            const container = document.getElementById('hellospringColorFieldsContainer');
+            container.innerHTML = '';
+
+            const colorOptions = `
+                <option value="">Select a color...</option>
+                <option value="White">White</option>
+                <option value="Black">Black</option>
+                <option value="Grey">Grey</option>
+                <option value="Red">Red</option>
+                <option value="Purple">Purple</option>
+                <option value="Green">Green</option>
+                <option value="Blue">Blue</option>
+                <option value="Brown">Brown</option>
+                <option value="Orange">Orange</option>
+                <option value="Yellow">Yellow</option>
+                <option value="Pink">Pink</option>
+            `;
+
+            for (let i = 1; i <= quantity; i++) {
+                const signDiv = document.createElement('div');
+                signDiv.style.marginBottom = '30px';
+                signDiv.style.padding = '20px';
+                signDiv.style.background = 'rgba(70, 29, 124, 0.2)';
+                signDiv.style.borderRadius = '10px';
+                signDiv.style.border = '2px solid #461D7C';
+                
+                signDiv.innerHTML = `
+                    <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Sign ${i}</h4>
+                    <div class="form-group">
+                        <label for="hellospring${i}Color">Color <span class="required">*</span></label>
+                        <select id="hellospring${i}Color" name="hellospring${i}Color" required>
+                            ${colorOptions}
+                        </select>
+                    </div>
+                `;
+                container.appendChild(signDiv);
+            }
+        }
+
+        updateHelloSpringFields();
+
+        // Hello Spring Circle fields
+        function updateHelloSpringCircleFields() {
+            const quantity = parseInt(document.getElementById('hellospringcircleQuantity').value) || 1;
+            const container = document.getElementById('hellospringcircleColorFieldsContainer');
+            container.innerHTML = '';
+
+            const colorOptions = `
+                <option value="">Select a color...</option>
+                <option value="White">White</option>
+                <option value="Black">Black</option>
+                <option value="Grey">Grey</option>
+                <option value="Red">Red</option>
+                <option value="Purple">Purple</option>
+                <option value="Green">Green</option>
+                <option value="Blue">Blue</option>
+                <option value="Brown">Brown</option>
+                <option value="Orange">Orange</option>
+                <option value="Yellow">Yellow</option>
+                <option value="Pink">Pink</option>
+            `;
+
+            for (let i = 1; i <= quantity; i++) {
+                const signDiv = document.createElement('div');
+                signDiv.style.marginBottom = '30px';
+                signDiv.style.padding = '20px';
+                signDiv.style.background = 'rgba(70, 29, 124, 0.2)';
+                signDiv.style.borderRadius = '10px';
+                signDiv.style.border = '2px solid #461D7C';
+                
+                signDiv.innerHTML = `
+                    <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Circle Sign ${i}</h4>
+                    <div class="form-group">
+                        <label for="hellospringcircle${i}Color">Color <span class="required">*</span></label>
+                        <select id="hellospringcircle${i}Color" name="hellospringcircle${i}Color" required>
+                            ${colorOptions}
+                        </select>
+                    </div>
+                `;
+                container.appendChild(signDiv);
+            }
+        }
+
+        updateHelloSpringCircleFields();
+
+        // Hello Spring Form submission
+        const hellospringForm = document.getElementById('hellospringForm');
+        const hellospringSubmitBtn = document.getElementById('hellospringSubmitBtn');
+        const hellospringMessage = document.getElementById('hellospringMessage');
+
+        hellospringForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            hellospringSubmitBtn.disabled = true;
+            hellospringSubmitBtn.textContent = 'Submitting...';
+            hellospringMessage.style.display = 'none';
+
+            const formData = new FormData(hellospringForm);
+            const quantity = parseInt(formData.get('quantity'));
+            const pricePerUnit = 5;
+            const totalPrice = quantity * pricePerUnit;
+            
+            const signs = [];
+            for (let i = 1; i <= quantity; i++) {
+                signs.push({
+                    signNumber: i,
+                    color: formData.get(`hellospring${i}Color`)
+                });
+            }
+            
+            const data = {
+                timestamp: new Date().toLocaleString(),
+                productName: formData.get('productName'),
+                name: formData.get('name'),
+                email: formData.get('email'),
+                quantity: quantity,
+                signs: JSON.stringify(signs),
+                notes: formData.get('notes') || 'None',
+                pricePerUnit: '$' + pricePerUnit,
+                totalPrice: '$' + totalPrice
+            };
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                hellospringMessage.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
+                hellospringMessage.className = 'message success';
+                hellospringMessage.style.display = 'block';
+                hellospringForm.reset();
+                document.getElementById('hellospringColorFieldsContainer').innerHTML = '';
+                updateHelloSpringFields();
+            } catch (error) {
+                hellospringMessage.textContent = '✗ Error submitting order. Please try again.';
+                hellospringMessage.className = 'message error';
+                hellospringMessage.style.display = 'block';
+            } finally {
+                hellospringSubmitBtn.disabled = false;
+                hellospringSubmitBtn.textContent = 'Place Order';
+                hellospringMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+
+        // Hello Spring Circle Form submission
+        const hellospringcircleForm = document.getElementById('hellospringcircleForm');
+        const hellospringcircleSubmitBtn = document.getElementById('hellospringcircleSubmitBtn');
+        const hellospringcircleMessage = document.getElementById('hellospringcircleMessage');
+
+        hellospringcircleForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            hellospringcircleSubmitBtn.disabled = true;
+            hellospringcircleSubmitBtn.textContent = 'Submitting...';
+            hellospringcircleMessage.style.display = 'none';
+
+            const formData = new FormData(hellospringcircleForm);
+            const quantity = parseInt(formData.get('quantity'));
+            const pricePerUnit = 6;
+            const totalPrice = quantity * pricePerUnit;
+            
+            const signs = [];
+            for (let i = 1; i <= quantity; i++) {
+                signs.push({
+                    signNumber: i,
+                    color: formData.get(`hellospringcircle${i}Color`)
+                });
+            }
+            
+            const data = {
+                timestamp: new Date().toLocaleString(),
+                productName: formData.get('productName'),
+                name: formData.get('name'),
+                email: formData.get('email'),
+                quantity: quantity,
+                signs: JSON.stringify(signs),
+                notes: formData.get('notes') || 'None',
+                pricePerUnit: '$' + pricePerUnit,
+                totalPrice: '$' + totalPrice
+            };
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                hellospringcircleMessage.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
+                hellospringcircleMessage.className = 'message success';
+                hellospringcircleMessage.style.display = 'block';
+                hellospringcircleForm.reset();
+                document.getElementById('hellospringcircleColorFieldsContainer').innerHTML = '';
+                updateHelloSpringCircleFields();
+            } catch (error) {
+                hellospringcircleMessage.textContent = '✗ Error submitting order. Please try again.';
+                hellospringcircleMessage.className = 'message error';
+                hellospringcircleMessage.style.display = 'block';
+            } finally {
+                hellospringcircleSubmitBtn.disabled = false;
+                hellospringcircleSubmitBtn.textContent = 'Place Order';
+                hellospringcircleMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
 
         // Bunny Form submission
         const bunnyForm = document.getElementById('bunnyForm');
@@ -1005,7 +1361,7 @@
         const message = document.getElementById('message');
 
         // IMPORTANT: Replace this URL with your Google Apps Script web app URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsKDzmbQM4YYrgvY7GPNKD0hVSmbuqX71OwXb5uOJCy-wIv6ERZ6Vq4iCLx4-HVBx1rQ/exec';
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();

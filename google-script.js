@@ -17,6 +17,10 @@ function doPost(e) {
       handleDeskHookOrder(spreadsheet, data);
     } else if (data.productName === 'Bunny Silhouette') {
       handleBunnyOrder(spreadsheet, data);
+    } else if (data.productName === 'Hello Spring Sign') {
+      handleHelloSpringOrder(spreadsheet, data);
+    } else if (data.productName === 'Hello Spring Circle Sign') {
+      handleHelloSpringCircleOrder(spreadsheet, data);
     } else if (data.formType === 'Custom Print Request') {
       handleCustomRequest(spreadsheet, data);
     }
@@ -193,6 +197,44 @@ function handleBunnyOrder(spreadsheet, data) {
   });
   
   // Auto-resize columns
+  sheet.autoResizeColumns(1, 8);
+}
+
+function handleHelloSpringOrder(spreadsheet, data) {
+  let sheet = spreadsheet.getSheetByName('Hello Spring Orders');
+  
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet('Hello Spring Orders');
+    sheet.appendRow(['Timestamp', 'Product', 'Name', 'Email', 'Color', 'Price Per Unit', 'Notes', 'Status']);
+    const headerRange = sheet.getRange(1, 1, 1, 8);
+    headerRange.setFontWeight('bold');
+    headerRange.setBackground('#667eea');
+    headerRange.setFontColor('#ffffff');
+  }
+  
+  const signs = JSON.parse(data.signs);
+  signs.forEach(sign => {
+    sheet.appendRow([data.timestamp, data.productName, data.name, data.email, sign.color, data.pricePerUnit, data.notes, 'New Order']);
+  });
+  sheet.autoResizeColumns(1, 8);
+}
+
+function handleHelloSpringCircleOrder(spreadsheet, data) {
+  let sheet = spreadsheet.getSheetByName('Hello Spring Circle Orders');
+  
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet('Hello Spring Circle Orders');
+    sheet.appendRow(['Timestamp', 'Product', 'Name', 'Email', 'Color', 'Price Per Unit', 'Notes', 'Status']);
+    const headerRange = sheet.getRange(1, 1, 1, 8);
+    headerRange.setFontWeight('bold');
+    headerRange.setBackground('#667eea');
+    headerRange.setFontColor('#ffffff');
+  }
+  
+  const signs = JSON.parse(data.signs);
+  signs.forEach(sign => {
+    sheet.appendRow([data.timestamp, data.productName, data.name, data.email, sign.color, data.pricePerUnit, data.notes, 'New Order']);
+  });
   sheet.autoResizeColumns(1, 8);
 }
 
