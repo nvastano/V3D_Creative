@@ -95,7 +95,7 @@ function handleDeskHookOrder(spreadsheet, data) {
       'Email',
       'Quantity',
       'Color Type',
-      'Colors',
+      'Hook Details',
       'Price Per Unit',
       'Total Price',
       'Notes',
@@ -117,7 +117,7 @@ function handleDeskHookOrder(spreadsheet, data) {
     data.email,
     data.quantity,
     data.colorType,
-    data.colors,
+    data.hooks,
     data.pricePerUnit,
     data.totalPrice,
     data.notes,
@@ -212,12 +212,15 @@ function testDeskHookOrder() {
         productName: 'Headphone/Backpack/Purse Desk Hook',
         name: 'Test Customer',
         email: 'test@example.com',
-        quantity: '1',
+        quantity: '2',
         colorType: 'Dual Color - $7',
-        colors: 'Black / White',
+        hooks: JSON.stringify([
+          { hookNumber: 1, primaryColor: 'Black', secondaryColor: 'White' },
+          { hookNumber: 2, primaryColor: 'Purple', secondaryColor: 'Gold' }
+        ]),
         pricePerUnit: '$7',
-        totalPrice: '$7',
-        notes: 'Test dual color hook'
+        totalPrice: '$14',
+        notes: 'Test dual color hooks'
       })
     }
   };

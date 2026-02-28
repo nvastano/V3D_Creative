@@ -484,19 +484,20 @@
 
                     <div class="form-group">
                         <label for="hookQuantity">Quantity <span class="required">*</span></label>
-                        <input type="number" id="hookQuantity" name="quantity" min="1" max="10" value="1" required>
+                        <input type="number" id="hookQuantity" name="quantity" min="1" max="10" value="1" required onchange="updateHookQuantityFields()">
                     </div>
 
                     <div class="form-group">
                         <label for="hookColorType">Color Option <span class="required">*</span></label>
-                        <select id="hookColorType" name="colorType" required onchange="updateHookColors()">
+                        <select id="hookColorType" name="colorType" required onchange="updateHookQuantityFields()">
                             <option value="">Select option...</option>
                             <option value="Single Color - $5">Single Color - $5</option>
                             <option value="Dual Color - $7">Dual Color - $7</option>
                         </select>
                     </div>
 
-                    <div id="hookColorFields"></div>
+                    <!-- Dynamic hook color fields will be inserted here -->
+                    <div id="hookColorFieldsContainer"></div>
 
                     <div class="form-group">
                         <label for="hookNotes">Special Requests or Notes</label>
@@ -669,11 +670,14 @@
         // Initialize with one plate
         updatePlateFields();
 
-        // Headphone hook color fields
-        function updateHookColors() {
+        // Desk hook quantity-based color fields
+        function updateHookQuantityFields() {
+            const quantity = parseInt(document.getElementById('hookQuantity').value) || 1;
             const colorType = document.getElementById('hookColorType').value;
-            const container = document.getElementById('hookColorFields');
+            const container = document.getElementById('hookColorFieldsContainer');
             container.innerHTML = '';
+
+            if (!colorType) return;
 
             const colorOptions = `
                 <option value="">Select a color...</option>
@@ -690,32 +694,46 @@
                 <option value="Pink">Pink</option>
             `;
 
-            if (colorType.includes('Single')) {
-                container.innerHTML = `
-                    <div class="form-group">
-                        <label for="hookColor1">Color <span class="required">*</span></label>
-                        <select id="hookColor1" name="color1" required>
-                            ${colorOptions}
-                        </select>
-                    </div>
-                `;
-            } else if (colorType.includes('Dual')) {
-                container.innerHTML = `
-                    <div class="form-row">
+            const isSingleColor = colorType.includes('Single');
+
+            for (let i = 1; i <= quantity; i++) {
+                const hookDiv = document.createElement('div');
+                hookDiv.style.marginBottom = '30px';
+                hookDiv.style.padding = '20px';
+                hookDiv.style.background = 'rgba(70, 29, 124, 0.2)';
+                hookDiv.style.borderRadius = '10px';
+                hookDiv.style.border = '2px solid #461D7C';
+                
+                if (isSingleColor) {
+                    hookDiv.innerHTML = `
+                        <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Hook ${i}</h4>
                         <div class="form-group">
-                            <label for="hookColor1">Primary Color <span class="required">*</span></label>
-                            <select id="hookColor1" name="color1" required>
+                            <label for="hook${i}Color">Color <span class="required">*</span></label>
+                            <select id="hook${i}Color" name="hook${i}Color" required>
                                 ${colorOptions}
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="hookColor2">Secondary Color <span class="required">*</span></label>
-                            <select id="hookColor2" name="color2" required>
-                                ${colorOptions}
-                            </select>
+                    `;
+                } else {
+                    hookDiv.innerHTML = `
+                        <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Hook ${i}</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="hook${i}Primary">Primary Color <span class="required">*</span></label>
+                                <select id="hook${i}Primary" name="hook${i}Primary" required>
+                                    ${colorOptions}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hook${i}Secondary">Secondary Color <span class="required">*</span></label>
+                                <select id="hook${i}Secondary" name="hook${i}Secondary" required>
+                                    ${colorOptions}
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                }
+                container.appendChild(hookDiv);
             }
         }
 
@@ -737,9 +755,24 @@
             const pricePerUnit = colorType.includes('Single') ? 5 : 7;
             const totalPrice = quantity * pricePerUnit;
             
-            const colors = colorType.includes('Dual') 
-                ? `${formData.get('color1')} / ${formData.get('color2')}`
-                : formData.get('color1');
+            // Collect all hook colors
+            const hooks = [];
+            const isSingleColor = colorType.includes('Single');
+            
+            for (let i = 1; i <= quantity; i++) {
+                if (isSingleColor) {
+                    hooks.push({
+                        hookNumber: i,
+                        color: formData.get(`hook${i}Color`)
+                    });
+                } else {
+                    hooks.push({
+                        hookNumber: i,
+                        primaryColor: formData.get(`hook${i}Primary`),
+                        secondaryColor: formData.get(`hook${i}Secondary`)
+                    });
+                }
+            }
             
             const data = {
                 timestamp: new Date().toLocaleString(),
@@ -748,7 +781,7 @@
                 email: formData.get('email'),
                 quantity: quantity,
                 colorType: colorType,
-                colors: colors,
+                hooks: JSON.stringify(hooks),
                 notes: formData.get('notes') || 'None',
                 pricePerUnit: '$' + pricePerUnit,
                 totalPrice: '$' + totalPrice
@@ -768,7 +801,7 @@
                 hookMessage.className = 'message success';
                 hookMessage.style.display = 'block';
                 hookForm.reset();
-                document.getElementById('hookColorFields').innerHTML = '';
+                document.getElementById('hookColorFieldsContainer').innerHTML = '';
                 
             } catch (error) {
                 console.error('Error:', error);
@@ -788,7 +821,7 @@
         const message = document.getElementById('message');
 
         // IMPORTANT: Replace this URL with your Google Apps Script web app URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwRuapMxbRwi-2NecTAPdiq0CBcS6B2eC01YvWb5-0FwAsDWeiX9OGvBzjWPkGThji-fA/exec';
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
