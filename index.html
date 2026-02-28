@@ -511,7 +511,79 @@
             </div>
         </div>
 
-        <!-- Minecraft Name Plates Product (SECOND) -->
+        <!-- Bunny Silhouette Product (SECOND) -->
+        <div class="product-item">
+            <div class="product-header">
+                <div class="product-images">
+                    <img src="images/bunny-1.jpg" alt="Bunny Silhouette" class="product-image">
+                    <img src="images/bunny-2.jpg" alt="Bunny Silhouette Display" class="product-image">
+                </div>
+
+                <div class="product-info">
+                    <h2>Bunny Silhouette</h2>
+                    <div class="price">$4 each</div>
+                    
+                    <p>Adorable bunny silhouette perfect for Easter decorations, spring decor, or year-round charm! These cute bunny profiles add a playful touch to shelves, desks, or as unique gifts.</p>
+
+                    <div class="features">
+                        <h3>Features:</h3>
+                        <ul>
+                            <li>Cute bunny silhouette design</li>
+                            <li>Perfect for Easter and spring decorations</li>
+                            <li>Great for shelves, mantels, or desks</li>
+                            <li>Multiple color options</li>
+                            <li>Lightweight and easy to display</li>
+                            <li>Makes a unique gift</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Turnaround:</strong> 2-3 days</p>
+                </div>
+            </div>
+
+            <!-- Order Button -->
+            <button class="order-toggle-btn" onclick="toggleOrderForm('bunny')">
+                📦 Order Bunny Silhouette
+            </button>
+
+            <!-- Order Form (Collapsible) -->
+            <div class="order-form order-section" id="bunnyOrderSection">
+                <form id="bunnyForm">
+                    <input type="hidden" name="productName" value="Bunny Silhouette">
+                    <input type="hidden" name="pricePerUnit" value="$4">
+
+                    <div class="form-group">
+                        <label for="bunnyName">Name <span class="required">*</span></label>
+                        <input type="text" id="bunnyName" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bunnyEmail">Email <span class="required">*</span></label>
+                        <input type="email" id="bunnyEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bunnyQuantity">Quantity <span class="required">*</span></label>
+                        <input type="number" id="bunnyQuantity" name="quantity" min="1" max="10" value="1" required onchange="updateBunnyFields()">
+                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$4 per bunny</small>
+                    </div>
+
+                    <!-- Dynamic bunny color fields will be inserted here -->
+                    <div id="bunnyColorFieldsContainer"></div>
+
+                    <div class="form-group">
+                        <label for="bunnyNotes">Special Requests or Notes</label>
+                        <textarea id="bunnyNotes" name="notes" placeholder="Any special instructions or requests?"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="bunnySubmitBtn">Place Order</button>
+
+                    <div class="message" id="bunnyMessage"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Minecraft Name Plates Product (THIRD) -->
         <div class="product-item">
             <div class="product-header">
                 <div class="product-images">
@@ -670,6 +742,118 @@
         // Initialize with one plate
         updatePlateFields();
 
+        // Bunny quantity-based color fields
+        function updateBunnyFields() {
+            const quantity = parseInt(document.getElementById('bunnyQuantity').value) || 1;
+            const container = document.getElementById('bunnyColorFieldsContainer');
+            container.innerHTML = '';
+
+            const colorOptions = `
+                <option value="">Select a color...</option>
+                <option value="White">White</option>
+                <option value="Black">Black</option>
+                <option value="Grey">Grey</option>
+                <option value="Red">Red</option>
+                <option value="Purple">Purple</option>
+                <option value="Green">Green</option>
+                <option value="Blue">Blue</option>
+                <option value="Brown">Brown</option>
+                <option value="Orange">Orange</option>
+                <option value="Yellow">Yellow</option>
+                <option value="Pink">Pink</option>
+            `;
+
+            for (let i = 1; i <= quantity; i++) {
+                const bunnyDiv = document.createElement('div');
+                bunnyDiv.style.marginBottom = '30px';
+                bunnyDiv.style.padding = '20px';
+                bunnyDiv.style.background = 'rgba(70, 29, 124, 0.2)';
+                bunnyDiv.style.borderRadius = '10px';
+                bunnyDiv.style.border = '2px solid #461D7C';
+                
+                bunnyDiv.innerHTML = `
+                    <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Bunny ${i}</h4>
+                    <div class="form-group">
+                        <label for="bunny${i}Color">Color <span class="required">*</span></label>
+                        <select id="bunny${i}Color" name="bunny${i}Color" required>
+                            ${colorOptions}
+                        </select>
+                    </div>
+                `;
+                container.appendChild(bunnyDiv);
+            }
+        }
+
+        // Initialize bunny fields
+        updateBunnyFields();
+
+        // Bunny Form submission
+        const bunnyForm = document.getElementById('bunnyForm');
+        const bunnySubmitBtn = document.getElementById('bunnySubmitBtn');
+        const bunnyMessage = document.getElementById('bunnyMessage');
+
+        bunnyForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            bunnySubmitBtn.disabled = true;
+            bunnySubmitBtn.textContent = 'Submitting...';
+            bunnyMessage.style.display = 'none';
+
+            const formData = new FormData(bunnyForm);
+            const quantity = parseInt(formData.get('quantity'));
+            const pricePerUnit = 4;
+            const totalPrice = quantity * pricePerUnit;
+            
+            // Collect all bunny colors
+            const bunnies = [];
+            for (let i = 1; i <= quantity; i++) {
+                bunnies.push({
+                    bunnyNumber: i,
+                    color: formData.get(`bunny${i}Color`)
+                });
+            }
+            
+            const data = {
+                timestamp: new Date().toLocaleString(),
+                productName: formData.get('productName'),
+                name: formData.get('name'),
+                email: formData.get('email'),
+                quantity: quantity,
+                bunnies: JSON.stringify(bunnies),
+                notes: formData.get('notes') || 'None',
+                pricePerUnit: '$' + pricePerUnit,
+                totalPrice: '$' + totalPrice
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                bunnyMessage.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
+                bunnyMessage.className = 'message success';
+                bunnyMessage.style.display = 'block';
+                bunnyForm.reset();
+                document.getElementById('bunnyColorFieldsContainer').innerHTML = '';
+                updateBunnyFields();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                bunnyMessage.textContent = '✗ There was an error submitting your order. Please try again or contact us directly.';
+                bunnyMessage.className = 'message error';
+                bunnyMessage.style.display = 'block';
+            } finally {
+                bunnySubmitBtn.disabled = false;
+                bunnySubmitBtn.textContent = 'Place Order';
+                bunnyMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+
         // Desk hook quantity-based color fields
         function updateHookQuantityFields() {
             const quantity = parseInt(document.getElementById('hookQuantity').value) || 1;
@@ -821,7 +1005,7 @@
         const message = document.getElementById('message');
 
         // IMPORTANT: Replace this URL with your Google Apps Script web app URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8mlAlxnf_-kKQWT66XODTQiLtxN709F-n9nsXlc6Y3tYnZUiYP6rESPwJlWUocSniGw/exec';
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();

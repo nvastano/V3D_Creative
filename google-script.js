@@ -15,6 +15,8 @@ function doPost(e) {
       handleMinecraftOrder(spreadsheet, data);
     } else if (data.productName === 'Headphone/Backpack/Purse Desk Hook') {
       handleDeskHookOrder(spreadsheet, data);
+    } else if (data.productName === 'Bunny Silhouette') {
+      handleBunnyOrder(spreadsheet, data);
     } else if (data.formType === 'Custom Print Request') {
       handleCustomRequest(spreadsheet, data);
     }
@@ -47,37 +49,39 @@ function handleMinecraftOrder(spreadsheet, data) {
       'Product',
       'Name',
       'Email',
-      'Quantity',
-      'Plate Details',
+      'Plate Name',
+      'Color',
       'Price Per Unit',
-      'Total Price',
       'Notes',
       'Status'
     ]);
     
     // Format header row
-    const headerRange = sheet.getRange(1, 1, 1, 10);
+    const headerRange = sheet.getRange(1, 1, 1, 9);
     headerRange.setFontWeight('bold');
     headerRange.setBackground('#667eea');
     headerRange.setFontColor('#ffffff');
   }
   
-  // Add the order data
-  sheet.appendRow([
-    data.timestamp,
-    data.productName,
-    data.name,
-    data.email,
-    data.quantity,
-    data.plates,
-    data.pricePerUnit,
-    data.totalPrice,
-    data.notes,
-    'New Order'
-  ]);
+  // Parse plates array and add one row per plate
+  const plates = JSON.parse(data.plates);
+  
+  plates.forEach(plate => {
+    sheet.appendRow([
+      data.timestamp,
+      data.productName,
+      data.name,
+      data.email,
+      plate.name,
+      plate.color,
+      data.pricePerUnit,
+      data.notes,
+      'New Order'
+    ]);
+  });
   
   // Auto-resize columns
-  sheet.autoResizeColumns(1, 10);
+  sheet.autoResizeColumns(1, 9);
 }
 
 function handleDeskHookOrder(spreadsheet, data) {
@@ -93,39 +97,103 @@ function handleDeskHookOrder(spreadsheet, data) {
       'Product',
       'Name',
       'Email',
-      'Quantity',
       'Color Type',
-      'Hook Details',
+      'Primary Color',
+      'Secondary Color',
       'Price Per Unit',
-      'Total Price',
       'Notes',
       'Status'
     ]);
     
     // Format header row
-    const headerRange = sheet.getRange(1, 1, 1, 11);
+    const headerRange = sheet.getRange(1, 1, 1, 10);
     headerRange.setFontWeight('bold');
     headerRange.setBackground('#667eea');
     headerRange.setFontColor('#ffffff');
   }
   
-  // Add the order data
-  sheet.appendRow([
-    data.timestamp,
-    data.productName,
-    data.name,
-    data.email,
-    data.quantity,
-    data.colorType,
-    data.hooks,
-    data.pricePerUnit,
-    data.totalPrice,
-    data.notes,
-    'New Order'
-  ]);
+  // Parse hooks array and add one row per hook
+  const hooks = JSON.parse(data.hooks);
+  const isSingleColor = data.colorType.includes('Single');
+  
+  hooks.forEach(hook => {
+    if (isSingleColor) {
+      sheet.appendRow([
+        data.timestamp,
+        data.productName,
+        data.name,
+        data.email,
+        data.colorType,
+        hook.color,
+        '',
+        data.pricePerUnit,
+        data.notes,
+        'New Order'
+      ]);
+    } else {
+      sheet.appendRow([
+        data.timestamp,
+        data.productName,
+        data.name,
+        data.email,
+        data.colorType,
+        hook.primaryColor,
+        hook.secondaryColor,
+        data.pricePerUnit,
+        data.notes,
+        'New Order'
+      ]);
+    }
+  });
   
   // Auto-resize columns
-  sheet.autoResizeColumns(1, 11);
+  sheet.autoResizeColumns(1, 10);
+}
+
+function handleBunnyOrder(spreadsheet, data) {
+  // Get or create "Bunny Orders" sheet
+  let sheet = spreadsheet.getSheetByName('Bunny Orders');
+  
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet('Bunny Orders');
+    
+    // Create headers
+    sheet.appendRow([
+      'Timestamp',
+      'Product',
+      'Name',
+      'Email',
+      'Color',
+      'Price Per Unit',
+      'Notes',
+      'Status'
+    ]);
+    
+    // Format header row
+    const headerRange = sheet.getRange(1, 1, 1, 8);
+    headerRange.setFontWeight('bold');
+    headerRange.setBackground('#667eea');
+    headerRange.setFontColor('#ffffff');
+  }
+  
+  // Parse bunnies array and add one row per bunny
+  const bunnies = JSON.parse(data.bunnies);
+  
+  bunnies.forEach(bunny => {
+    sheet.appendRow([
+      data.timestamp,
+      data.productName,
+      data.name,
+      data.email,
+      bunny.color,
+      data.pricePerUnit,
+      data.notes,
+      'New Order'
+    ]);
+  });
+  
+  // Auto-resize columns
+  sheet.autoResizeColumns(1, 8);
 }
 
 function handleCustomRequest(spreadsheet, data) {
