@@ -12,17 +12,16 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #ffffff;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #461D7C 0%, #000000 100%);
             min-height: 100vh;
+            color: white;
         }
 
         /* Navigation */
         nav {
-            background: rgba(0, 0, 0, 0.95);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -32,46 +31,33 @@
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
         }
 
-        .logo {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #FDD023;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .logo-subtitle {
-            font-size: 0.5em;
-            color: #ffffff;
-            font-weight: normal;
-            display: block;
+        .logo img {
+            height: 80px;
+            vertical-align: middle;
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
             list-style: none;
+            gap: 30px;
         }
 
         .nav-links a {
+            color: white;
             text-decoration: none;
-            color: #ffffff;
             font-weight: 600;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 5px;
             transition: all 0.3s;
         }
 
-        .nav-links a:hover {
-            background: #461D7C;
-            color: #FDD023;
-        }
-
+        .nav-links a:hover,
         .nav-links a.active {
             background: #461D7C;
             color: #FDD023;
@@ -97,276 +83,101 @@
             opacity: 0.95;
         }
 
-        /* Products Section */
+        /* Products Grid */
         .products-section {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px 40px 40px;
+            padding: 20px 40px 60px;
         }
 
         .section-title {
             text-align: center;
             font-size: 2.5em;
             color: #FDD023;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .product-item {
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 3px solid #461D7C;
-            box-shadow: 0 10px 40px rgba(70, 29, 124, 0.3);
-        }
-
-        .product-header {
+        .products-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin-bottom: 20px;
         }
 
-        .product-images {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .product-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid #461D7C;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            display: block;
         }
 
-        .product-image {
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #FDD023;
+            box-shadow: 0 15px 40px rgba(253, 208, 35, 0.4);
+        }
+
+        .product-card img {
             width: 100%;
-            border-radius: 10px;
-            border: 2px solid #461D7C;
+            height: 250px;
+            object-fit: cover;
         }
 
-        .product-image.large {
-            grid-column: 1 / -1;
-        }
-
-        .product-info h2 {
-            color: #FDD023;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        .price {
-            font-size: 2em;
-            font-weight: bold;
-            color: #FDD023;
-            margin-bottom: 20px;
-        }
-
-        .product-info p {
-            color: #ffffff;
-            font-size: 1.15em;
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
-
-        .features {
-            background: rgba(70, 29, 124, 0.3);
+        .product-card-content {
             padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid #461D7C;
         }
 
-        .features h3 {
+        .product-card h3 {
+            font-size: 1.5em;
             color: #FDD023;
+            margin-bottom: 10px;
+        }
+
+        .product-card .price {
+            font-size: 1.3em;
+            color: #FDD023;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
             margin-bottom: 15px;
         }
 
-        .features ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .features li {
-            padding: 8px 0;
-            padding-left: 25px;
-            position: relative;
-            color: #ffffff;
-        }
-
-        .features li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #FDD023;
-            font-weight: bold;
-        }
-
-        /* Order Form */
-        .order-form {
-            background: rgba(70, 29, 124, 0.2);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid #461D7C;
-        }
-
-        .order-form h3 {
-            color: #FDD023;
-            font-size: 2em;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #ffffff;
-            font-size: 1.05em;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #461D7C;
-            border-radius: 8px;
-            font-size: 1em;
-            font-family: inherit;
-            transition: border-color 0.3s;
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #FDD023;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .required {
-            color: #FDD023;
-        }
-
-        .submit-btn {
+        .view-details {
+            display: inline-block;
             background: #461D7C;
             color: #FDD023;
-            padding: 18px 50px;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
             border: 2px solid #FDD023;
-            border-radius: 10px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
             transition: all 0.3s;
-            margin-top: 20px;
-            text-transform: uppercase;
         }
 
-        .submit-btn:hover {
+        .product-card:hover .view-details {
             background: #FDD023;
             color: #461D7C;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(253, 208, 35, 0.4);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .message {
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .message.success {
-            background: rgba(40, 167, 69, 0.8);
-            color: #ffffff;
-            border: 2px solid #28a745;
-        }
-
-        .message.error {
-            background: rgba(220, 53, 69, 0.8);
-            color: #ffffff;
-            border: 2px solid #dc3545;
-        }
-
-        /* Accordion styles */
-        .order-section {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-        }
-
-        .order-section.active {
-            max-height: 2000px;
-            transition: max-height 0.6s ease-in;
-        }
-
-        .order-toggle-btn {
-            background: #461D7C;
-            color: #FDD023;
-            padding: 22px 60px;
-            border: 3px solid #FDD023;
-            border-radius: 12px;
-            font-size: 1.4em;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            margin-top: 25px;
-            box-shadow: 0 0 20px rgba(253, 208, 35, 0.5);
-            letter-spacing: 1px;
-        }
-
-        .order-toggle-btn:hover {
-            background: #FDD023;
-            color: #461D7C;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(253, 208, 35, 0.7);
-        }
-
-        .order-toggle-btn.active {
-            background: #FDD023;
-            color: #461D7C;
-            box-shadow: 0 0 30px rgba(253, 208, 35, 0.8);
         }
 
         /* Mobile Menu */
         .mobile-menu-btn {
             display: none;
             background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
+            border: 2px solid #FDD023;
             color: #FDD023;
-        }
-
-        @media (max-width: 968px) {
-            .product-header {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
+            font-size: 1.5em;
+            padding: 5px 15px;
+            cursor: pointer;
+            border-radius: 5px;
         }
 
         @media (max-width: 768px) {
@@ -380,31 +191,22 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: rgba(0, 0, 0, 0.98);
+                background: rgba(0, 0, 0, 0.95);
                 flex-direction: column;
                 padding: 20px;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.5);
-                border-top: 3px solid #461D7C;
+                gap: 10px;
             }
 
             .nav-links.active {
                 display: flex;
             }
 
-            .hero h1 {
-                font-size: 2.2em;
-            }
-
-            .products-section {
-                padding: 20px;
-            }
-
-            .product-item {
-                padding: 20px;
-            }
-
-            .product-images {
+            .products-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2em;
             }
         }
     </style>
@@ -413,7 +215,7 @@
     <nav>
         <div class="nav-container">
             <div class="logo">
-                <img src="images/logo.svg" alt="V3D Creative" style="height: 80px; vertical-align: middle;">
+                <img src="images/logo.svg" alt="V3D Creative">
             </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-links" id="navLinks">
@@ -431,391 +233,61 @@
     <section class="products-section">
         <h2 class="section-title">Available Prints</h2>
 
-        <!-- Headphone Hook Product (FIRST) -->
-        <div class="product-item">
-            <div class="product-header">
-                <div class="product-images">
-                    <img src="images/headphone-hook-1.jpg" alt="Headphone Hook on Desk" class="product-image">
-                    <img src="images/headphone-hook-2.jpg" alt="Headphone Hook with Headphones" class="product-image">
+        <div class="products-grid">
+            <!-- Desk Hook -->
+            <a href="product-desk-hook.html" class="product-card">
+                <img src="images/headphone-hook-1.jpg" alt="Desk Hook">
+                <div class="product-card-content">
+                    <h3>Desk Hook</h3>
+                    <div class="price">$5 - $7</div>
+                    <p>Perfect for headphones, bags, purses, and backpacks. Single or dual color options.</p>
+                    <span class="view-details">View Details →</span>
                 </div>
+            </a>
 
-                <div class="product-info">
-                    <h2>Headphone/Backpack/Purse Desk Hook</h2>
-                    <div class="price">$5 Single Color | $7 Dual Color</div>
-                    
-                    <p>Keep your workspace organized! This versatile desk hook is perfect for hanging headphones, bags, purses, backpacks, or anything you want within easy reach. Attaches securely to your desk or shelf edge.</p>
-
-                    <div class="features">
-                        <h3>Features:</h3>
-                        <ul>
-                            <li>Attaches to desk or shelf edge</li>
-                            <li>Strong and durable design</li>
-                            <li>Perfect for headphones, bags, purses, backpacks</li>
-                            <li>Keeps items off your desk and organized</li>
-                            <li>Single or dual-color options</li>
-                            <li>Easy to install</li>
-                            <li>Great for offices, gaming setups, and home use</li>
-                        </ul>
-                    </div>
-
-                    <p><strong>Turnaround:</strong> 2-3 days</p>
+            <!-- Bunny Silhouette -->
+            <a href="product-bunny.html" class="product-card">
+                <img src="images/bunny-1.jpg" alt="Bunny Silhouette">
+                <div class="product-card-content">
+                    <h3>Bunny Silhouette</h3>
+                    <div class="price">$4</div>
+                    <p>Adorable bunny silhouette perfect for Easter and spring decorations.</p>
+                    <span class="view-details">View Details →</span>
                 </div>
-            </div>
+            </a>
 
-            <!-- Order Button -->
-            <button class="order-toggle-btn" onclick="toggleOrderForm('headphone')">
-                📦 Order Desk Hook
-            </button>
-
-            <!-- Order Form (Collapsible) -->
-            <div class="order-form order-section" id="headphoneOrderSection">
-                <form id="headphoneForm">
-                    <input type="hidden" name="productName" value="Headphone/Backpack/Purse Desk Hook">
-
-                    <div class="form-group">
-                        <label for="hookName">Name <span class="required">*</span></label>
-                        <input type="text" id="hookName" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hookEmail">Email <span class="required">*</span></label>
-                        <input type="email" id="hookEmail" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hookQuantity">Quantity <span class="required">*</span></label>
-                        <input type="number" id="hookQuantity" name="quantity" min="1" max="10" value="1" required onchange="updateHookQuantityFields()">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hookColorType">Color Option <span class="required">*</span></label>
-                        <select id="hookColorType" name="colorType" required onchange="updateHookQuantityFields()">
-                            <option value="">Select option...</option>
-                            <option value="Single Color - $5">Single Color - $5</option>
-                            <option value="Dual Color - $7">Dual Color - $7</option>
-                        </select>
-                    </div>
-
-                    <!-- Dynamic hook color fields will be inserted here -->
-                    <div id="hookColorFieldsContainer"></div>
-
-                    <div class="form-group">
-                        <label for="hookNotes">Special Requests or Notes</label>
-                        <textarea id="hookNotes" name="notes" placeholder="Any special instructions or requests?"></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="hookSubmitBtn">Place Order</button>
-
-                    <div class="message" id="hookMessage"></div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Bunny Silhouette Product (SECOND) -->
-        <div class="product-item">
-            <div class="product-header">
-                <div class="product-images">
-                    <img src="images/bunny-1.jpg" alt="Bunny Silhouette" class="product-image">
-                    <img src="images/bunny-2.jpg" alt="Bunny Silhouette Display" class="product-image">
+            <!-- Hello Spring Sign -->
+            <a href="product-hello-spring.html" class="product-card">
+                <img src="images/hello-spring-1.jpg" alt="Hello Spring Sign">
+                <div class="product-card-content">
+                    <h3>Hello Spring Sign</h3>
+                    <div class="price">$5</div>
+                    <p>Beautiful script design perfect for tiered trays and spring decor.</p>
+                    <span class="view-details">View Details →</span>
                 </div>
+            </a>
 
-                <div class="product-info">
-                    <h2>Bunny Silhouette</h2>
-                    <div class="price">$4 each</div>
-                    
-                    <p>Adorable bunny silhouette perfect for Easter decorations, spring decor, or year-round charm! These cute bunny profiles add a playful touch to shelves, desks, or as unique gifts.</p>
-
-                    <div class="features">
-                        <h3>Features:</h3>
-                        <ul>
-                            <li>Cute bunny silhouette design</li>
-                            <li>Perfect for Easter and spring decorations</li>
-                            <li>Great for shelves, mantels, or desks</li>
-                            <li>Multiple color options</li>
-                            <li>Lightweight and easy to display</li>
-                            <li>Makes a unique gift</li>
-                        </ul>
-                    </div>
-
-                    <p><strong>Turnaround:</strong> 2-3 days</p>
+            <!-- Hello Spring Circle -->
+            <a href="product-hello-spring-circle.html" class="product-card">
+                <img src="images/hello-spring-circle-1.jpg" alt="Hello Spring Circle">
+                <div class="product-card-content">
+                    <h3>Hello Spring Circle</h3>
+                    <div class="price">$6</div>
+                    <p>Elegant circular design with butterfly accent for wreaths and walls.</p>
+                    <span class="view-details">View Details →</span>
                 </div>
-            </div>
+            </a>
 
-            <!-- Order Button -->
-            <button class="order-toggle-btn" onclick="toggleOrderForm('bunny')">
-                📦 Order Bunny Silhouette
-            </button>
-
-            <!-- Order Form (Collapsible) -->
-            <div class="order-form order-section" id="bunnyOrderSection">
-                <form id="bunnyForm">
-                    <input type="hidden" name="productName" value="Bunny Silhouette">
-                    <input type="hidden" name="pricePerUnit" value="$4">
-
-                    <div class="form-group">
-                        <label for="bunnyName">Name <span class="required">*</span></label>
-                        <input type="text" id="bunnyName" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="bunnyEmail">Email <span class="required">*</span></label>
-                        <input type="email" id="bunnyEmail" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="bunnyQuantity">Quantity <span class="required">*</span></label>
-                        <input type="number" id="bunnyQuantity" name="quantity" min="1" max="10" value="1" required onchange="updateBunnyFields()">
-                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$4 per bunny</small>
-                    </div>
-
-                    <!-- Dynamic bunny color fields will be inserted here -->
-                    <div id="bunnyColorFieldsContainer"></div>
-
-                    <div class="form-group">
-                        <label for="bunnyNotes">Special Requests or Notes</label>
-                        <textarea id="bunnyNotes" name="notes" placeholder="Any special instructions or requests?"></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="bunnySubmitBtn">Place Order</button>
-
-                    <div class="message" id="bunnyMessage"></div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Hello Spring Sign (THIRD) -->
-        <div class="product-item">
-            <div class="product-header">
-                <div class="product-images">
-                    <img src="images/hello-spring-1.jpg" alt="Hello Spring Sign" class="product-image">
-                    <img src="images/hello-spring-2.jpg" alt="Hello Spring Sign Display" class="product-image">
+            <!-- Minecraft Nameplate -->
+            <a href="product-minecraft.html" class="product-card">
+                <img src="images/minecraft-1.jpg" alt="Minecraft Name Plate">
+                <div class="product-card-content">
+                    <h3>Minecraft Name Plate</h3>
+                    <div class="price">$7</div>
+                    <p>Custom name plates with authentic blocky design and grass block base.</p>
+                    <span class="view-details">View Details →</span>
                 </div>
-
-                <div class="product-info">
-                    <h2>Hello Spring Sign</h2>
-                    <div class="price">$5 each</div>
-                    
-                    <p>Welcome the season with this charming "Hello Spring" sign! Perfect for mantels, shelves, tiered trays, or as part of your spring decor. This delicate script design brings a fresh, cheerful touch to any space.</p>
-
-                    <div class="features">
-                        <h3>Features:</h3>
-                        <ul>
-                            <li>Beautiful script "Hello Spring" design</li>
-                            <li>Perfect for tiered trays and shelves</li>
-                            <li>Seasonal spring decoration</li>
-                            <li>Lightweight and easy to display</li>
-                            <li>Multiple color options</li>
-                            <li>Great for home decor and gifts</li>
-                        </ul>
-                    </div>
-
-                    <p><strong>Turnaround:</strong> 2-3 days</p>
-                </div>
-            </div>
-
-            <!-- Order Button -->
-            <button class="order-toggle-btn" onclick="toggleOrderForm('hellospring')">
-                📦 Order Hello Spring Sign
-            </button>
-
-            <!-- Order Form (Collapsible) -->
-            <div class="order-form order-section" id="hellospringOrderSection">
-                <form id="hellospringForm">
-                    <input type="hidden" name="productName" value="Hello Spring Sign">
-                    <input type="hidden" name="pricePerUnit" value="$5">
-
-                    <div class="form-group">
-                        <label for="hellospringName">Name <span class="required">*</span></label>
-                        <input type="text" id="hellospringName" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hellospringEmail">Email <span class="required">*</span></label>
-                        <input type="email" id="hellospringEmail" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hellospringQuantity">Quantity <span class="required">*</span></label>
-                        <input type="number" id="hellospringQuantity" name="quantity" min="1" max="10" value="1" required onchange="updateHelloSpringFields()">
-                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$5 per sign</small>
-                    </div>
-
-                    <!-- Dynamic hello spring color fields -->
-                    <div id="hellospringColorFieldsContainer"></div>
-
-                    <div class="form-group">
-                        <label for="hellospringNotes">Special Requests or Notes</label>
-                        <textarea id="hellospringNotes" name="notes" placeholder="Any special instructions or requests?"></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="hellospringSubmitBtn">Place Order</button>
-
-                    <div class="message" id="hellospringMessage"></div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Hello Spring Circle (FOURTH) -->
-        <div class="product-item">
-            <div class="product-header">
-                <div class="product-images">
-                    <img src="images/hello-spring-circle-1.jpg" alt="Hello Spring Circle" class="product-image">
-                    <img src="images/hello-spring-circle-2.jpg" alt="Hello Spring Circle Display" class="product-image">
-                </div>
-
-                <div class="product-info">
-                    <h2>Hello Spring Circle Sign</h2>
-                    <div class="price">$6 each</div>
-                    
-                    <p>Elegant circular "Hello Spring" sign with a charming butterfly accent. This beautiful spring decoration is perfect for wreaths, wall hangings, or as a standalone piece. The circular design adds a sophisticated touch to your seasonal decor.</p>
-
-                    <div class="features">
-                        <h3>Features:</h3>
-                        <ul>
-                            <li>Circular design with butterfly accent</li>
-                            <li>Perfect for wreaths and wall displays</li>
-                            <li>Elegant spring decoration</li>
-                            <li>Beautiful script lettering</li>
-                            <li>Multiple color options</li>
-                            <li>Versatile seasonal decor piece</li>
-                        </ul>
-                    </div>
-
-                    <p><strong>Turnaround:</strong> 2-3 days</p>
-                </div>
-            </div>
-
-            <!-- Order Button -->
-            <button class="order-toggle-btn" onclick="toggleOrderForm('hellospringcircle')">
-                📦 Order Hello Spring Circle
-            </button>
-
-            <!-- Order Form (Collapsible) -->
-            <div class="order-form order-section" id="hellospringcircleOrderSection">
-                <form id="hellospringcircleForm">
-                    <input type="hidden" name="productName" value="Hello Spring Circle Sign">
-                    <input type="hidden" name="pricePerUnit" value="$6">
-
-                    <div class="form-group">
-                        <label for="hellospringcircleName">Name <span class="required">*</span></label>
-                        <input type="text" id="hellospringcircleName" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hellospringcircleEmail">Email <span class="required">*</span></label>
-                        <input type="email" id="hellospringcircleEmail" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hellospringcircleQuantity">Quantity <span class="required">*</span></label>
-                        <input type="number" id="hellospringcircleQuantity" name="quantity" min="1" max="10" value="1" required onchange="updateHelloSpringCircleFields()">
-                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$6 per sign</small>
-                    </div>
-
-                    <!-- Dynamic hello spring circle color fields -->
-                    <div id="hellospringcircleColorFieldsContainer"></div>
-
-                    <div class="form-group">
-                        <label for="hellospringcircleNotes">Special Requests or Notes</label>
-                        <textarea id="hellospringcircleNotes" name="notes" placeholder="Any special instructions or requests?"></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="hellospringcircleSubmitBtn">Place Order</button>
-
-                    <div class="message" id="hellospringcircleMessage"></div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Minecraft Name Plates Product (FIFTH) -->
-        <div class="product-item">
-            <div class="product-header">
-                <div class="product-images">
-                    <img src="images/minecraft-1.jpg" alt="Minecraft Name Plates Collection" class="product-image large">
-                    <img src="images/minecraft-2.jpg" alt="Minecraft Name Plate Close Up" class="product-image">
-                    <img src="images/minecraft-3.jpg" alt="Minecraft Name Plates Display" class="product-image">
-                </div>
-
-                <div class="product-info">
-                    <h2>Minecraft Custom Name Plates</h2>
-                    <div class="price">$7 per name</div>
-                    
-                    <p>Bring your gaming setup to life with a personalized Minecraft-style name plate! Each plate features authentic blocky letters on a grass block base - perfect for desks, shelves, or as a unique gift.</p>
-
-                    <div class="features">
-                        <h3>Features:</h3>
-                        <ul>
-                            <li>Custom text - your name or any word</li>
-                            <li>Authentic Minecraft blocky design</li>
-                            <li>Grass block style base included</li>
-                            <li>High-quality PLA filament</li>
-                            <li>Multiple color options</li>
-                            <li>Perfect for gamers and Minecraft fans</li>
-                        </ul>
-                    </div>
-
-                    <p><strong>Turnaround:</strong> 3-5 days</p>
-                </div>
-            </div>
-
-            <!-- Order Button -->
-            <button class="order-toggle-btn" onclick="toggleOrderForm('minecraft')">
-                📦 Order Minecraft Name Plate
-            </button>
-
-            <!-- Order Form (Collapsible) -->
-            <div class="order-form order-section" id="minecraftOrderSection">
-                <form id="minecraftForm">
-                    <input type="hidden" name="productName" value="Minecraft Custom Name Plate">
-                    <input type="hidden" name="pricePerUnit" value="$7">
-
-                    <div class="form-group">
-                        <label for="name">Name <span class="required">*</span></label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email <span class="required">*</span></label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="quantity">Quantity <span class="required">*</span></label>
-                        <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required onchange="updatePlateFields()">
-                        <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$7 per name plate</small>
-                    </div>
-
-                    <!-- Dynamic plate fields will be inserted here -->
-                    <div id="plateFieldsContainer"></div>
-
-                    <div class="form-group">
-                        <label for="notes">Special Requests or Notes</label>
-                        <textarea id="notes" name="notes" placeholder="Any special instructions or requests?"></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn">Place Order</button>
-
-                    <div class="message" id="message"></div>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Single Venmo Payment Section (Shared) -->
-    <section style="max-width: 1200px; margin: 0 auto; padding: 40px;">
-        <div style="background: linear-gradient(135deg, #461D7C 0%, #FDD023 100%); padding: 25px; border-radius: 12px; text-align: center; border: 2px solid #FDD023;">
-            <h3 style="color: #000; font-size: 1.5em; margin-bottom: 12px;">
-                💳 NEXT STEP: Pay via Venmo
-            </h3>
-            <p style="color: #000; font-size: 1em; margin-bottom: 15px; font-weight: 600;">
-                After submitting your order above, complete payment to Hudson's Venmo:
-            </p>
-            <div style="background: white; padding: 15px; border-radius: 10px; display: inline-block;">
-                <img src="images/hudson-venmo.png" alt="Pay Hudson via Venmo @hudsonvastano" style="max-width: 250px; width: 100%; border-radius: 8px;">
-            </div>
-            <p style="color: #000; font-size: 1.1em; margin-top: 12px; font-weight: bold;">
-                Scan QR code or send to: <span style="color: #fff; background: #000; padding: 3px 10px; border-radius: 4px;">@hudsonvastano</span>
-            </p>
+            </a>
         </div>
     </section>
 
@@ -824,604 +296,6 @@
             const navLinks = document.getElementById('navLinks');
             navLinks.classList.toggle('active');
         }
-
-        // Toggle order forms
-        function toggleOrderForm(product) {
-            const section = document.getElementById(product + 'OrderSection');
-            const button = event.target;
-            
-            section.classList.toggle('active');
-            button.classList.toggle('active');
-            
-            if (section.classList.contains('active')) {
-                button.textContent = button.textContent.replace('📦 Order', '❌ Close Order Form for');
-                setTimeout(() => {
-                    section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 300);
-            } else {
-                button.textContent = button.textContent.replace('❌ Close Order Form for', '📦 Order');
-            }
-        }
-
-        // Dynamic plate fields based on quantity
-        function updatePlateFields() {
-            const quantity = parseInt(document.getElementById('quantity').value) || 1;
-            const container = document.getElementById('plateFieldsContainer');
-            container.innerHTML = '';
-
-            for (let i = 1; i <= quantity; i++) {
-                const plateDiv = document.createElement('div');
-                plateDiv.style.marginBottom = '30px';
-                plateDiv.style.padding = '20px';
-                plateDiv.style.background = 'rgba(70, 29, 124, 0.2)';
-                plateDiv.style.borderRadius = '10px';
-                plateDiv.style.border = '2px solid #461D7C';
-                
-                plateDiv.innerHTML = `
-                    <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Name Plate ${i}</h4>
-                    <div class="form-group">
-                        <label for="plateName${i}">Name on Plate ${i} <span class="required">*</span></label>
-                        <input type="text" id="plateName${i}" name="plateName${i}" required maxlength="20" placeholder="Max 20 characters">
-                    </div>
-                    <div class="form-group">
-                        <label for="plateColor${i}">Color of Name ${i} <span class="required">*</span></label>
-                        <select id="plateColor${i}" name="plateColor${i}" required>
-                            <option value="">Select a color...</option>
-                            <option value="Standard Grey">Standard Grey</option>
-                            <option value="Pink">Pink</option>
-                            <option value="Blue">Blue</option>
-                            <option value="Red">Red</option>
-                            <option value="Yellow">Yellow</option>
-                            <option value="Black">Black</option>
-                            <option value="White">White</option>
-                            <option value="Purple">Purple</option>
-                            <option value="Orange">Orange</option>
-                        </select>
-                    </div>
-                `;
-                container.appendChild(plateDiv);
-            }
-        }
-
-        // Initialize with one plate
-        updatePlateFields();
-
-        // Bunny quantity-based color fields
-        function updateBunnyFields() {
-            const quantity = parseInt(document.getElementById('bunnyQuantity').value) || 1;
-            const container = document.getElementById('bunnyColorFieldsContainer');
-            container.innerHTML = '';
-
-            const colorOptions = `
-                <option value="">Select a color...</option>
-                <option value="White">White</option>
-                <option value="Black">Black</option>
-                <option value="Grey">Grey</option>
-                <option value="Red">Red</option>
-                <option value="Purple">Purple</option>
-                <option value="Green">Green</option>
-                <option value="Blue">Blue</option>
-                <option value="Brown">Brown</option>
-                <option value="Orange">Orange</option>
-                <option value="Yellow">Yellow</option>
-                <option value="Pink">Pink</option>
-            `;
-
-            for (let i = 1; i <= quantity; i++) {
-                const bunnyDiv = document.createElement('div');
-                bunnyDiv.style.marginBottom = '30px';
-                bunnyDiv.style.padding = '20px';
-                bunnyDiv.style.background = 'rgba(70, 29, 124, 0.2)';
-                bunnyDiv.style.borderRadius = '10px';
-                bunnyDiv.style.border = '2px solid #461D7C';
-                
-                bunnyDiv.innerHTML = `
-                    <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Bunny ${i}</h4>
-                    <div class="form-group">
-                        <label for="bunny${i}Color">Color <span class="required">*</span></label>
-                        <select id="bunny${i}Color" name="bunny${i}Color" required>
-                            ${colorOptions}
-                        </select>
-                    </div>
-                `;
-                container.appendChild(bunnyDiv);
-            }
-        }
-
-        // Initialize bunny fields
-        updateBunnyFields();
-
-        // Hello Spring fields
-        function updateHelloSpringFields() {
-            const quantity = parseInt(document.getElementById('hellospringQuantity').value) || 1;
-            const container = document.getElementById('hellospringColorFieldsContainer');
-            container.innerHTML = '';
-
-            const colorOptions = `
-                <option value="">Select a color...</option>
-                <option value="White">White</option>
-                <option value="Black">Black</option>
-                <option value="Grey">Grey</option>
-                <option value="Red">Red</option>
-                <option value="Purple">Purple</option>
-                <option value="Green">Green</option>
-                <option value="Blue">Blue</option>
-                <option value="Brown">Brown</option>
-                <option value="Orange">Orange</option>
-                <option value="Yellow">Yellow</option>
-                <option value="Pink">Pink</option>
-            `;
-
-            for (let i = 1; i <= quantity; i++) {
-                const signDiv = document.createElement('div');
-                signDiv.style.marginBottom = '30px';
-                signDiv.style.padding = '20px';
-                signDiv.style.background = 'rgba(70, 29, 124, 0.2)';
-                signDiv.style.borderRadius = '10px';
-                signDiv.style.border = '2px solid #461D7C';
-                
-                signDiv.innerHTML = `
-                    <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Sign ${i}</h4>
-                    <div class="form-group">
-                        <label for="hellospring${i}Color">Color <span class="required">*</span></label>
-                        <select id="hellospring${i}Color" name="hellospring${i}Color" required>
-                            ${colorOptions}
-                        </select>
-                    </div>
-                `;
-                container.appendChild(signDiv);
-            }
-        }
-
-        updateHelloSpringFields();
-
-        // Hello Spring Circle fields
-        function updateHelloSpringCircleFields() {
-            const quantity = parseInt(document.getElementById('hellospringcircleQuantity').value) || 1;
-            const container = document.getElementById('hellospringcircleColorFieldsContainer');
-            container.innerHTML = '';
-
-            const colorOptions = `
-                <option value="">Select a color...</option>
-                <option value="White">White</option>
-                <option value="Black">Black</option>
-                <option value="Grey">Grey</option>
-                <option value="Red">Red</option>
-                <option value="Purple">Purple</option>
-                <option value="Green">Green</option>
-                <option value="Blue">Blue</option>
-                <option value="Brown">Brown</option>
-                <option value="Orange">Orange</option>
-                <option value="Yellow">Yellow</option>
-                <option value="Pink">Pink</option>
-            `;
-
-            for (let i = 1; i <= quantity; i++) {
-                const signDiv = document.createElement('div');
-                signDiv.style.marginBottom = '30px';
-                signDiv.style.padding = '20px';
-                signDiv.style.background = 'rgba(70, 29, 124, 0.2)';
-                signDiv.style.borderRadius = '10px';
-                signDiv.style.border = '2px solid #461D7C';
-                
-                signDiv.innerHTML = `
-                    <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Circle Sign ${i}</h4>
-                    <div class="form-group">
-                        <label for="hellospringcircle${i}Color">Color <span class="required">*</span></label>
-                        <select id="hellospringcircle${i}Color" name="hellospringcircle${i}Color" required>
-                            ${colorOptions}
-                        </select>
-                    </div>
-                `;
-                container.appendChild(signDiv);
-            }
-        }
-
-        updateHelloSpringCircleFields();
-
-        // Hello Spring Form submission
-        const hellospringForm = document.getElementById('hellospringForm');
-        const hellospringSubmitBtn = document.getElementById('hellospringSubmitBtn');
-        const hellospringMessage = document.getElementById('hellospringMessage');
-
-        hellospringForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            hellospringSubmitBtn.disabled = true;
-            hellospringSubmitBtn.textContent = 'Submitting...';
-            hellospringMessage.style.display = 'none';
-
-            const formData = new FormData(hellospringForm);
-            const quantity = parseInt(formData.get('quantity'));
-            const pricePerUnit = 5;
-            const totalPrice = quantity * pricePerUnit;
-            
-            const signs = [];
-            for (let i = 1; i <= quantity; i++) {
-                signs.push({
-                    signNumber: i,
-                    color: formData.get(`hellospring${i}Color`)
-                });
-            }
-            
-            const data = {
-                timestamp: new Date().toLocaleString(),
-                productName: formData.get('productName'),
-                name: formData.get('name'),
-                email: formData.get('email'),
-                quantity: quantity,
-                signs: JSON.stringify(signs),
-                notes: formData.get('notes') || 'None',
-                pricePerUnit: '$' + pricePerUnit,
-                totalPrice: '$' + totalPrice
-            };
-
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                hellospringMessage.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
-                hellospringMessage.className = 'message success';
-                hellospringMessage.style.display = 'block';
-                hellospringForm.reset();
-                document.getElementById('hellospringColorFieldsContainer').innerHTML = '';
-                updateHelloSpringFields();
-            } catch (error) {
-                hellospringMessage.textContent = '✗ Error submitting order. Please try again.';
-                hellospringMessage.className = 'message error';
-                hellospringMessage.style.display = 'block';
-            } finally {
-                hellospringSubmitBtn.disabled = false;
-                hellospringSubmitBtn.textContent = 'Place Order';
-                hellospringMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        });
-
-        // Hello Spring Circle Form submission
-        const hellospringcircleForm = document.getElementById('hellospringcircleForm');
-        const hellospringcircleSubmitBtn = document.getElementById('hellospringcircleSubmitBtn');
-        const hellospringcircleMessage = document.getElementById('hellospringcircleMessage');
-
-        hellospringcircleForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            hellospringcircleSubmitBtn.disabled = true;
-            hellospringcircleSubmitBtn.textContent = 'Submitting...';
-            hellospringcircleMessage.style.display = 'none';
-
-            const formData = new FormData(hellospringcircleForm);
-            const quantity = parseInt(formData.get('quantity'));
-            const pricePerUnit = 6;
-            const totalPrice = quantity * pricePerUnit;
-            
-            const signs = [];
-            for (let i = 1; i <= quantity; i++) {
-                signs.push({
-                    signNumber: i,
-                    color: formData.get(`hellospringcircle${i}Color`)
-                });
-            }
-            
-            const data = {
-                timestamp: new Date().toLocaleString(),
-                productName: formData.get('productName'),
-                name: formData.get('name'),
-                email: formData.get('email'),
-                quantity: quantity,
-                signs: JSON.stringify(signs),
-                notes: formData.get('notes') || 'None',
-                pricePerUnit: '$' + pricePerUnit,
-                totalPrice: '$' + totalPrice
-            };
-
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                hellospringcircleMessage.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
-                hellospringcircleMessage.className = 'message success';
-                hellospringcircleMessage.style.display = 'block';
-                hellospringcircleForm.reset();
-                document.getElementById('hellospringcircleColorFieldsContainer').innerHTML = '';
-                updateHelloSpringCircleFields();
-            } catch (error) {
-                hellospringcircleMessage.textContent = '✗ Error submitting order. Please try again.';
-                hellospringcircleMessage.className = 'message error';
-                hellospringcircleMessage.style.display = 'block';
-            } finally {
-                hellospringcircleSubmitBtn.disabled = false;
-                hellospringcircleSubmitBtn.textContent = 'Place Order';
-                hellospringcircleMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        });
-
-        // Bunny Form submission
-        const bunnyForm = document.getElementById('bunnyForm');
-        const bunnySubmitBtn = document.getElementById('bunnySubmitBtn');
-        const bunnyMessage = document.getElementById('bunnyMessage');
-
-        bunnyForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            bunnySubmitBtn.disabled = true;
-            bunnySubmitBtn.textContent = 'Submitting...';
-            bunnyMessage.style.display = 'none';
-
-            const formData = new FormData(bunnyForm);
-            const quantity = parseInt(formData.get('quantity'));
-            const pricePerUnit = 4;
-            const totalPrice = quantity * pricePerUnit;
-            
-            // Collect all bunny colors
-            const bunnies = [];
-            for (let i = 1; i <= quantity; i++) {
-                bunnies.push({
-                    bunnyNumber: i,
-                    color: formData.get(`bunny${i}Color`)
-                });
-            }
-            
-            const data = {
-                timestamp: new Date().toLocaleString(),
-                productName: formData.get('productName'),
-                name: formData.get('name'),
-                email: formData.get('email'),
-                quantity: quantity,
-                bunnies: JSON.stringify(bunnies),
-                notes: formData.get('notes') || 'None',
-                pricePerUnit: '$' + pricePerUnit,
-                totalPrice: '$' + totalPrice
-            };
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                bunnyMessage.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
-                bunnyMessage.className = 'message success';
-                bunnyMessage.style.display = 'block';
-                bunnyForm.reset();
-                document.getElementById('bunnyColorFieldsContainer').innerHTML = '';
-                updateBunnyFields();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                bunnyMessage.textContent = '✗ There was an error submitting your order. Please try again or contact us directly.';
-                bunnyMessage.className = 'message error';
-                bunnyMessage.style.display = 'block';
-            } finally {
-                bunnySubmitBtn.disabled = false;
-                bunnySubmitBtn.textContent = 'Place Order';
-                bunnyMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        });
-
-        // Desk hook quantity-based color fields
-        function updateHookQuantityFields() {
-            const quantity = parseInt(document.getElementById('hookQuantity').value) || 1;
-            const colorType = document.getElementById('hookColorType').value;
-            const container = document.getElementById('hookColorFieldsContainer');
-            container.innerHTML = '';
-
-            if (!colorType) return;
-
-            const colorOptions = `
-                <option value="">Select a color...</option>
-                <option value="White">White</option>
-                <option value="Black">Black</option>
-                <option value="Grey">Grey</option>
-                <option value="Red">Red</option>
-                <option value="Purple">Purple</option>
-                <option value="Green">Green</option>
-                <option value="Blue">Blue</option>
-                <option value="Brown">Brown</option>
-                <option value="Orange">Orange</option>
-                <option value="Yellow">Yellow</option>
-                <option value="Pink">Pink</option>
-            `;
-
-            const isSingleColor = colorType.includes('Single');
-
-            for (let i = 1; i <= quantity; i++) {
-                const hookDiv = document.createElement('div');
-                hookDiv.style.marginBottom = '30px';
-                hookDiv.style.padding = '20px';
-                hookDiv.style.background = 'rgba(70, 29, 124, 0.2)';
-                hookDiv.style.borderRadius = '10px';
-                hookDiv.style.border = '2px solid #461D7C';
-                
-                if (isSingleColor) {
-                    hookDiv.innerHTML = `
-                        <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Hook ${i}</h4>
-                        <div class="form-group">
-                            <label for="hook${i}Color">Color <span class="required">*</span></label>
-                            <select id="hook${i}Color" name="hook${i}Color" required>
-                                ${colorOptions}
-                            </select>
-                        </div>
-                    `;
-                } else {
-                    hookDiv.innerHTML = `
-                        <h4 style="color: #FDD023; margin-bottom: 15px; font-size: 1.2em;">Hook ${i}</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="hook${i}Primary">Primary Color <span class="required">*</span></label>
-                                <select id="hook${i}Primary" name="hook${i}Primary" required>
-                                    ${colorOptions}
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="hook${i}Secondary">Secondary Color <span class="required">*</span></label>
-                                <select id="hook${i}Secondary" name="hook${i}Secondary" required>
-                                    ${colorOptions}
-                                </select>
-                            </div>
-                        </div>
-                    `;
-                }
-                container.appendChild(hookDiv);
-            }
-        }
-
-        // Headphone Hook Form submission
-        const hookForm = document.getElementById('headphoneForm');
-        const hookSubmitBtn = document.getElementById('hookSubmitBtn');
-        const hookMessage = document.getElementById('hookMessage');
-
-        hookForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            hookSubmitBtn.disabled = true;
-            hookSubmitBtn.textContent = 'Submitting...';
-            hookMessage.style.display = 'none';
-
-            const formData = new FormData(hookForm);
-            const quantity = parseInt(formData.get('quantity'));
-            const colorType = formData.get('colorType');
-            const pricePerUnit = colorType.includes('Single') ? 5 : 7;
-            const totalPrice = quantity * pricePerUnit;
-            
-            // Collect all hook colors
-            const hooks = [];
-            const isSingleColor = colorType.includes('Single');
-            
-            for (let i = 1; i <= quantity; i++) {
-                if (isSingleColor) {
-                    hooks.push({
-                        hookNumber: i,
-                        color: formData.get(`hook${i}Color`)
-                    });
-                } else {
-                    hooks.push({
-                        hookNumber: i,
-                        primaryColor: formData.get(`hook${i}Primary`),
-                        secondaryColor: formData.get(`hook${i}Secondary`)
-                    });
-                }
-            }
-            
-            const data = {
-                timestamp: new Date().toLocaleString(),
-                productName: formData.get('productName'),
-                name: formData.get('name'),
-                email: formData.get('email'),
-                quantity: quantity,
-                colorType: colorType,
-                hooks: JSON.stringify(hooks),
-                notes: formData.get('notes') || 'None',
-                pricePerUnit: '$' + pricePerUnit,
-                totalPrice: '$' + totalPrice
-            };
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                hookMessage.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
-                hookMessage.className = 'message success';
-                hookMessage.style.display = 'block';
-                hookForm.reset();
-                document.getElementById('hookColorFieldsContainer').innerHTML = '';
-                
-            } catch (error) {
-                console.error('Error:', error);
-                hookMessage.textContent = '✗ There was an error submitting your order. Please try again or contact us directly.';
-                hookMessage.className = 'message error';
-                hookMessage.style.display = 'block';
-            } finally {
-                hookSubmitBtn.disabled = false;
-                hookSubmitBtn.textContent = 'Place Order';
-                hookMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        });
-
-        // Minecraft Form submission
-        const form = document.getElementById('minecraftForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const message = document.getElementById('message');
-
-        // IMPORTANT: Replace this URL with your Google Apps Script web app URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWas_0AZAp6uxbo19psijmYNjD0jxbYx18KwykmBAV-Pn3v-tj6_--MCC5WLTayftc/exec';
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
-            message.style.display = 'none';
-
-            const formData = new FormData(form);
-            const quantity = parseInt(formData.get('quantity'));
-            const pricePerUnit = 7;
-            const totalPrice = quantity * pricePerUnit;
-            
-            // Collect all plate details
-            const plates = [];
-            for (let i = 1; i <= quantity; i++) {
-                plates.push({
-                    name: formData.get(`plateName${i}`),
-                    color: formData.get(`plateColor${i}`)
-                });
-            }
-            
-            const data = {
-                timestamp: new Date().toLocaleString(),
-                productName: formData.get('productName'),
-                name: formData.get('name'),
-                email: formData.get('email'),
-                quantity: quantity,
-                plates: JSON.stringify(plates),
-                notes: formData.get('notes') || 'None',
-                pricePerUnit: '$' + pricePerUnit,
-                totalPrice: '$' + totalPrice
-            };
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                message.textContent = `✓ Order submitted! Total: $${totalPrice}. Please scroll down and pay via Venmo @hudsonvastano using the QR code below!`;
-                message.className = 'message success';
-                message.style.display = 'block';
-                form.reset();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                message.textContent = '✗ There was an error submitting your order. Please try again or contact us directly.';
-                message.className = 'message error';
-                message.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Place Order';
-                message.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        });
     </script>
 </body>
 </html>
