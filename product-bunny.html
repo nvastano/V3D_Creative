@@ -275,7 +275,7 @@
 
             <div class="product-info">
                 <h1>Bunny Silhouette</h1>
-                <div class="price">$4 each</div>
+                <div class="price">$2 each or 3 for $5</div>
                 
                 <p>Adorable bunny silhouette perfect for Easter decorations, spring decor, or year-round charm! These cute bunny profiles add a playful touch to shelves, desks, or as unique gifts.</p>
 
@@ -313,7 +313,7 @@
                 <div class="form-group">
                     <label for="quantity">Quantity <span class="required">*</span></label>
                     <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required onchange="updateFields()">
-                    <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$4 per bunny</small>
+                    <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$2 each or 3 for $5</small>
                 </div>
 
                 <div id="colorFields"></div>
@@ -338,7 +338,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbAKdAwmhsTEO1LAG45nxpaKVnzIe0OGKOK_S13ydVdwW_mZ6jhNnkhgBb4bnkSeG4yQ/exec';
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
 
         function updateFields() {
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
@@ -376,8 +376,19 @@
             
             const formData = new FormData(e.target);
             const quantity = parseInt(formData.get('quantity'));
-            const pricePerUnit = 4;
-            const totalPrice = quantity * pricePerUnit;
+            // Tiered pricing: $2 each or 3 for $5
+            let pricePerUnit, totalPrice;
+            if (quantity >= 3) {
+                // 3 or more: $5 for first 3, then $2 each additional
+                const sets = Math.floor(quantity / 3);
+                const remainder = quantity % 3;
+                totalPrice = (sets * 5) + (remainder * 2);
+                pricePerUnit = (totalPrice / quantity).toFixed(2);
+            } else {
+                // Less than 3: $2 each
+                pricePerUnit = 2;
+                totalPrice = quantity * 2;
+            }
             
             const bunnies = [];
             for (let i = 1; i <= quantity; i++) {

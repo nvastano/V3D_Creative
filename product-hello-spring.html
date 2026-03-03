@@ -275,7 +275,7 @@
 
             <div class="product-info">
                 <h1>Hello Spring Sign</h1>
-                <div class="price">$5 each</div>
+                <div class="price">$4 each</div>
                 
                 <p>Welcome the season with this charming "Hello Spring" sign! Perfect for mantels, shelves, tiered trays, or as part of your spring decor. This delicate script design brings a fresh, cheerful touch to any space.</p>
 
@@ -313,7 +313,7 @@
                 <div class="form-group">
                     <label for="quantity">Quantity <span class="required">*</span></label>
                     <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required onchange="updateFields()">
-                    <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$5 per sign</small>
+                    <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$4 per sign</small>
                 </div>
 
                 <div id="colorFields"></div>
@@ -376,7 +376,7 @@
             
             const formData = new FormData(e.target);
             const quantity = parseInt(formData.get('quantity'));
-            const pricePerUnit = 5;
+            const pricePerUnit = 4;
             const totalPrice = quantity * pricePerUnit;
             
             const signs = [];
