@@ -338,7 +338,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbAKdAwmhsTEO1LAG45nxpaKVnzIe0OGKOK_S13ydVdwW_mZ6jhNnkhgBb4bnkSeG4yQ/exec';
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
 
         function updateFields() {
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
@@ -381,7 +381,7 @@
             
             const signs = [];
             for (let i = 1; i <= quantity; i++) {
-                signs.push({ bunnyNumber: i, color: formData.get(`sign${i}Color`) });
+                signs.push({ signNumber: i, color: formData.get(`sign${i}Color`) });
             }
             
             const data = {
@@ -390,7 +390,7 @@
                 name: formData.get('name'),
                 email: formData.get('email'),
                 quantity: quantity,
-                bunnies: JSON.stringify(signs),
+                signs: JSON.stringify(signs),
                 notes: formData.get('notes') || 'None',
                 pricePerUnit: '$' + pricePerUnit,
                 totalPrice: '$' + totalPrice
