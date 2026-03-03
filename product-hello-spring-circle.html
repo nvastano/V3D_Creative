@@ -122,7 +122,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbAKdAwmhsTEO1LAG45nxpaKVnzIe0OGKOK_S13ydVdwW_mZ6jhNnkhgBb4bnkSeG4yQ/exec';
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
         function updateFields() {
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
             const container = document.getElementById('colorFields');
@@ -135,7 +135,7 @@
                 div.style.background = 'rgba(70, 29, 124, 0.2)';
                 div.style.borderRadius = '10px';
                 div.style.border = '2px solid #461D7C';
-                div.innerHTML = \`<h4 style="color: #FDD023; margin-bottom: 15px;">Sign \${i}</h4><div class="form-group"><label>Color</label><select name="sign\${i}Color" required><option value="">Select...</option>\${colors.map(c => \`<option value="\${c}">\${c}</option>\`).join('')}</select></div>\`;
+                div.innerHTML = `<h4 style="color: #FDD023; margin-bottom: 15px;">Sign ${i}</h4><div class="form-group"><label>Color</label><select name="sign${i}Color" required><option value="">Select...</option>${colors.map(c => `<option value="${c}">${c}</option>`).join('')}</select></div>`;
                 container.appendChild(div);
             }
         }
