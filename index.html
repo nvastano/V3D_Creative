@@ -2,300 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V3D Creative - Custom 3D Prints</title>
+    <title>V3D Creative</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #461D7C 0%, #000000 100%);
-            min-height: 100vh;
-            color: white;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 3px solid #461D7C;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo img {
-            height: 80px;
-            vertical-align: middle;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            background: #461D7C;
-            color: #FDD023;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 40px 40px 30px;
-            color: white;
-        }
-
-        .hero h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
-            color: #FDD023;
-        }
-
-        .hero p {
-            font-size: 1.3em;
-            margin-bottom: 20px;
-            opacity: 0.95;
-        }
-
-        /* Products Grid */
-        .products-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 40px 60px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5em;
-            color: #FDD023;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .product-card {
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 3px solid #461D7C;
-            transition: all 0.3s;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            display: block;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            border-color: #FDD023;
-            box-shadow: 0 15px 40px rgba(253, 208, 35, 0.4);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .product-card-content {
-            padding: 20px;
-        }
-
-        .product-card h3 {
-            font-size: 1.5em;
-            color: #FDD023;
-            margin-bottom: 10px;
-        }
-
-        .product-card .price {
-            font-size: 1.3em;
-            color: #FDD023;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .product-card p {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .view-details {
-            display: inline-block;
-            background: #461D7C;
-            color: #FDD023;
-            padding: 10px 25px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border: 2px solid #FDD023;
-            transition: all 0.3s;
-        }
-
-        .product-card:hover .view-details {
-            background: #FDD023;
-            color: #461D7C;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: 2px solid #FDD023;
-            color: #FDD023;
-            font-size: 1.5em;
-            padding: 5px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(0, 0, 0, 0.95);
-                flex-direction: column;
-                padding: 20px;
-                gap: 10px;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h1 {
-                font-size: 2em;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #461D7C 0%, #000000 100%); min-height: 100vh; color: white; }
+        nav { background: rgba(0, 0, 0, 0.9); padding: 15px 0; border-bottom: 3px solid #461D7C; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 80px; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 600; padding: 10px 20px; border-radius: 5px; transition: all 0.3s; }
+        .nav-links a:hover { background: #461D7C; color: #FDD023; }
+        .hero { text-align: center; padding: 40px; }
+        .hero h1 { font-size: 3em; color: #FDD023; text-shadow: 3px 3px 6px rgba(0,0,0,0.7); }
+        .hero p { font-size: 1.3em; margin-top: 10px; }
+        .products-section { max-width: 1200px; margin: 0 auto; padding: 40px; }
+        .section-title { text-align: center; font-size: 2.5em; color: #FDD023; margin-bottom: 40px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: rgba(0, 0, 0, 0.7); border-radius: 15px; overflow: hidden; border: 3px solid #461D7C; transition: all 0.3s; text-decoration: none; color: white; display: block; }
+        .product-card:hover { transform: translateY(-10px); border-color: #FDD023; box-shadow: 0 15px 40px rgba(253, 208, 35, 0.4); }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; }
+        .product-card-content { padding: 20px; }
+        .product-card h3 { font-size: 1.5em; color: #FDD023; margin-bottom: 10px; }
+        .product-card .price { font-size: 1.3em; color: #FDD023; font-weight: bold; margin-bottom: 10px; }
+        .product-card p { line-height: 1.5; margin-bottom: 15px; }
+        .view-details { display: inline-block; background: #461D7C; color: #FDD023; padding: 10px 25px; border-radius: 8px; font-weight: bold; border: 2px solid #FDD023; }
+        .product-card:hover .view-details { background: #FDD023; color: #461D7C; }
     </style>
 </head>
 <body>
     <nav>
         <div class="nav-container">
-            <div class="logo">
-                <img src="images/logo.svg" alt="V3D Creative">
-            </div>
-            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="active">Our Prints</a></li>
+            <div class="logo"><img src="images/logo.svg" alt="V3D Creative"></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Our Prints</a></li>
                 <li><a href="about.html">About Us</a></li>
             </ul>
         </div>
     </nav>
-
     <section class="hero">
         <h1>V3D Creative</h1>
         <p>Quality 3D prints for your home, office, and gaming setup</p>
     </section>
-
     <section class="products-section">
         <h2 class="section-title">Available Prints</h2>
-
         <div class="products-grid">
-            <!-- Desk Hook -->
             <a href="product-desk-hook.html" class="product-card">
                 <img src="images/headphone-hook-1.jpg" alt="Desk Hook">
                 <div class="product-card-content">
                     <h3>Desk Hook</h3>
                     <div class="price">$5 - $7</div>
-                    <p>Perfect for headphones, bags, purses, and backpacks. Single or dual color options.</p>
+                    <p>Perfect for headphones, bags, purses, and backpacks.</p>
                     <span class="view-details">View Details →</span>
                 </div>
             </a>
-
-            <!-- Bunny Silhouette -->
             <a href="product-bunny.html" class="product-card">
-                <img src="images/bunny-1.jpg" alt="Bunny Silhouette">
+                <img src="images/bunny-1.jpg" alt="Bunny">
                 <div class="product-card-content">
                     <h3>Bunny Silhouette</h3>
-                    <div class="price">$4</div>
-                    <p>Adorable bunny silhouette perfect for Easter and spring decorations.</p>
+                    <div class="price">$2 or 3 for $5</div>
+                    <p>Adorable bunny silhouette for Easter and spring.</p>
                     <span class="view-details">View Details →</span>
                 </div>
             </a>
-
-            <!-- Hello Spring Sign -->
             <a href="product-hello-spring.html" class="product-card">
-                <img src="images/hello-spring-1.jpg" alt="Hello Spring Sign">
+                <img src="images/hello-spring-1.jpg" alt="Hello Spring">
                 <div class="product-card-content">
                     <h3>Hello Spring Sign</h3>
-                    <div class="price">$5</div>
-                    <p>Beautiful script design perfect for tiered trays and spring decor.</p>
+                    <div class="price">$4</div>
+                    <p>Beautiful script design for tiered trays.</p>
                     <span class="view-details">View Details →</span>
                 </div>
             </a>
-
-            <!-- Hello Spring Circle -->
             <a href="product-hello-spring-circle.html" class="product-card">
                 <img src="images/hello-spring-circle-1.jpg" alt="Hello Spring Circle">
                 <div class="product-card-content">
                     <h3>Hello Spring Circle</h3>
-                    <div class="price">$6</div>
-                    <p>Elegant circular design with butterfly accent for wreaths and walls.</p>
+                    <div class="price">$4</div>
+                    <p>Elegant circular design with butterfly accent.</p>
                     <span class="view-details">View Details →</span>
                 </div>
             </a>
-
-            <!-- Minecraft Nameplate -->
             <a href="product-minecraft.html" class="product-card">
-                <img src="images/minecraft-1.jpg" alt="Minecraft Name Plate">
+                <img src="images/minecraft-1.jpg" alt="Minecraft">
                 <div class="product-card-content">
                     <h3>Minecraft Name Plate</h3>
                     <div class="price">$7</div>
-                    <p>Custom name plates with authentic blocky design and grass block base.</p>
+                    <p>Custom name plates with authentic blocky design.</p>
                     <span class="view-details">View Details →</span>
                 </div>
             </a>
         </div>
     </section>
-
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
-    </script>
 </body>
 </html>
