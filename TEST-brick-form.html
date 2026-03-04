@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head><title>TEST Brick Form</title></head>
+<body style="padding: 50px; background: #333; color: white; font-family: Arial;">
+<h1>TEST - Brick Letter Name Plate</h1>
+<form id="testForm">
+    <p>Name: <input type="text" id="custName" required></p>
+    <p>Email: <input type="email" id="custEmail" required></p>
+    <p>Plate Name: <input type="text" id="plateName" required></p>
+    <p>Plate Color: <select id="plateColor" required>
+        <option value="">Select...</option>
+        <option value="Red">Red</option>
+        <option value="Blue">Blue</option>
+    </select></p>
+    <button type="submit">TEST SUBMIT</button>
+</form>
+<div id="result" style="margin-top: 20px; padding: 20px; background: #555;"></div>
+
+<script>
+document.getElementById('testForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const data = {
+        timestamp: new Date().toLocaleString(),
+        productName: 'Brick Letter Name Plate',
+        name: document.getElementById('custName').value,
+        email: document.getElementById('custEmail').value,
+        quantity: 1,
+        plates: JSON.stringify([{
+            name: document.getElementById('plateName').value,
+            color: document.getElementById('plateColor').value
+        }]),
+        pricePerUnit: '$7',
+        totalPrice: '$7',
+        notes: 'TEST ORDER'
+    };
+    
+    console.log('Sending data:', data);
+    document.getElementById('result').innerHTML = 'Sending...<br>' + JSON.stringify(data, null, 2);
+    
+    try {
+        await fetch('https://script.google.com/macros/s/AKfycbzbAKdAwmhsTEO1LAG45nxpaKVnzIe0OGKOK_S13ydVdwW_mZ6jhNnkhgBb4bnkSeG4yQ/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        document.getElementById('result').innerHTML = '<b style="color: lime;">SUCCESS! Check your Google Sheet.</b>';
+    } catch (error) {
+        document.getElementById('result').innerHTML = '<b style="color: red;">ERROR: ' + error + '</b>';
+    }
+});
+</script>
+</body>
+</html>
