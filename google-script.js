@@ -1,6 +1,3 @@
-// Google Apps Script for 3D Printing Store
-// This script receives all form submissions and adds them to your Google Sheet
-
 function doPost(e) {
   try {
     // Open your specific spreadsheet by ID
@@ -10,20 +7,8 @@ function doPost(e) {
     // Parse the incoming data
     const data = JSON.parse(e.postData.contents);
     
-    // Determine which type of product was ordered
-    if (data.productName === 'Minecraft Custom Name Plate') {
-      handleMinecraftOrder(spreadsheet, data);
-    } else if (data.productName === 'Headphone/Backpack/Purse Desk Hook') {
-      handleDeskHookOrder(spreadsheet, data);
-    } else if (data.productName === 'Bunny Silhouette') {
-      handleBunnyOrder(spreadsheet, data);
-    } else if (data.productName === 'Hello Spring Sign') {
-      handleHelloSpringOrder(spreadsheet, data);
-    } else if (data.productName === 'Hello Spring Circle Sign') {
-      handleHelloSpringCircleOrder(spreadsheet, data);
-    } else if (data.formType === 'Custom Print Request') {
-      handleCustomRequest(spreadsheet, data);
-    }
+    // Handle all orders in one central sheet
+    handleOrder(spreadsheet, data);
     
     // Return success response
     return ContentService.createTextOutput(JSON.stringify({
@@ -40,12 +25,12 @@ function doPost(e) {
   }
 }
 
-function handleMinecraftOrder(spreadsheet, data) {
-  // Get or create "Minecraft Orders" sheet
-  let sheet = spreadsheet.getSheetByName('Minecraft Orders');
+function handleOrder(spreadsheet, data) {
+  // Get or create "All Orders" sheet
+  let sheet = spreadsheet.getSheetByName('All Orders');
   
   if (!sheet) {
-    sheet = spreadsheet.insertSheet('Minecraft Orders');
+    sheet = spreadsheet.insertSheet('All Orders');
     
     // Create headers
     sheet.appendRow([
@@ -53,8 +38,8 @@ function handleMinecraftOrder(spreadsheet, data) {
       'Product',
       'Name',
       'Email',
-      'Plate Name',
-      'Color',
+      'Quantity Ordered',
+      'Item Details',
       'Price Per Unit',
       'Notes',
       'Status'
@@ -65,231 +50,93 @@ function handleMinecraftOrder(spreadsheet, data) {
     headerRange.setFontWeight('bold');
     headerRange.setBackground('#667eea');
     headerRange.setFontColor('#ffffff');
+    
+    // Freeze header row
+    sheet.setFrozenRows(1);
   }
   
-  // Parse plates array and add one row per plate
-  const plates = JSON.parse(data.plates);
+  // Determine product type and add rows accordingly
+  const productName = data.productName;
   
-  plates.forEach(plate => {
-    sheet.appendRow([
-      data.timestamp,
-      data.productName,
-      data.name,
-      data.email,
-      plate.name,
-      plate.color,
-      data.pricePerUnit,
-      data.notes,
-      'New Order'
-    ]);
-  });
+  if (productName === 'Minecraft Custom Name Plate') {
+    // One row per nameplate
+    const plates = JSON.parse(data.plates);
+    plates.forEach(plate => {
+      sheet.appendRow([
+        data.timestamp,
+        productName,
+        data.name,
+        data.email,
+        1,  // Always 1 - each row is one item
+        `Name: ${plate.name}, Color: ${plate.color}`,
+        data.pricePerUnit,
+        data.notes,
+        'New Order'
+      ]);
+    });
+    
+  } else if (productName === 'Headphone/Backpack/Purse Desk Hook') {
+    // One row per hook
+    const hooks = JSON.parse(data.hooks);
+    const isSingleColor = data.colorType.includes('Single');
+    
+    hooks.forEach(hook => {
+      const details = isSingleColor 
+        ? `Color: ${hook.color}`
+        : `Primary: ${hook.primaryColor}, Secondary: ${hook.secondaryColor}`;
+      
+      sheet.appendRow([
+        data.timestamp,
+        productName,
+        data.name,
+        data.email,
+        1,  // Always 1 - each row is one item
+        details,
+        data.pricePerUnit,
+        data.notes,
+        'New Order'
+      ]);
+    });
+    
+  } else if (productName === 'Bunny Silhouette' || 
+             productName === 'Hello Spring Sign' || 
+             productName === 'Hello Spring Circle Sign' ||
+             productName === 'Brick Letter Name Plate') {
+    // One row per item (bunny, sign, or brick plate)
+    let items;
+    if (productName === 'Bunny Silhouette') {
+      items = JSON.parse(data.bunnies);
+    } else if (productName === 'Brick Letter Name Plate') {
+      items = JSON.parse(data.plates);
+    } else {
+      items = JSON.parse(data.signs);
+    }
+    
+    items.forEach(item => {
+      const details = productName === 'Brick Letter Name Plate'
+        ? `Name: ${item.name}, Color: ${item.color}`
+        : `Color: ${item.color}`;
+      
+      sheet.appendRow([
+        data.timestamp,
+        productName,
+        data.name,
+        data.email,
+        1,  // Always 1 - each row is one item
+        details,
+        data.pricePerUnit,
+        data.notes,
+        'New Order'
+      ]);
+    });
+  }
   
   // Auto-resize columns
   sheet.autoResizeColumns(1, 9);
 }
 
-function handleDeskHookOrder(spreadsheet, data) {
-  // Get or create "Desk Hook Orders" sheet
-  let sheet = spreadsheet.getSheetByName('Desk Hook Orders');
-  
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet('Desk Hook Orders');
-    
-    // Create headers
-    sheet.appendRow([
-      'Timestamp',
-      'Product',
-      'Name',
-      'Email',
-      'Color Type',
-      'Primary Color',
-      'Secondary Color',
-      'Price Per Unit',
-      'Notes',
-      'Status'
-    ]);
-    
-    // Format header row
-    const headerRange = sheet.getRange(1, 1, 1, 10);
-    headerRange.setFontWeight('bold');
-    headerRange.setBackground('#667eea');
-    headerRange.setFontColor('#ffffff');
-  }
-  
-  // Parse hooks array and add one row per hook
-  const hooks = JSON.parse(data.hooks);
-  const isSingleColor = data.colorType.includes('Single');
-  
-  hooks.forEach(hook => {
-    if (isSingleColor) {
-      sheet.appendRow([
-        data.timestamp,
-        data.productName,
-        data.name,
-        data.email,
-        data.colorType,
-        hook.color,
-        '',
-        data.pricePerUnit,
-        data.notes,
-        'New Order'
-      ]);
-    } else {
-      sheet.appendRow([
-        data.timestamp,
-        data.productName,
-        data.name,
-        data.email,
-        data.colorType,
-        hook.primaryColor,
-        hook.secondaryColor,
-        data.pricePerUnit,
-        data.notes,
-        'New Order'
-      ]);
-    }
-  });
-  
-  // Auto-resize columns
-  sheet.autoResizeColumns(1, 10);
-}
-
-function handleBunnyOrder(spreadsheet, data) {
-  // Get or create "Bunny Orders" sheet
-  let sheet = spreadsheet.getSheetByName('Bunny Orders');
-  
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet('Bunny Orders');
-    
-    // Create headers
-    sheet.appendRow([
-      'Timestamp',
-      'Product',
-      'Name',
-      'Email',
-      'Color',
-      'Price Per Unit',
-      'Notes',
-      'Status'
-    ]);
-    
-    // Format header row
-    const headerRange = sheet.getRange(1, 1, 1, 8);
-    headerRange.setFontWeight('bold');
-    headerRange.setBackground('#667eea');
-    headerRange.setFontColor('#ffffff');
-  }
-  
-  // Parse bunnies array and add one row per bunny
-  const bunnies = JSON.parse(data.bunnies);
-  
-  bunnies.forEach(bunny => {
-    sheet.appendRow([
-      data.timestamp,
-      data.productName,
-      data.name,
-      data.email,
-      bunny.color,
-      data.pricePerUnit,
-      data.notes,
-      'New Order'
-    ]);
-  });
-  
-  // Auto-resize columns
-  sheet.autoResizeColumns(1, 8);
-}
-
-function handleHelloSpringOrder(spreadsheet, data) {
-  let sheet = spreadsheet.getSheetByName('Hello Spring Orders');
-  
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet('Hello Spring Orders');
-    sheet.appendRow(['Timestamp', 'Product', 'Name', 'Email', 'Color', 'Price Per Unit', 'Notes', 'Status']);
-    const headerRange = sheet.getRange(1, 1, 1, 8);
-    headerRange.setFontWeight('bold');
-    headerRange.setBackground('#667eea');
-    headerRange.setFontColor('#ffffff');
-  }
-  
-  const signs = JSON.parse(data.signs);
-  signs.forEach(sign => {
-    sheet.appendRow([data.timestamp, data.productName, data.name, data.email, sign.color, data.pricePerUnit, data.notes, 'New Order']);
-  });
-  sheet.autoResizeColumns(1, 8);
-}
-
-function handleHelloSpringCircleOrder(spreadsheet, data) {
-  let sheet = spreadsheet.getSheetByName('Hello Spring Circle Orders');
-  
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet('Hello Spring Circle Orders');
-    sheet.appendRow(['Timestamp', 'Product', 'Name', 'Email', 'Color', 'Price Per Unit', 'Notes', 'Status']);
-    const headerRange = sheet.getRange(1, 1, 1, 8);
-    headerRange.setFontWeight('bold');
-    headerRange.setBackground('#667eea');
-    headerRange.setFontColor('#ffffff');
-  }
-  
-  const signs = JSON.parse(data.signs);
-  signs.forEach(sign => {
-    sheet.appendRow([data.timestamp, data.productName, data.name, data.email, sign.color, data.pricePerUnit, data.notes, 'New Order']);
-  });
-  sheet.autoResizeColumns(1, 8);
-}
-
-function handleCustomRequest(spreadsheet, data) {
-  // Get or create "Custom Requests" sheet
-  let sheet = spreadsheet.getSheetByName('Custom Requests');
-  
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet('Custom Requests');
-    
-    // Create headers
-    sheet.appendRow([
-      'Timestamp',
-      'First Name',
-      'Last Name',
-      'Email',
-      'Phone',
-      'Project Description',
-      'Has File?',
-      'Preferred Color',
-      'Quantity',
-      'Timeline',
-      'Additional Notes',
-      'Status'
-    ]);
-    
-    // Format header row
-    const headerRange = sheet.getRange(1, 1, 1, 12);
-    headerRange.setFontWeight('bold');
-    headerRange.setBackground('#667eea');
-    headerRange.setFontColor('#ffffff');
-  }
-  
-  // Add the request data
-  sheet.appendRow([
-    data.timestamp,
-    data.firstName,
-    data.lastName,
-    data.email,
-    data.phone,
-    data.projectDescription,
-    data.hasFile,
-    data.preferredColor,
-    data.quantity,
-    data.timeline,
-    data.additionalNotes,
-    'New Request'
-  ]);
-  
-  // Auto-resize columns
-  sheet.autoResizeColumns(1, 12);
-}
-
-// Test function for Minecraft orders
-function testMinecraftOrder() {
+// Test function
+function testOrder() {
   const testData = {
     postData: {
       contents: JSON.stringify({
@@ -297,65 +144,12 @@ function testMinecraftOrder() {
         productName: 'Minecraft Custom Name Plate',
         name: 'Test Customer',
         email: 'test@example.com',
-        quantity: '2',
         plates: JSON.stringify([
-          { name: 'STEVE', color: 'Standard Grey' },
+          { name: 'STEVE', color: 'Blue' },
           { name: 'ALEX', color: 'Pink' }
         ]),
         pricePerUnit: '$7',
-        totalPrice: '$14',
-        notes: 'This is a test order'
-      })
-    }
-  };
-  
-  const result = doPost(testData);
-  Logger.log(result.getContent());
-}
-
-// Test function for desk hook orders
-function testDeskHookOrder() {
-  const testData = {
-    postData: {
-      contents: JSON.stringify({
-        timestamp: new Date().toLocaleString(),
-        productName: 'Headphone/Backpack/Purse Desk Hook',
-        name: 'Test Customer',
-        email: 'test@example.com',
-        quantity: '2',
-        colorType: 'Dual Color - $7',
-        hooks: JSON.stringify([
-          { hookNumber: 1, primaryColor: 'Black', secondaryColor: 'White' },
-          { hookNumber: 2, primaryColor: 'Purple', secondaryColor: 'Gold' }
-        ]),
-        pricePerUnit: '$7',
-        totalPrice: '$14',
-        notes: 'Test dual color hooks'
-      })
-    }
-  };
-  
-  const result = doPost(testData);
-  Logger.log(result.getContent());
-}
-
-// Test function for custom requests
-function testCustomRequest() {
-  const testData = {
-    postData: {
-      contents: JSON.stringify({
-        timestamp: new Date().toLocaleString(),
-        formType: 'Custom Print Request',
-        firstName: 'Test',
-        lastName: 'Customer',
-        email: 'test@example.com',
-        phone: '555-1234',
-        projectDescription: 'I need a custom phone stand',
-        hasFile: 'No - need help designing',
-        preferredColor: 'Black',
-        quantity: '1',
-        timeline: 'Within 2 weeks',
-        additionalNotes: 'This is a test request'
+        notes: 'Test order'
       })
     }
   };
