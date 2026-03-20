@@ -287,7 +287,7 @@
 
             <div class="product-info">
                 <h1>Headphone/Backpack/Purse Desk Hook</h1>
-                <div class="price">$5 Single Color | $6 Dual Color</div>
+                <div class="price">$5 flat rate</div>
                 
                 <p>Keep your workspace organized! This versatile desk hook is perfect for hanging headphones, bags, purses, backpacks, or anything you want within easy reach. Attaches securely to your desk or shelf edge.</p>
 
@@ -424,7 +424,7 @@
             const formData = new FormData(e.target);
             const quantity = parseInt(formData.get('quantity'));
             const colorType = formData.get('colorType');
-            const pricePerUnit = colorType.includes('Single') ? 5 : 6;
+            const pricePerUnit = 5;
             const totalPrice = quantity * pricePerUnit;
             
             const hooks = [];
