@@ -13,13 +13,16 @@
         .login-box { background: rgba(0,0,0,0.85); border: 3px solid #461D7C; border-radius: 15px; padding: 40px; width: 100%; max-width: 360px; text-align: center; }
         .login-box h1 { color: #FDD023; font-size: 2em; margin-bottom: 6px; }
         .login-box .subtitle { color: #aaa; margin-bottom: 30px; font-size: 0.9em; }
-        input[type="password"] {
+        input[type="password"], input[type="url"] {
             width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.08);
             border: 2px solid #461D7C; border-radius: 8px; color: white;
-            font-size: 1.05em; margin-bottom: 16px; text-align: center; letter-spacing: 2px;
+            font-size: 1.05em; margin-bottom: 16px;
         }
-        input[type="password"]:focus { outline: none; border-color: #FDD023; }
+        input[type="password"] { text-align: center; letter-spacing: 2px; }
+        input[type="password"]:focus, input[type="url"]:focus { outline: none; border-color: #FDD023; }
         input::placeholder { color: #555; letter-spacing: normal; }
+        .setup-label { font-size: 0.78em; color: #888; text-align: left; margin-bottom: 6px; margin-top: -8px; display: block; }
+        .setup-note { font-size: 0.8em; color: #888; margin-bottom: 20px; padding: 10px; background: rgba(70,29,124,0.2); border-radius: 8px; line-height: 1.5; }
         .btn-primary { width: 100%; padding: 12px; background: #461D7C; color: #FDD023; border: 2px solid #FDD023; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .btn-primary:hover { background: #FDD023; color: #461D7C; }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -82,6 +85,13 @@
     <div class="login-box">
         <h1>V3D Creative</h1>
         <p class="subtitle">Admin Dashboard</p>
+
+        <!-- One-time setup: only shown if worker URL not saved yet -->
+        <div id="setupSection" style="display:none;">
+            <p class="setup-note">One-time setup — find your Worker URL at<br><strong>dash.cloudflare.com → Workers & Pages → v3d-orders</strong></p>
+            <input type="url" id="inputUrl" placeholder="https://v3d-orders.xxx.workers.dev" autocomplete="off">
+        </div>
+
         <input type="password" id="inputKey" placeholder="Password" autocomplete="current-password">
         <button class="btn-primary" id="loginBtn">Sign In</button>
         <div class="login-error" id="loginError"></div>
@@ -150,16 +160,15 @@
 </div>
 
 <script>
-// ── CONFIG — update WORKER_URL after deploying the Cloudflare Worker ──────────
-const WORKER_URL = '';
-// ─────────────────────────────────────────────────────────────────────────────
+const AUTH_KEY   = 'v3d_admin_key';
+const URL_KEY    = 'v3d_worker_url';
 
-const AUTH_KEY = 'v3d_admin_key';
 let allOrders = [];
 let sortCol = 'id';
 let sortDir = 'desc';
 
 function savedKey() { return localStorage.getItem(AUTH_KEY) || ''; }
+function savedUrl() { return localStorage.getItem(URL_KEY) || ''; }
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
 
@@ -168,6 +177,9 @@ function showLogin(err) {
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginError').textContent = err || '';
     document.getElementById('inputKey').value = '';
+    // Show URL field only if no URL saved yet
+    const hasUrl = !!savedUrl();
+    document.getElementById('setupSection').style.display = hasUrl ? 'none' : 'block';
 }
 
 function showDashboard() {
@@ -181,24 +193,27 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
     errEl.textContent = '';
     if (!key) { errEl.textContent = 'Please enter the password.'; return; }
 
-    if (!WORKER_URL) {
-        errEl.textContent = 'Worker not deployed yet — check back soon!';
-        return;
+    // Get URL from storage or from the one-time setup field
+    let url = savedUrl();
+    if (!url) {
+        url = (document.getElementById('inputUrl').value || '').trim().replace(/\/$/, '');
+        if (!url) { errEl.textContent = 'Please enter the Worker URL (one time only).'; return; }
     }
 
     const btn = document.getElementById('loginBtn');
     btn.textContent = 'Signing in…'; btn.disabled = true;
     try {
-        const res = await fetch(`${WORKER_URL}/orders?key=${encodeURIComponent(key)}`);
+        const res = await fetch(`${url}/orders?key=${encodeURIComponent(key)}`);
         if (res.status === 401) { errEl.textContent = 'Incorrect password.'; return; }
-        if (!res.ok) { errEl.textContent = `Server error (${res.status}).`; return; }
+        if (!res.ok) { errEl.textContent = `Server error (${res.status}) — check the URL.`; return; }
         const data = await res.json();
         localStorage.setItem(AUTH_KEY, key);
+        localStorage.setItem(URL_KEY, url);
         allOrders = Array.isArray(data) ? data : [];
         showDashboard();
         renderAll();
     } catch {
-        errEl.textContent = 'Could not reach server. Try again.';
+        errEl.textContent = 'Could not reach server. Check the URL and try again.';
     } finally {
         btn.textContent = 'Sign In'; btn.disabled = false;
     }
@@ -220,11 +235,12 @@ document.getElementById('refreshBtn').addEventListener('click', loadOrders);
 
 async function loadOrders() {
     const key = savedKey();
+    const url = savedUrl();
     document.getElementById('loadingMsg').style.display = 'block';
     document.getElementById('ordersTable').style.display = 'none';
     document.getElementById('noResults').style.display = 'none';
     try {
-        const res = await fetch(`${WORKER_URL}/orders?key=${encodeURIComponent(key)}`);
+        const res = await fetch(`${url}/orders?key=${encodeURIComponent(key)}`);
         if (res.status === 401) { showLogin('Session expired — please sign in again.'); return; }
         allOrders = await res.json();
         renderAll();
@@ -359,7 +375,7 @@ document.querySelectorAll('thead th[data-col]').forEach(th => {
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 const key = savedKey();
-if (key && WORKER_URL) { showDashboard(); loadOrders(); }
+if (key && savedUrl()) { showDashboard(); loadOrders(); }
 else { showLogin(); }
 </script>
 </body>
