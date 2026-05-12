@@ -17,16 +17,29 @@
         .back-link:hover { text-decoration: underline; }
         .product-container { max-width: 1200px; margin: 0 auto 60px; padding: 0 40px; }
 
-        /* Top product display grid */
-        .product-display { background: rgba(0,0,0,0.7); border-radius: 20px; padding: 40px; border: 3px solid #461D7C; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        /* Section 1: Product photo + info */
+        .product-display { background: rgba(0,0,0,0.7); border-radius: 20px; padding: 40px; border: 3px solid #461D7C; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 30px; }
+        .product-photo img { width: 100%; border-radius: 12px; border: 2px solid #461D7C; object-fit: cover; }
+        .product-info h1 { color: #FDD023; font-size: 2.3em; margin-bottom: 15px; }
+        .price-block { margin-bottom: 20px; }
+        .price { font-size: 2em; color: #FDD023; font-weight: bold; }
+        .price-sub { font-size: 0.92em; color: rgba(255,255,255,0.65); margin-top: 5px; }
+        .product-info p { line-height: 1.6; margin-bottom: 18px; font-size: 1.05em; }
+        .features { margin-bottom: 20px; }
+        .features h3 { color: #FDD023; margin-bottom: 10px; }
+        .features ul { list-style-position: inside; line-height: 1.9; }
 
-        /* Live preview side */
-        .preview-section { display: flex; flex-direction: column; gap: 18px; }
-        .preview-label { color: #FDD023; font-size: 1.15em; font-weight: bold; text-align: center; letter-spacing: 0.5px; }
-        #previewCanvas { width: 100%; border-radius: 12px; background: #111; display: block; border: 2px solid rgba(70,29,124,0.5); }
+        /* Section 2: Design your sign */
+        .design-section { background: rgba(0,0,0,0.7); border-radius: 20px; padding: 40px; border: 3px solid #461D7C; display: grid; grid-template-columns: auto 1fr; gap: 40px; margin-bottom: 30px; align-items: start; }
+        .design-label { color: #FDD023; font-size: 1.3em; font-weight: bold; text-align: center; margin-bottom: 16px; letter-spacing: 0.5px; }
 
-        .control-group { margin-bottom: 4px; }
-        .control-group > label { display: block; color: #FDD023; font-weight: 600; margin-bottom: 6px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.5px; }
+        /* Portrait canvas */
+        .canvas-col { display: flex; flex-direction: column; align-items: center; }
+        #previewCanvas { border-radius: 10px; background: #111; display: block; border: 2px solid rgba(70,29,124,0.4); width: 240px; height: 360px; }
+
+        /* Controls */
+        .controls-col { display: flex; flex-direction: column; gap: 18px; }
+        .control-group > label { display: block; color: #FDD023; font-weight: 600; margin-bottom: 7px; font-size: 0.88em; text-transform: uppercase; letter-spacing: 0.5px; }
         .control-group input[type="text"] { width: 100%; padding: 10px 14px; border-radius: 8px; border: 2px solid #461D7C; background: rgba(255,255,255,0.1); color: white; font-size: 1em; transition: border-color 0.2s; }
         .control-group input[type="text"]:focus { outline: none; border-color: #FDD023; }
         .control-group input[type="text"]::placeholder { color: rgba(255,255,255,0.35); }
@@ -35,8 +48,8 @@
         .preset-btn { background: rgba(70,29,124,0.35); border: 1px solid #461D7C; color: rgba(255,255,255,0.8); padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 0.76em; transition: all 0.2s; white-space: nowrap; }
         .preset-btn:hover { background: #461D7C; color: #FDD023; border-color: #FDD023; }
 
-        .color-swatches { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }
-        .swatch { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 3px solid rgba(255,255,255,0.15); transition: all 0.2s; position: relative; }
+        .color-swatches { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 7px; }
+        .swatch { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 3px solid rgba(255,255,255,0.15); transition: all 0.2s; }
         .swatch:hover { transform: scale(1.15); }
         .swatch.selected { border-color: #FDD023; transform: scale(1.22); box-shadow: 0 0 8px rgba(253,208,35,0.9); }
         .swatch[data-color="White"]  { background: #F0F0F0; }
@@ -62,16 +75,6 @@
         .price-badge { background: #FDD023; color: #461D7C; padding: 2px 9px; border-radius: 10px; font-size: 0.78em; font-weight: bold; }
         #textColorGroup { display: none; margin-top: 12px; }
 
-        /* Product info side */
-        .product-info h1 { color: #FDD023; font-size: 2.3em; margin-bottom: 15px; }
-        .price-block { margin-bottom: 20px; }
-        .price { font-size: 2em; color: #FDD023; font-weight: bold; }
-        .price-sub { font-size: 0.95em; color: rgba(255,255,255,0.65); margin-top: 5px; }
-        .product-info p { line-height: 1.6; margin-bottom: 18px; font-size: 1.05em; }
-        .features { margin-bottom: 20px; }
-        .features h3 { color: #FDD023; margin-bottom: 10px; }
-        .features ul { list-style-position: inside; line-height: 1.9; }
-
         /* Order form */
         .order-form { background: rgba(0,0,0,0.8); padding: 30px; border-radius: 15px; border: 2px solid #461D7C; }
         .order-form h2 { color: #FDD023; margin-bottom: 25px; font-size: 2em; }
@@ -85,7 +88,6 @@
         }
         textarea { min-height: 80px; resize: vertical; }
 
-        /* Order summary */
         .order-summary { background: rgba(70,29,124,0.25); border: 2px solid #461D7C; border-radius: 10px; padding: 16px; margin-bottom: 20px; }
         .order-summary h4 { color: #FDD023; margin-bottom: 10px; font-size: 1em; text-transform: uppercase; letter-spacing: 0.5px; }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.93em; color: rgba(255,255,255,0.85); }
@@ -98,12 +100,15 @@
         .message.success { background: rgba(76,175,80,0.8); border: 2px solid #4CAF50; }
         .message.error { background: rgba(220,53,69,0.8); border: 2px solid #dc3545; }
 
-        /* Venmo */
         .venmo-section { background: linear-gradient(135deg, #461D7C 0%, #FDD023 100%); padding: 25px; border-radius: 12px; text-align: center; border: 2px solid #FDD023; margin-top: 40px; }
         .venmo-section h3 { color: #000; font-size: 1.5em; margin-bottom: 12px; }
         .venmo-section p { color: #000; font-weight: 600; margin-bottom: 15px; }
         .venmo-section img { max-width: 250px; background: white; padding: 15px; border-radius: 10px; }
 
+        @media (max-width: 900px) {
+            .design-section { grid-template-columns: 1fr; }
+            .canvas-col { margin: 0 auto; }
+        }
         @media (max-width: 768px) {
             .product-display { grid-template-columns: 1fr; }
             .form-row { grid-template-columns: 1fr; }
@@ -126,44 +131,74 @@
     <a href="index.html" class="back-link">← Back to All Prints</a>
 
     <div class="product-container">
+
+        <!-- SECTION 1: Photo + Product Info -->
         <div class="product-display">
+            <div class="product-photo">
+                <img src="images/funny-signs-example.jpg" alt="Funny Work Signs — Coffee Then Work, Social Battery, Error 404 Motivation">
+            </div>
+            <div class="product-info">
+                <h1>Funny Work Signs</h1>
+                <div class="price-block">
+                    <div class="price">$5 <span style="font-size:0.45em;color:rgba(255,255,255,0.65);font-weight:normal;">single color</span></div>
+                    <div class="price-sub">$8 for dual color (sign + contrasting text &amp; border)</div>
+                </div>
+                <p>Put your personality on your desk. Type any message, pick your colors, and see exactly what you'll get — live preview updates instantly below.</p>
+                <div class="features">
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>Fully custom text — anything you want</li>
+                        <li>A-frame sandwich board style with stand</li>
+                        <li>Live color preview before ordering</li>
+                        <li>11 color options for sign &amp; text</li>
+                        <li>High-quality PLA filament</li>
+                        <li>Perfect coworker or office gift</li>
+                    </ul>
+                </div>
+                <p><strong>Turnaround:</strong> 2–3 days</p>
+                <p><strong>Great for:</strong> Desk humor, Secret Santa, office gifts</p>
+            </div>
+        </div>
 
-            <!-- LEFT: Live Preview + Controls -->
-            <div class="preview-section">
-                <div class="preview-label">Live Preview — Design Your Sign</div>
-                <canvas id="previewCanvas" width="540" height="210"></canvas>
+        <!-- SECTION 2: Design Your Sign -->
+        <div class="design-section">
+            <div class="canvas-col">
+                <div class="design-label">Live Preview</div>
+                <canvas id="previewCanvas" width="240" height="360"></canvas>
+            </div>
 
+            <div class="controls-col">
                 <div class="control-group">
                     <label>Sign Text</label>
-                    <input type="text" id="signText" maxlength="40" placeholder="Type anything..." value="I Survived Another Meeting">
+                    <input type="text" id="signText" maxlength="40" placeholder="Type anything..." value="Coffee, Then Work">
                     <div class="presets">
-                        <button class="preset-btn" onclick="setPreset(this)">I Survived Another Meeting</button>
+                        <button class="preset-btn" onclick="setPreset(this)">Coffee, Then Work</button>
                         <button class="preset-btn" onclick="setPreset(this)">Not My Problem</button>
+                        <button class="preset-btn" onclick="setPreset(this)">Error 404 Motivation</button>
+                        <button class="preset-btn" onclick="setPreset(this)">Social Battery Low</button>
                         <button class="preset-btn" onclick="setPreset(this)">World's Okayest Employee</button>
                         <button class="preset-btn" onclick="setPreset(this)">Please Do Not Disturb</button>
-                        <button class="preset-btn" onclick="setPreset(this)">Coffee First</button>
                         <button class="preset-btn" onclick="setPreset(this)">In a Meeting (Probably)</button>
                         <button class="preset-btn" onclick="setPreset(this)">Pretending to Work</button>
                         <button class="preset-btn" onclick="setPreset(this)">My Patience Has Limits</button>
                         <button class="preset-btn" onclick="setPreset(this)">Do Not Disturb</button>
-                        <button class="preset-btn" onclick="setPreset(this)">Gone Fishing</button>
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label>Sign Color</label>
                     <div class="color-swatches" id="signColorSwatches">
-                        <div class="swatch selected" data-color="White"  title="White"  onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Black"  title="Black"  onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Grey"   title="Grey"   onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Red"    title="Red"    onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Purple" title="Purple" onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Green"  title="Green"  onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Blue"   title="Blue"   onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Brown"  title="Brown"  onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Orange" title="Orange" onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Yellow" title="Yellow" onclick="selectSignColor(this)"></div>
-                        <div class="swatch"          data-color="Pink"   title="Pink"   onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="White"  title="White"  onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Black"  title="Black"  onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Grey"   title="Grey"   onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Red"    title="Red"    onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Purple" title="Purple" onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Green"  title="Green"  onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Blue"   title="Blue"   onclick="selectSignColor(this)"></div>
+                        <div class="swatch selected" data-color="Brown"  title="Brown"  onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Orange" title="Orange" onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Yellow" title="Yellow" onclick="selectSignColor(this)"></div>
+                        <div class="swatch" data-color="Pink"   title="Pink"   onclick="selectSignColor(this)"></div>
                     </div>
                 </div>
 
@@ -173,14 +208,14 @@
                             <input type="checkbox" id="dualColorToggle" onchange="toggleDual()">
                             <span class="slider"></span>
                         </label>
-                        <span class="dual-label">Dual Color — text is a different color</span>
+                        <span class="dual-label">Dual Color — text &amp; border are a different color</span>
                         <span class="price-badge">+$3</span>
                     </div>
                     <div id="textColorGroup">
-                        <label style="margin-top:8px;">Text Color</label>
+                        <label style="margin-top:10px;display:block;color:#FDD023;font-weight:600;font-size:0.88em;text-transform:uppercase;letter-spacing:0.5px;">Text &amp; Border Color</label>
                         <div class="color-swatches" id="textColorSwatches">
-                            <div class="swatch"          data-color="White"  title="White"  onclick="selectTextColor(this)"></div>
-                            <div class="swatch selected" data-color="Black"  title="Black"  onclick="selectTextColor(this)"></div>
+                            <div class="swatch selected" data-color="White"  title="White"  onclick="selectTextColor(this)"></div>
+                            <div class="swatch"          data-color="Black"  title="Black"  onclick="selectTextColor(this)"></div>
                             <div class="swatch"          data-color="Grey"   title="Grey"   onclick="selectTextColor(this)"></div>
                             <div class="swatch"          data-color="Red"    title="Red"    onclick="selectTextColor(this)"></div>
                             <div class="swatch"          data-color="Purple" title="Purple" onclick="selectTextColor(this)"></div>
@@ -194,40 +229,13 @@
                     </div>
                 </div>
             </div>
-
-            <!-- RIGHT: Product Info -->
-            <div class="product-info">
-                <h1>Funny Work Signs</h1>
-                <div class="price-block">
-                    <div class="price">$5 <span style="font-size:0.45em;color:rgba(255,255,255,0.65);font-weight:normal;">single color</span></div>
-                    <div class="price-sub">$8 for dual color (sign + contrasting text color)</div>
-                </div>
-
-                <p>Put your personality on your desk. Type any message you want, pick your colors, and see exactly what you'll get before you order — live preview updates instantly.</p>
-
-                <div class="features">
-                    <h3>Features:</h3>
-                    <ul>
-                        <li>Fully custom text — anything you want</li>
-                        <li>Live color preview before ordering</li>
-                        <li>11 color options for sign &amp; text</li>
-                        <li>Sturdy desk stand included</li>
-                        <li>High-quality PLA filament</li>
-                        <li>Perfect coworker or office gift</li>
-                    </ul>
-                </div>
-
-                <p><strong>Turnaround:</strong> 2–3 days</p>
-                <p><strong>Great for:</strong> Desk humor, Secret Santa, office gifts, your own desk</p>
-            </div>
         </div>
 
-        <!-- ORDER FORM -->
+        <!-- SECTION 3: Order Form -->
         <div class="order-form">
             <h2>Place Your Order</h2>
             <form id="orderForm">
                 <input type="hidden" name="productName" value="Funny Work Sign">
-
                 <div class="form-row">
                     <div class="form-group">
                         <label for="custName">Your Name <span class="required">*</span></label>
@@ -238,7 +246,6 @@
                         <input type="email" id="email" name="email" required placeholder="your@email.com">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="quantity">Quantity <span class="required">*</span></label>
                     <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required oninput="updateSummary()">
@@ -247,9 +254,9 @@
 
                 <div class="order-summary">
                     <h4>Order Summary</h4>
-                    <div class="summary-row"><span>Sign text:</span><span id="sumText">I Survived Another Meeting</span></div>
-                    <div class="summary-row"><span>Sign color:</span><span id="sumSignColor">White</span></div>
-                    <div class="summary-row" id="sumTextColorRow" style="display:none"><span>Text color:</span><span id="sumTextColor">Black</span></div>
+                    <div class="summary-row"><span>Sign text:</span><span id="sumText">Coffee, Then Work</span></div>
+                    <div class="summary-row"><span>Sign color:</span><span id="sumSignColor">Brown</span></div>
+                    <div class="summary-row" id="sumTextColorRow" style="display:none"><span>Text &amp; border color:</span><span id="sumTextColor">White</span></div>
                     <div class="summary-row"><span>Type:</span><span id="sumType">Single Color</span></div>
                     <div class="summary-row summary-total"><span>Total:</span><span id="sumTotal">$5</span></div>
                 </div>
@@ -278,39 +285,38 @@
         const COLOR_HEX = {
             White: '#F0F0F0', Black: '#222222', Grey: '#888888',
             Red: '#CC3333', Purple: '#461D7C', Green: '#2d8a2d',
-            Blue: '#2255BB', Brown: '#8B4513', Orange: '#EE6600',
+            Blue: '#2255BB', Brown: '#7B3F1E', Orange: '#EE6600',
             Yellow: '#FDD023', Pink: '#FF69B4'
         };
 
-        let signColor = 'White';
-        let textColor = 'Black';
+        let signColor = 'Brown';
+        let textColor = 'White';
         let isDual = false;
 
-        /* ── Canvas helpers ── */
+        /* ── Helpers ── */
         function hexToRgb(hex) {
             return { r: parseInt(hex.slice(1,3),16), g: parseInt(hex.slice(3,5),16), b: parseInt(hex.slice(5,7),16) };
         }
-        function shiftColor(hex, amt) {
+        function shift(hex, amt) {
             const {r,g,b} = hexToRgb(hex);
-            const c = v => Math.max(0, Math.min(255, v));
+            const c = v => Math.max(0,Math.min(255,v));
             const h = v => v.toString(16).padStart(2,'0');
-            return '#' + h(c(r+amt)) + h(c(g+amt)) + h(c(b+amt));
+            return '#'+h(c(r+amt))+h(c(g+amt))+h(c(b+amt));
         }
-        function luminance(hex) {
+        function lum(hex) {
             const {r,g,b} = hexToRgb(hex);
-            return (0.299*r + 0.587*g + 0.114*b) / 255;
+            return (0.299*r + 0.587*g + 0.114*b)/255;
         }
         function roundRect(ctx, x, y, w, h, r) {
             ctx.beginPath();
-            ctx.moveTo(x+r, y);
-            ctx.lineTo(x+w-r, y);
-            ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-            ctx.lineTo(x+w, y+h-r);
-            ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-            ctx.lineTo(x+r, y+h);
-            ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-            ctx.lineTo(x, y+r);
-            ctx.quadraticCurveTo(x, y, x+r, y);
+            ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+            ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+            ctx.lineTo(x+w,y+h-r);
+            ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+            ctx.lineTo(x+r,y+h);
+            ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+            ctx.lineTo(x,y+r);
+            ctx.quadraticCurveTo(x,y,x+r,y);
             ctx.closePath();
         }
         function wrapText(ctx, text, maxW) {
@@ -318,135 +324,149 @@
             const lines = [];
             let cur = '';
             for (const word of words) {
-                const test = cur ? cur + ' ' + word : word;
+                const test = cur ? cur+' '+word : word;
                 if (ctx.measureText(test).width > maxW && cur) { lines.push(cur); cur = word; }
                 else cur = test;
             }
             if (cur) lines.push(cur);
-            return lines.slice(0, 3);
+            return lines.slice(0, 5);
         }
 
-        /* ── Main draw function ── */
+        /* ── Draw the A-frame sandwich board ── */
         function drawPreview() {
             const canvas = document.getElementById('previewCanvas');
-            const ctx = canvas.getContext('2d');
+            const ctx    = canvas.getContext('2d');
             const W = canvas.width, H = canvas.height;
             ctx.clearRect(0, 0, W, H);
 
-            const rawText = document.getElementById('signText').value.trim() || 'Your Sign Text Here';
+            const rawText = document.getElementById('signText').value.trim() || 'Your Text Here';
             const sigHex  = COLOR_HEX[signColor] || '#888';
-            const darkHex = shiftColor(sigHex, -50);
-            const darkrHx = shiftColor(sigHex, -75);
-            const lightHx = shiftColor(sigHex, 55);
+            const dark    = shift(sigHex, -50);
+            const darker  = shift(sigHex, -75);
+            const light   = shift(sigHex,  55);
 
-            // Sign face geometry
-            const pad   = 22;
-            const depth = 11;
-            const signW = W - pad*2 - depth;
-            const signH = 130;
-            const signX = pad;
-            const signY = 16;
-            const cr    = 13;
-            const cx    = signX + signW / 2; // horizontal center of sign face
+            // Sign body geometry (portrait)
+            const signX = 18, signY = 44;
+            const signW = W - 36, signH = H - 100;
+            const cr = 12, depth = 7;
+            const cx = signX + signW / 2;
 
-            // Drop shadow
+            // ── Top handle clips ──
+            const clipW = 26, clipH = 20, clipGap = 18;
+            const clip1X = cx - clipGap/2 - clipW;
+            const clip2X = cx + clipGap/2;
+            const clipY  = signY - clipH + 2;
+
+            [clip1X, clip2X].forEach(cx_clip => {
+                // Clip block
+                ctx.fillStyle = shift(sigHex, -20);
+                roundRect(ctx, cx_clip, clipY, clipW, clipH + 6, 5);
+                ctx.fill();
+                // Clip hole
+                ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                ctx.beginPath();
+                ctx.ellipse(cx_clip + clipW/2, clipY + clipH/2 - 1, clipW*0.28, clipH*0.32, 0, 0, Math.PI*2);
+                ctx.fill();
+            });
+
+            // ── Sign body shadow ──
             ctx.save();
-            ctx.shadowColor = 'rgba(0,0,0,0.55)';
-            ctx.shadowBlur  = 14;
-            ctx.shadowOffsetX = 4;
-            ctx.shadowOffsetY = 5;
-            ctx.fillStyle = sigHex;
+            ctx.shadowColor    = 'rgba(0,0,0,0.55)';
+            ctx.shadowBlur     = 14;
+            ctx.shadowOffsetX  = 4;
+            ctx.shadowOffsetY  = 6;
+            ctx.fillStyle      = sigHex;
             roundRect(ctx, signX, signY, signW, signH, cr);
             ctx.fill();
             ctx.restore();
 
-            // Sign face
+            // ── Sign face ──
             ctx.fillStyle = sigHex;
             roundRect(ctx, signX, signY, signW, signH, cr);
             ctx.fill();
 
-            // Subtle top-to-bottom gradient overlay for dimension
-            const grad = ctx.createLinearGradient(0, signY, 0, signY + signH);
-            grad.addColorStop(0,   'rgba(255,255,255,0.12)');
-            grad.addColorStop(0.5, 'rgba(255,255,255,0)');
-            grad.addColorStop(1,   'rgba(0,0,0,0.1)');
-            ctx.fillStyle = grad;
+            // Subtle gradient for depth
+            const g = ctx.createLinearGradient(0, signY, 0, signY+signH);
+            g.addColorStop(0,   'rgba(255,255,255,0.12)');
+            g.addColorStop(0.5, 'rgba(255,255,255,0)');
+            g.addColorStop(1,   'rgba(0,0,0,0.10)');
+            ctx.fillStyle = g;
             roundRect(ctx, signX, signY, signW, signH, cr);
             ctx.fill();
 
             // Top highlight strip
-            ctx.fillStyle = lightHx;
-            roundRect(ctx, signX+3, signY+2, signW-6, 5, 2);
+            ctx.fillStyle = light;
+            roundRect(ctx, signX+3, signY+2, signW-6, 4, 2);
             ctx.fill();
 
-            // Bottom 3-D depth
-            ctx.fillStyle = darkHex;
+            // Right 3D depth
+            ctx.fillStyle = darker;
             ctx.beginPath();
-            ctx.moveTo(signX + cr,        signY + signH);
-            ctx.lineTo(signX + signW - cr, signY + signH);
-            ctx.lineTo(signX + signW - cr + depth*0.55, signY + signH + depth);
-            ctx.lineTo(signX + cr         + depth*0.45, signY + signH + depth);
+            ctx.moveTo(signX+signW,       signY+cr);
+            ctx.lineTo(signX+signW,       signY+signH-cr);
+            ctx.lineTo(signX+signW+depth, signY+signH-cr+depth*0.5);
+            ctx.lineTo(signX+signW+depth, signY+cr+depth*0.5);
             ctx.closePath();
             ctx.fill();
 
-            // Right 3-D depth
-            ctx.fillStyle = darkrHx;
+            // Bottom 3D depth
+            ctx.fillStyle = dark;
             ctx.beginPath();
-            ctx.moveTo(signX + signW,        signY + cr);
-            ctx.lineTo(signX + signW,        signY + signH - cr);
-            ctx.lineTo(signX + signW + depth, signY + signH - cr + depth*0.55);
-            ctx.lineTo(signX + signW + depth, signY + cr         + depth*0.45);
+            ctx.moveTo(signX+cr,        signY+signH);
+            ctx.lineTo(signX+signW-cr,  signY+signH);
+            ctx.lineTo(signX+signW-cr+depth*0.5, signY+signH+depth);
+            ctx.lineTo(signX+cr+depth*0.5,        signY+signH+depth);
             ctx.closePath();
             ctx.fill();
 
-            // Stand post
-            const postW = 20, postH = 28;
-            const postX = cx - postW/2;
-            const postY = signY + signH + depth;
-            ctx.fillStyle = darkHex;
-            ctx.fillRect(postX, postY, postW, postH);
-            // post right depth
-            ctx.fillStyle = darkrHx;
-            ctx.fillRect(postX + postW, postY + 2, 4, postH - 4);
+            // ── Inner border frame ──
+            const bInset = 12;
+            const borderCol = isDual
+                ? (COLOR_HEX[textColor] || '#F0F0F0')
+                : (lum(sigHex) > 0.5 ? shift(sigHex,-80) : shift(sigHex,80));
+            ctx.strokeStyle = borderCol;
+            ctx.lineWidth   = 3.5;
+            roundRect(ctx, signX+bInset, signY+bInset, signW-bInset*2, signH-bInset*2, 6);
+            ctx.stroke();
 
-            // Base foot
-            const footW = 120, footH = 14;
-            const footX = cx - footW/2;
-            const footY = postY + postH;
-            ctx.fillStyle = darkHex;
-            roundRect(ctx, footX, footY, footW, footH, 4);
-            ctx.fill();
-            ctx.fillStyle = darkrHx;
-            roundRect(ctx, footX + footW, footY + 2, 5, footH - 4, 2);
-            ctx.fill();
+            // ── A-frame feet ──
+            const footH = 12, footW = 48;
+            const footY = signY + signH + depth;
+            ctx.fillStyle = dark;
+            roundRect(ctx, signX+20,            footY, footW, footH, 4); ctx.fill();
+            roundRect(ctx, signX+signW-20-footW, footY, footW, footH, 4); ctx.fill();
 
-            /* ── Text rendering ── */
+            // ── Text ──
             ctx.textAlign    = 'center';
             ctx.textBaseline = 'middle';
-            const maxTW = signW - 56;
-            let fontSize = 36;
+            const tPad   = bInset + 14;
+            const tAreaX = signX + tPad;
+            const tAreaW = signW - tPad * 2;
+            const tAreaY = signY + tPad;
+            const tAreaH = signH - tPad * 2;
 
-            // find fitting font size
-            let lines;
-            for (fontSize = 36; fontSize >= 10; fontSize--) {
+            let fontSize, lines;
+            for (fontSize = 44; fontSize >= 10; fontSize--) {
                 ctx.font = `bold ${fontSize}px Arial`;
-                lines = wrapText(ctx, rawText, maxTW);
-                if (lines.every(l => ctx.measureText(l).width <= maxTW)) break;
+                lines = wrapText(ctx, rawText, tAreaW);
+                const totalH = lines.length * fontSize * 1.25;
+                if (lines.every(l => ctx.measureText(l).width <= tAreaW) && totalH <= tAreaH) break;
             }
-            ctx.font = `bold ${fontSize}px Arial`;
-            const lineH  = fontSize * 1.35;
-            const startY = signY + signH/2 - (lines.length * lineH)/2 + lineH/2;
 
+            ctx.font = `bold ${fontSize}px Arial`;
+            const lineH    = fontSize * 1.25;
+            const totalTH  = lines.length * lineH;
+            const startTY  = tAreaY + tAreaH/2 - totalTH/2 + lineH/2;
+
+            // Raised-text shadow (single color)
             if (!isDual) {
-                // Single-color: simulate raised letters with a shadow offset
-                const lum = luminance(sigHex);
-                ctx.fillStyle = lum > 0.5 ? shiftColor(sigHex, -80) : shiftColor(sigHex, 80);
-                lines.forEach((ln, i) => ctx.fillText(ln, cx + 2, startY + i*lineH + 2));
-                ctx.fillStyle = lum > 0.5 ? shiftColor(sigHex, -100) : shiftColor(sigHex, 100);
-            } else {
-                ctx.fillStyle = COLOR_HEX[textColor] || '#F0F0F0';
+                ctx.fillStyle = lum(sigHex) > 0.5 ? shift(sigHex,-85) : shift(sigHex,85);
+                lines.forEach((ln,i) => ctx.fillText(ln, cx, startTY + i*lineH + 2));
             }
-            lines.forEach((ln, i) => ctx.fillText(ln, cx, startY + i*lineH));
+
+            ctx.fillStyle = isDual ? (COLOR_HEX[textColor] || '#F0F0F0')
+                                   : (lum(sigHex) > 0.5 ? shift(sigHex,-110) : shift(sigHex,110));
+            lines.forEach((ln,i) => ctx.fillText(ln, cx, startTY + i*lineH));
 
             updateSummary();
         }
@@ -474,10 +494,10 @@
             drawPreview();
         }
 
-        /* ── Summary ── */
+        /* ── Order summary ── */
         function unitPrice() { return isDual ? 8 : 5; }
         function updateSummary() {
-            const text = document.getElementById('signText').value.trim() || 'Your Sign Text Here';
+            const text = document.getElementById('signText').value.trim() || 'Your Text Here';
             const qty  = parseInt(document.getElementById('quantity').value) || 1;
             document.getElementById('sumText').textContent      = text;
             document.getElementById('sumSignColor').textContent = signColor;
