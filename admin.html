@@ -8,33 +8,29 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #461D7C 0%, #000000 100%); min-height: 100vh; color: white; }
 
-        /* ── Login Screen ── */
+        /* ── Login ── */
         .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        .login-box { background: rgba(0,0,0,0.85); border: 3px solid #461D7C; border-radius: 15px; padding: 40px; width: 100%; max-width: 420px; }
-        .login-box h1 { color: #FDD023; text-align: center; font-size: 2em; margin-bottom: 6px; }
-        .login-box .subtitle { text-align: center; color: #aaa; margin-bottom: 30px; font-size: 0.9em; }
-        label { display: block; font-size: 0.82em; color: #FDD023; font-weight: bold; margin-bottom: 5px; }
-        input[type="url"], input[type="password"] {
-            width: 100%; padding: 10px 13px; background: rgba(255,255,255,0.08);
+        .login-box { background: rgba(0,0,0,0.85); border: 3px solid #461D7C; border-radius: 15px; padding: 40px; width: 100%; max-width: 360px; text-align: center; }
+        .login-box h1 { color: #FDD023; font-size: 2em; margin-bottom: 6px; }
+        .login-box .subtitle { color: #aaa; margin-bottom: 30px; font-size: 0.9em; }
+        input[type="password"] {
+            width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.08);
             border: 2px solid #461D7C; border-radius: 8px; color: white;
-            font-size: 1em; margin-bottom: 18px;
+            font-size: 1.05em; margin-bottom: 16px; text-align: center; letter-spacing: 2px;
         }
-        input[type="url"]:focus, input[type="password"]:focus { outline: none; border-color: #FDD023; }
-        input::placeholder { color: #555; }
+        input[type="password"]:focus { outline: none; border-color: #FDD023; }
+        input::placeholder { color: #555; letter-spacing: normal; }
         .btn-primary { width: 100%; padding: 12px; background: #461D7C; color: #FDD023; border: 2px solid #FDD023; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .btn-primary:hover { background: #FDD023; color: #461D7C; }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-        .login-error { color: #ff6b6b; text-align: center; margin-top: 12px; font-size: 0.9em; min-height: 20px; }
-        .login-help { margin-top: 20px; padding: 14px; background: rgba(70,29,124,0.3); border-radius: 8px; font-size: 0.8em; color: #ccc; line-height: 1.6; }
-        .login-help strong { color: #FDD023; }
+        .login-error { color: #ff6b6b; margin-top: 12px; font-size: 0.9em; min-height: 20px; }
 
         /* ── Dashboard ── */
         .dashboard { display: none; }
         nav { background: rgba(0,0,0,0.9); padding: 12px 0; border-bottom: 3px solid #461D7C; }
-        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
-        .nav-logo { color: #FDD023; font-size: 1.3em; font-weight: bold; white-space: nowrap; }
-        .nav-right { display: flex; gap: 10px; align-items: center; }
-        .worker-url-display { font-size: 0.72em; color: #666; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { color: #FDD023; font-size: 1.3em; font-weight: bold; }
+        .nav-right { display: flex; gap: 10px; }
         .btn-sm { padding: 6px 14px; border-radius: 6px; font-size: 0.85em; cursor: pointer; font-weight: bold; border: 1px solid; transition: all 0.2s; }
         .btn-refresh { background: #461D7C; color: #FDD023; border-color: #FDD023; }
         .btn-refresh:hover { background: #FDD023; color: #461D7C; }
@@ -49,12 +45,12 @@
         .stat-value { font-size: 2em; font-weight: bold; color: #FDD023; line-height: 1; }
         .stat-label { font-size: 0.78em; color: #aaa; margin-top: 6px; }
 
-        /* ── Filter bar ── */
+        /* ── Filters ── */
         .filter-bar { background: rgba(0,0,0,0.7); border: 2px solid #461D7C; border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
         .filter-bar input[type="text"], .filter-bar select {
             flex: 1; min-width: 150px; padding: 7px 11px;
             background: rgba(255,255,255,0.07); border: 1px solid #461D7C;
-            border-radius: 6px; color: white; font-size: 0.88em; margin-bottom: 0;
+            border-radius: 6px; color: white; font-size: 0.88em;
         }
         .filter-bar select option { background: #1a1a2e; }
         .filter-count { font-size: 0.82em; color: #888; white-space: nowrap; margin-left: auto; }
@@ -62,11 +58,7 @@
         /* ── Table ── */
         .table-wrap { background: rgba(0,0,0,0.7); border: 2px solid #461D7C; border-radius: 12px; overflow: auto; max-height: calc(100vh - 340px); }
         table { width: 100%; border-collapse: collapse; font-size: 0.86em; }
-        thead th {
-            background: #461D7C; color: #FDD023; padding: 11px 14px;
-            text-align: left; white-space: nowrap; position: sticky; top: 0; z-index: 1;
-            cursor: pointer; user-select: none;
-        }
+        thead th { background: #461D7C; color: #FDD023; padding: 11px 14px; text-align: left; white-space: nowrap; position: sticky; top: 0; z-index: 1; cursor: pointer; user-select: none; }
         thead th:hover { background: #5a27a0; }
         thead th.sort-asc::after { content: ' ↑'; opacity: 0.8; }
         thead th.sort-desc::after { content: ' ↓'; opacity: 0.8; }
@@ -74,52 +66,34 @@
         tbody tr { border-bottom: 1px solid rgba(70,29,124,0.35); }
         tbody tr:hover { background: rgba(70,29,124,0.25); }
         tbody td { padding: 9px 14px; vertical-align: top; }
-
         .badge { display: inline-block; padding: 2px 7px; border-radius: 9px; font-size: 0.75em; font-weight: bold; margin-right: 3px; }
         .badge-yes { background: rgba(45,138,45,0.3); color: #6dfc6d; border: 1px solid #2d8a2d; }
         .badge-no  { background: rgba(204,51,51,0.25); color: #ff8080; border: 1px solid #cc3333; }
-
         .details-bits { font-size: 0.82em; color: #aaa; }
         .details-bits span { display: block; line-height: 1.5; }
-
         .no-results { text-align: center; padding: 50px; color: #666; font-size: 1.05em; }
         .loading-msg { text-align: center; padding: 50px; color: #FDD023; font-size: 1.1em; }
     </style>
 </head>
 <body>
 
-<!-- ── Login Screen ── -->
+<!-- ── Login ── -->
 <div class="login-screen" id="loginScreen">
     <div class="login-box">
         <h1>V3D Creative</h1>
         <p class="subtitle">Admin Dashboard</p>
-
-        <label for="inputUrl">Worker URL</label>
-        <input type="url" id="inputUrl" placeholder="https://v3d-orders.your-name.workers.dev" autocomplete="off">
-
-        <label for="inputKey">Admin Password</label>
-        <input type="password" id="inputKey" placeholder="Enter admin password" autocomplete="current-password">
-
+        <input type="password" id="inputKey" placeholder="Password" autocomplete="current-password">
         <button class="btn-primary" id="loginBtn">Sign In</button>
         <div class="login-error" id="loginError"></div>
-
-        <div class="login-help">
-            <strong>First time?</strong> You need to deploy the Cloudflare Worker first.<br>
-            In your terminal, inside the <code>worker/</code> folder:<br><br>
-            <code>npx wrangler deploy</code><br>
-            <code>npx wrangler secret put ADMIN_KEY</code><br><br>
-            Then paste the Worker URL above and use your admin password.
-        </div>
     </div>
 </div>
 
-<!-- ── Admin Dashboard ── -->
+<!-- ── Dashboard ── -->
 <div class="dashboard" id="dashboard">
     <nav>
         <div class="nav-container">
             <div class="nav-logo">V3D Creative — Orders</div>
             <div class="nav-right">
-                <span class="worker-url-display" id="workerDisplay"></span>
                 <button class="btn-sm btn-refresh" id="refreshBtn">↺ Refresh</button>
                 <button class="btn-sm btn-logout" id="logoutBtn">Sign Out</button>
             </div>
@@ -176,18 +150,16 @@
 </div>
 
 <script>
-const URL_KEY  = 'v3d_worker_url';
-const AUTH_KEY = 'v3d_admin_key';
+// ── CONFIG — update WORKER_URL after deploying the Cloudflare Worker ──────────
+const WORKER_URL = '';
+// ─────────────────────────────────────────────────────────────────────────────
 
+const AUTH_KEY = 'v3d_admin_key';
 let allOrders = [];
 let sortCol = 'id';
 let sortDir = 'desc';
 
-// ── Storage helpers ──────────────────────────────────────────────────────────
-
-function saved() {
-    return { url: localStorage.getItem(URL_KEY) || '', key: localStorage.getItem(AUTH_KEY) || '' };
-}
+function savedKey() { return localStorage.getItem(AUTH_KEY) || ''; }
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
 
@@ -195,38 +167,38 @@ function showLogin(err) {
     document.getElementById('dashboard').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginError').textContent = err || '';
-    const { url } = saved();
-    if (url) document.getElementById('inputUrl').value = url;
+    document.getElementById('inputKey').value = '';
 }
 
 function showDashboard() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('workerDisplay').textContent = saved().url;
 }
 
 document.getElementById('loginBtn').addEventListener('click', async () => {
-    const url = document.getElementById('inputUrl').value.trim().replace(/\/$/, '');
     const key = document.getElementById('inputKey').value.trim();
     const errEl = document.getElementById('loginError');
     errEl.textContent = '';
-    if (!url || !key) { errEl.textContent = 'Both fields are required.'; return; }
+    if (!key) { errEl.textContent = 'Please enter the password.'; return; }
+
+    if (!WORKER_URL) {
+        errEl.textContent = 'Worker not deployed yet — check back soon!';
+        return;
+    }
 
     const btn = document.getElementById('loginBtn');
     btn.textContent = 'Signing in…'; btn.disabled = true;
-
     try {
-        const res = await fetch(`${url}/orders?key=${encodeURIComponent(key)}`);
-        if (res.status === 401) { errEl.textContent = 'Incorrect password. Try again.'; return; }
-        if (!res.ok) { errEl.textContent = `Server error (${res.status}) — check the Worker URL.`; return; }
+        const res = await fetch(`${WORKER_URL}/orders?key=${encodeURIComponent(key)}`);
+        if (res.status === 401) { errEl.textContent = 'Incorrect password.'; return; }
+        if (!res.ok) { errEl.textContent = `Server error (${res.status}).`; return; }
         const data = await res.json();
-        localStorage.setItem(URL_KEY, url);
         localStorage.setItem(AUTH_KEY, key);
         allOrders = Array.isArray(data) ? data : [];
         showDashboard();
         renderAll();
     } catch {
-        errEl.textContent = 'Could not reach Worker. Verify the URL and try again.';
+        errEl.textContent = 'Could not reach server. Try again.';
     } finally {
         btn.textContent = 'Sign In'; btn.disabled = false;
     }
@@ -237,7 +209,6 @@ document.getElementById('inputKey').addEventListener('keydown', e => {
 });
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem(URL_KEY);
     localStorage.removeItem(AUTH_KEY);
     allOrders = [];
     showLogin();
@@ -248,15 +219,14 @@ document.getElementById('refreshBtn').addEventListener('click', loadOrders);
 // ── Data ─────────────────────────────────────────────────────────────────────
 
 async function loadOrders() {
-    const { url, key } = saved();
+    const key = savedKey();
     document.getElementById('loadingMsg').style.display = 'block';
     document.getElementById('ordersTable').style.display = 'none';
     document.getElementById('noResults').style.display = 'none';
     try {
-        const res = await fetch(`${url}/orders?key=${encodeURIComponent(key)}`);
+        const res = await fetch(`${WORKER_URL}/orders?key=${encodeURIComponent(key)}`);
         if (res.status === 401) { showLogin('Session expired — please sign in again.'); return; }
-        const data = await res.json();
-        allOrders = Array.isArray(data) ? data : [];
+        allOrders = await res.json();
         renderAll();
     } catch {
         document.getElementById('loadingMsg').textContent = '⚠ Failed to load. Check your connection.';
@@ -265,21 +235,18 @@ async function loadOrders() {
 
 // ── Rendering ─────────────────────────────────────────────────────────────────
 
-function parseDetails(raw) {
-    if (!raw) return {};
-    try { return JSON.parse(raw); } catch { return {}; }
-}
-
+function parseDetails(raw) { try { return JSON.parse(raw || '{}'); } catch { return {}; } }
 function fmtDate(s) {
     if (!s) return '—';
     const d = new Date(s.includes('T') ? s : s + 'T00:00:00');
-    if (isNaN(d)) return s;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return isNaN(d) ? s : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
-
 function badge(val) {
     const yes = val === 'Yes';
     return `<span class="badge ${yes ? 'badge-yes' : 'badge-no'}">${val || '—'}</span>`;
+}
+function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function renderStats(orders) {
@@ -287,8 +254,8 @@ function renderStats(orders) {
     const customers = new Set(orders.map(o => (o.customer_name || '').toLowerCase().trim())).size;
     const paid = orders.filter(o => parseDetails(o.details).paid === 'Yes').length;
     const delivered = orders.filter(o => parseDetails(o.details).delivered === 'Yes').length;
-    document.getElementById('statOrders').textContent   = orders.length;
-    document.getElementById('statRevenue').textContent  = '$' + revenue.toFixed(2);
+    document.getElementById('statOrders').textContent    = orders.length;
+    document.getElementById('statRevenue').textContent   = '$' + revenue.toFixed(2);
     document.getElementById('statCustomers').textContent = customers;
     document.getElementById('statPaid').textContent      = paid;
     document.getElementById('statDelivered').textContent = delivered;
@@ -308,7 +275,6 @@ function getFiltered() {
     const product   = document.getElementById('productFilter').value;
     const paid      = document.getElementById('paidFilter').value;
     const delivered = document.getElementById('deliveredFilter').value;
-
     return allOrders.filter(o => {
         const d = parseDetails(o.details);
         if (product && o.product !== product) return false;
@@ -332,38 +298,25 @@ function getSorted(orders) {
     });
 }
 
-function escHtml(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
 function renderTable(orders) {
-    const loadMsg  = document.getElementById('loadingMsg');
-    const table    = document.getElementById('ordersTable');
-    const noRes    = document.getElementById('noResults');
-    const countEl  = document.getElementById('filterCount');
-
+    const loadMsg = document.getElementById('loadingMsg');
+    const table   = document.getElementById('ordersTable');
+    const noRes   = document.getElementById('noResults');
+    document.getElementById('filterCount').textContent = orders.length + ' order' + (orders.length !== 1 ? 's' : '');
     loadMsg.style.display = 'none';
-    countEl.textContent = orders.length + ' order' + (orders.length !== 1 ? 's' : '');
-
-    if (orders.length === 0) {
-        table.style.display = 'none';
-        noRes.style.display = 'block';
-        return;
-    }
+    if (orders.length === 0) { table.style.display = 'none'; noRes.style.display = 'block'; return; }
     noRes.style.display = 'none';
     table.style.display = 'table';
-
     document.getElementById('ordersBody').innerHTML = orders.map(o => {
         const d = parseDetails(o.details);
         const bits = [];
-        if (d.color)      bits.push('Color: ' + escHtml(d.color));
-        if (d.signColor)  bits.push('Sign: '  + escHtml(d.signColor));
-        if (d.textColor)  bits.push('Text: '  + escHtml(d.textColor));
-        if (d.text)       bits.push('"' + escHtml(d.text) + '"');
-        if (d.seat)       bits.push('Seat: '  + escHtml(d.seat));
-        if (d.file)       bits.push('File: '  + escHtml(d.file));
-        if (d.created)    bits.push('Created: '+ escHtml(d.created));
-
+        if (d.color)     bits.push('Color: '   + escHtml(d.color));
+        if (d.signColor) bits.push('Sign: '    + escHtml(d.signColor));
+        if (d.textColor) bits.push('Text: '    + escHtml(d.textColor));
+        if (d.text)      bits.push('"'          + escHtml(d.text) + '"');
+        if (d.seat)      bits.push('Seat: '    + escHtml(d.seat));
+        if (d.file)      bits.push('File: '    + escHtml(d.file));
+        if (d.created)   bits.push('Created: ' + escHtml(d.created));
         return `<tr>
             <td style="color:#666;font-size:0.85em;">${o.id}</td>
             <td style="white-space:nowrap;">${fmtDate(o.received_at)}</td>
@@ -392,14 +345,12 @@ document.querySelectorAll('thead th[data-col]').forEach(th => {
     th.addEventListener('click', () => {
         const col = th.dataset.col;
         if (sortCol === col) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
-        else { sortCol = col; sortDir = col === 'id' || col === 'received_at' ? 'desc' : 'asc'; }
+        else { sortCol = col; sortDir = (col === 'id' || col === 'received_at') ? 'desc' : 'asc'; }
         document.querySelectorAll('thead th').forEach(h => h.classList.remove('sort-asc','sort-desc'));
         th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
         renderTable(getSorted(getFiltered()));
     });
 });
-
-// ── Filters ───────────────────────────────────────────────────────────────────
 
 ['searchInput','productFilter','paidFilter','deliveredFilter'].forEach(id => {
     document.getElementById(id).addEventListener('input', renderAll);
@@ -407,8 +358,8 @@ document.querySelectorAll('thead th[data-col]').forEach(th => {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 
-const { url, key } = saved();
-if (url && key) { showDashboard(); loadOrders(); }
+const key = savedKey();
+if (key && WORKER_URL) { showDashboard(); loadOrders(); }
 else { showLogin(); }
 </script>
 </body>
