@@ -147,10 +147,6 @@
     <div class="login-box">
         <h1>V3D Creative</h1>
         <p class="subtitle">Admin Dashboard</p>
-        <div id="setupSection" style="display:none;">
-            <p class="setup-note">One-time setup — find your Worker URL at<br><strong>dash.cloudflare.com → Workers &amp; Pages → v3d-orders</strong></p>
-            <input type="url" class="field" id="inputUrl" placeholder="https://v3d-orders.xxx.workers.dev" autocomplete="off">
-        </div>
         <input type="password" class="field pw" id="inputKey" placeholder="Password" autocomplete="current-password">
         <button class="btn-primary" id="loginBtn">Sign In</button>
         <div class="login-error" id="loginError"></div>
@@ -189,7 +185,7 @@
 
         <!-- Filter bar -->
         <div class="filter-bar">
-            <input type="text" id="searchInput" placeholder="Search name, product, email…">
+            <input type="text" id="searchInput" placeholder="Search name, product, email…" autocomplete="off">
             <select id="productFilter"><option value="">All Products</option></select>
             <select id="paidFilter">
                 <option value="">Paid: All</option>
@@ -346,8 +342,8 @@
 </div>
 
 <script>
+const WORKER_URL   = 'https://v3d-orders.nicholas-vastano.workers.dev';
 const AUTH_KEY     = 'v3d_admin_key';
-const URL_KEY      = 'v3d_worker_url';
 const VISITED_KEY  = 'v3d_last_visit';
 
 let allOrders  = [];
@@ -357,7 +353,6 @@ let pendingOnly = false;
 let lastVisit  = localStorage.getItem(VISITED_KEY) || null;
 
 function savedKey() { return localStorage.getItem(AUTH_KEY) || ''; }
-function savedUrl() { return localStorage.getItem(URL_KEY)  || ''; }
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
 
@@ -366,7 +361,6 @@ function showLogin(err) {
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginError').textContent = err || '';
     document.getElementById('inputKey').value = '';
-    document.getElementById('setupSection').style.display = savedUrl() ? 'none' : 'block';
 }
 
 function showDashboard() {
@@ -380,21 +374,14 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
     errEl.textContent = '';
     if (!key) { errEl.textContent = 'Please enter the password.'; return; }
 
-    let url = savedUrl();
-    if (!url) {
-        url = (document.getElementById('inputUrl').value || '').trim().replace(/\/$/, '');
-        if (!url) { errEl.textContent = 'Please enter the Worker URL (one time only).'; return; }
-    }
-
     const btn = document.getElementById('loginBtn');
     btn.textContent = 'Signing in…'; btn.disabled = true;
     try {
-        const res = await fetch(`${url}/orders?key=${encodeURIComponent(key)}`);
+        const res = await fetch(`${WORKER_URL}/orders?key=${encodeURIComponent(key)}`);
         if (res.status === 401) { errEl.textContent = 'Incorrect password.'; return; }
         if (!res.ok) { errEl.textContent = `Server error (${res.status}).`; return; }
         const data = await res.json();
         localStorage.setItem(AUTH_KEY, key);
-        localStorage.setItem(URL_KEY, url);
         allOrders = Array.isArray(data) ? data : [];
         showDashboard();
         renderAll();
@@ -421,12 +408,13 @@ document.getElementById('refreshBtn').addEventListener('click', loadOrders);
 // ── Data ─────────────────────────────────────────────────────────────────────
 
 async function loadOrders() {
-    const key = savedKey(), url = savedUrl();
+    const key = savedKey();
+    document.getElementById('searchInput').value = '';
     document.getElementById('loadingMsg').style.display = 'block';
     document.getElementById('ordersTable').style.display = 'none';
     document.getElementById('noResults').style.display = 'none';
     try {
-        const res = await fetch(`${url}/orders?key=${encodeURIComponent(key)}`);
+        const res = await fetch(`${WORKER_URL}/orders?key=${encodeURIComponent(key)}`);
         if (res.status === 401) { showLogin('Session expired.'); return; }
         allOrders = await res.json();
         renderAll();
@@ -691,7 +679,7 @@ document.getElementById('modalOverlay').addEventListener('click', e => {
 });
 
 document.getElementById('modalSave').addEventListener('click', async () => {
-    const key = savedKey(), url = savedUrl();
+    const key = savedKey();
     const id = document.getElementById('fId').value;
     const errEl = document.getElementById('modalError');
     const btn = document.getElementById('modalSave');
@@ -720,8 +708,8 @@ document.getElementById('modalSave').addEventListener('click', async () => {
     btn.disabled = true; btn.textContent = 'Saving…';
     try {
         const endpoint = id
-            ? `${url}/orders/${id}?key=${encodeURIComponent(key)}`
-            : `${url}/orders?key=${encodeURIComponent(key)}`;
+            ? `${WORKER_URL}/orders/${id}?key=${encodeURIComponent(key)}`
+            : `${WORKER_URL}/orders?key=${encodeURIComponent(key)}`;
         const method = id ? 'PUT' : 'POST';
         const res = await fetch(endpoint, { method, headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
         if (!res.ok) { errEl.textContent = `Error ${res.status}`; return; }
@@ -754,11 +742,11 @@ document.getElementById('confirmCancel').addEventListener('click', () => {
 
 document.getElementById('confirmDel').addEventListener('click', async () => {
     if (!pendingDeleteId) return;
-    const key = savedKey(), url = savedUrl();
+    const key = savedKey();
     const btn = document.getElementById('confirmDel');
     btn.textContent = 'Deleting…'; btn.disabled = true;
     try {
-        const res = await fetch(`${url}/orders/${pendingDeleteId}?key=${encodeURIComponent(key)}`, { method: 'DELETE' });
+        const res = await fetch(`${WORKER_URL}/orders/${pendingDeleteId}?key=${encodeURIComponent(key)}`, { method: 'DELETE' });
         if (res.ok) {
             document.getElementById('confirmOverlay').style.display = 'none';
             pendingDeleteId = null;
@@ -771,8 +759,7 @@ document.getElementById('confirmDel').addEventListener('click', async () => {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 
-const _key = savedKey(), _url = savedUrl();
-if (_key && _url) { showDashboard(); loadOrders(); }
+if (savedKey()) { showDashboard(); loadOrders(); }
 else { showLogin(); }
 </script>
 </body>
