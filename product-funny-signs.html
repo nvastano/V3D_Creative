@@ -64,16 +64,6 @@
         .swatch[data-color="Yellow"] { background: #FDD023; }
         .swatch[data-color="Pink"]   { background: #FF69B4; }
 
-        .dual-toggle-row { display: flex; align-items: center; gap: 10px; }
-        .toggle-switch { position: relative; width: 48px; height: 26px; flex-shrink: 0; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top:0;left:0;right:0;bottom:0; background:#444; border-radius:26px; transition:.3s; }
-        .slider:before { content:''; position:absolute; height:18px;width:18px;left:4px;bottom:4px;background:white;border-radius:50%;transition:.3s; }
-        input:checked + .slider { background: #461D7C; }
-        input:checked + .slider:before { transform: translateX(22px); }
-        .dual-label { color: rgba(255,255,255,0.85); font-size: 0.88em; }
-        .price-badge { background: #FDD023; color: #461D7C; padding: 2px 9px; border-radius: 10px; font-size: 0.78em; font-weight: bold; }
-        #textColorGroup { display: none; margin-top: 12px; }
 
         /* Order form */
         .order-form { background: rgba(0,0,0,0.8); padding: 30px; border-radius: 15px; border: 2px solid #461D7C; }
@@ -140,8 +130,7 @@
             <div class="product-info">
                 <h1>Funny Work Signs</h1>
                 <div class="price-block">
-                    <div class="price">$5 <span style="font-size:0.45em;color:rgba(255,255,255,0.65);font-weight:normal;">single color</span></div>
-                    <div class="price-sub">$8 for dual color (sign + contrasting text &amp; border)</div>
+                    <div class="price">$5</div>
                 </div>
                 <p>Put your personality on your desk. Type any message, pick your colors, and see exactly what you'll get — live preview updates instantly below.</p>
                 <div class="features">
@@ -186,7 +175,7 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Sign Color</label>
+                    <label>Sign Color <span style="color:#ff6b6b;">*</span></label>
                     <div class="color-swatches" id="signColorSwatches">
                         <div class="swatch" data-color="White"  title="White"  onclick="selectSignColor(this)"></div>
                         <div class="swatch" data-color="Black"  title="Black"  onclick="selectSignColor(this)"></div>
@@ -203,29 +192,19 @@
                 </div>
 
                 <div class="control-group">
-                    <div class="dual-toggle-row">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="dualColorToggle" onchange="toggleDual()">
-                            <span class="slider"></span>
-                        </label>
-                        <span class="dual-label">Dual Color — text &amp; border are a different color</span>
-                        <span class="price-badge">+$3</span>
-                    </div>
-                    <div id="textColorGroup">
-                        <label style="margin-top:10px;display:block;color:#FDD023;font-weight:600;font-size:0.88em;text-transform:uppercase;letter-spacing:0.5px;">Text &amp; Border Color</label>
-                        <div class="color-swatches" id="textColorSwatches">
-                            <div class="swatch selected" data-color="White"  title="White"  onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Black"  title="Black"  onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Grey"   title="Grey"   onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Red"    title="Red"    onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Purple" title="Purple" onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Green"  title="Green"  onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Blue"   title="Blue"   onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Brown"  title="Brown"  onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Orange" title="Orange" onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Yellow" title="Yellow" onclick="selectTextColor(this)"></div>
-                            <div class="swatch"          data-color="Pink"   title="Pink"   onclick="selectTextColor(this)"></div>
-                        </div>
+                    <label>Text &amp; Border Color <span style="color:#ff6b6b;">*</span></label>
+                    <div class="color-swatches" id="textColorSwatches">
+                        <div class="swatch selected" data-color="White"  title="White"  onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Black"  title="Black"  onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Grey"   title="Grey"   onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Red"    title="Red"    onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Purple" title="Purple" onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Green"  title="Green"  onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Blue"   title="Blue"   onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Brown"  title="Brown"  onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Orange" title="Orange" onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Yellow" title="Yellow" onclick="selectTextColor(this)"></div>
+                        <div class="swatch"          data-color="Pink"   title="Pink"   onclick="selectTextColor(this)"></div>
                     </div>
                 </div>
             </div>
@@ -256,8 +235,7 @@
                     <h4>Order Summary</h4>
                     <div class="summary-row"><span>Sign text:</span><span id="sumText">Coffee, Then Work</span></div>
                     <div class="summary-row"><span>Sign color:</span><span id="sumSignColor">Brown</span></div>
-                    <div class="summary-row" id="sumTextColorRow" style="display:none"><span>Text &amp; border color:</span><span id="sumTextColor">White</span></div>
-                    <div class="summary-row"><span>Type:</span><span id="sumType">Single Color</span></div>
+                    <div class="summary-row"><span>Text &amp; border color:</span><span id="sumTextColor">White</span></div>
                     <div class="summary-row summary-total"><span>Total:</span><span id="sumTotal">$5</span></div>
                 </div>
 
@@ -291,7 +269,6 @@
 
         let signColor = 'Brown';
         let textColor = 'White';
-        let isDual = false;
 
         /* ── Helpers ── */
         function hexToRgb(hex) {
@@ -421,9 +398,7 @@
 
             // ── Inner border frame ──
             const bInset = 12;
-            const borderCol = isDual
-                ? (COLOR_HEX[textColor] || '#F0F0F0')
-                : (lum(sigHex) > 0.5 ? shift(sigHex,-80) : shift(sigHex,80));
+            const borderCol = COLOR_HEX[textColor] || '#F0F0F0';
             ctx.strokeStyle = borderCol;
             ctx.lineWidth   = 3.5;
             roundRect(ctx, signX+bInset, signY+bInset, signW-bInset*2, signH-bInset*2, 6);
@@ -458,14 +433,7 @@
             const totalTH  = lines.length * lineH;
             const startTY  = tAreaY + tAreaH/2 - totalTH/2 + lineH/2;
 
-            // Raised-text shadow (single color)
-            if (!isDual) {
-                ctx.fillStyle = lum(sigHex) > 0.5 ? shift(sigHex,-85) : shift(sigHex,85);
-                lines.forEach((ln,i) => ctx.fillText(ln, cx, startTY + i*lineH + 2));
-            }
-
-            ctx.fillStyle = isDual ? (COLOR_HEX[textColor] || '#F0F0F0')
-                                   : (lum(sigHex) > 0.5 ? shift(sigHex,-110) : shift(sigHex,110));
+            ctx.fillStyle = COLOR_HEX[textColor] || '#F0F0F0';
             lines.forEach((ln,i) => ctx.fillText(ln, cx, startTY + i*lineH));
 
             updateSummary();
@@ -484,31 +452,19 @@
             textColor = el.dataset.color;
             drawPreview();
         }
-        function toggleDual() {
-            isDual = document.getElementById('dualColorToggle').checked;
-            document.getElementById('textColorGroup').style.display = isDual ? 'block' : 'none';
-            drawPreview();
-        }
         function setPreset(btn) {
             document.getElementById('signText').value = btn.textContent.trim();
             drawPreview();
         }
 
         /* ── Order summary ── */
-        function unitPrice() { return isDual ? 8 : 5; }
         function updateSummary() {
             const text = document.getElementById('signText').value.trim() || 'Your Text Here';
             const qty  = parseInt(document.getElementById('quantity').value) || 1;
             document.getElementById('sumText').textContent      = text;
             document.getElementById('sumSignColor').textContent = signColor;
-            document.getElementById('sumType').textContent      = isDual ? 'Dual Color' : 'Single Color';
-            document.getElementById('sumTotal').textContent     = '$' + (qty * unitPrice());
-            if (isDual) {
-                document.getElementById('sumTextColorRow').style.display = 'flex';
-                document.getElementById('sumTextColor').textContent = textColor;
-            } else {
-                document.getElementById('sumTextColorRow').style.display = 'none';
-            }
+            document.getElementById('sumTextColor').textContent = textColor;
+            document.getElementById('sumTotal').textContent     = '$' + (qty * 5);
         }
 
         document.getElementById('signText').addEventListener('input', drawPreview);
@@ -520,9 +476,8 @@
             btn.textContent = 'Submitting...';
             btn.disabled = true;
 
-            const qty   = parseInt(document.getElementById('quantity').value) || 1;
-            const price = unitPrice();
-            const data  = {
+            const qty  = parseInt(document.getElementById('quantity').value) || 1;
+            const data = {
                 timestamp:    new Date().toLocaleString(),
                 productName:  'Funny Work Sign',
                 name:         document.getElementById('custName').value,
@@ -530,24 +485,20 @@
                 quantity:     qty,
                 signText:     document.getElementById('signText').value.trim(),
                 signColor:    signColor,
-                colorType:    isDual ? 'Dual Color' : 'Single Color',
-                textColor:    isDual ? textColor : 'N/A',
+                textColor:    textColor,
                 notes:        document.getElementById('notes').value || 'None',
-                pricePerUnit: '$' + price,
-                totalPrice:   '$' + (qty * price)
+                pricePerUnit: '$5',
+                totalPrice:   '$' + (qty * 5)
             };
 
             try {
                 await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
                 const msg = document.getElementById('message');
-                msg.textContent = `✓ Order submitted! Total: $${qty * price}. Please send payment via Venmo below!`;
+                msg.textContent = `✓ Order submitted! Total: $${qty * 5}. Please send payment via Venmo below!`;
                 msg.className   = 'message success';
                 msg.style.display = 'block';
                 e.target.reset();
                 document.getElementById('signText').value = '';
-                isDual = false;
-                document.getElementById('dualColorToggle').checked = false;
-                document.getElementById('textColorGroup').style.display = 'none';
                 drawPreview();
             } catch(err) {
                 const msg = document.getElementById('message');
