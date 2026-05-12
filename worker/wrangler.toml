@@ -1,0 +1,8 @@
+name = "v3d-orders"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "v3d-orders"
+database_id = "e5754f45-f945-4ae8-9aae-ee2ebaa47af4"
