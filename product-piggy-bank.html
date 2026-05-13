@@ -17,10 +17,12 @@
         .back-link:hover { text-decoration: underline; }
         .product-container { max-width: 1200px; margin: 0 auto 60px; padding: 0 40px; }
         .product-display { background: rgba(0, 0, 0, 0.7); border-radius: 20px; padding: 40px; border: 3px solid #461D7C; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .product-images { display: flex; align-items: center; justify-content: center; }
-        .product-images .placeholder { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #1a0a2e, #2a1060); border-radius: 15px; border: 2px solid #461D7C; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
-        .pig-svg { width: 180px; height: 160px; }
-        .placeholder-label { color: #FDD023; font-size: 0.85em; opacity: 0.6; }
+        .product-images { display: flex; flex-direction: column; gap: 12px; }
+        .product-images .main-image { width: 100%; aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; border: 2px solid #461D7C; }
+        .product-images .main-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .product-images .thumbnails { display: flex; gap: 10px; }
+        .product-images .thumbnails img { width: calc(33.33% - 7px); aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; }
+        .product-images .thumbnails img:hover, .product-images .thumbnails img.active { border-color: #FDD023; }
         .product-info h1 { color: #FDD023; font-size: 2.5em; margin-bottom: 15px; }
         .price { font-size: 2em; color: #FDD023; font-weight: bold; margin-bottom: 20px; }
         .product-info p { line-height: 1.6; margin-bottom: 20px; font-size: 1.1em; }
@@ -63,34 +65,13 @@
     <div class="product-container">
         <div class="product-display">
             <div class="product-images">
-                <div class="placeholder">
-                    <svg class="pig-svg" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- body -->
-                        <ellipse cx="100" cy="105" rx="70" ry="58" fill="#8B45C5" opacity="0.85"/>
-                        <!-- head -->
-                        <ellipse cx="155" cy="82" rx="38" ry="34" fill="#8B45C5" opacity="0.85"/>
-                        <!-- ear -->
-                        <ellipse cx="148" cy="52" rx="10" ry="13" fill="#6B2A9A"/>
-                        <ellipse cx="148" cy="54" rx="6" ry="8" fill="#c47fd4" opacity="0.5"/>
-                        <!-- snout -->
-                        <ellipse cx="186" cy="88" rx="14" ry="11" fill="#6B2A9A"/>
-                        <circle cx="182" cy="88" r="3" fill="#3a1060"/>
-                        <circle cx="190" cy="88" r="3" fill="#3a1060"/>
-                        <!-- eye -->
-                        <circle cx="163" cy="74" r="4" fill="white"/>
-                        <circle cx="164" cy="74" r="2" fill="#1a0a2e"/>
-                        <!-- coin slot -->
-                        <rect x="80" y="50" width="28" height="5" rx="2.5" fill="#3a1060"/>
-                        <!-- legs -->
-                        <rect x="55" y="150" width="18" height="22" rx="6" fill="#6B2A9A"/>
-                        <rect x="82" y="150" width="18" height="22" rx="6" fill="#6B2A9A"/>
-                        <rect x="109" y="150" width="18" height="22" rx="6" fill="#6B2A9A"/>
-                        <!-- tail -->
-                        <path d="M32 95 Q10 80 18 65 Q26 50 32 65" stroke="#6B2A9A" stroke-width="5" fill="none" stroke-linecap="round"/>
-                        <!-- text label on body -->
-                        <text x="100" y="112" text-anchor="middle" fill="#FDD023" font-size="14" font-family="Arial" font-weight="bold">YOUR TEXT</text>
-                    </svg>
-                    <span class="placeholder-label">Photos coming soon</span>
+                <div class="main-image">
+                    <img id="mainImg" src="images/piggy-bank-1.jpg" alt="Text Piggy Bank - front view">
+                </div>
+                <div class="thumbnails">
+                    <img src="images/piggy-bank-1.jpg" alt="Front view" class="active" onclick="setMain(this)">
+                    <img src="images/piggy-bank-2.jpg" alt="Side view" onclick="setMain(this)">
+                    <img src="images/piggy-bank-3.jpg" alt="Back view showing coin slot" onclick="setMain(this)">
                 </div>
             </div>
 
@@ -176,6 +157,13 @@
     </div>
 
     <script>
+        function setMain(thumb) {
+            document.getElementById('mainImg').src = thumb.src;
+            document.getElementById('mainImg').alt = thumb.alt;
+            document.querySelectorAll('.thumbnails img').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+        }
+
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysViGtd1u0eHhYaxtUga6aITHAAEZGFIzBPsSlyRbQ2isR-Wc6a0AHfzvCvEHbyPLVLw/exec';
 
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
