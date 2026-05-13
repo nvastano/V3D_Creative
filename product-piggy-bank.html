@@ -118,8 +118,26 @@
                         <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">$10 per piggy bank</small>
                     </div>
                     <div class="form-group">
-                        <label for="color">Color <span class="required">*</span></label>
-                        <select id="color" name="color" required>
+                        <label for="bankColor">Bank Color <span class="required">*</span></label>
+                        <select id="bankColor" name="bankColor" required>
+                            <option value="">Select a color…</option>
+                            <option>White</option>
+                            <option>Black</option>
+                            <option>Grey</option>
+                            <option>Red</option>
+                            <option>Purple</option>
+                            <option>Green</option>
+                            <option>Blue</option>
+                            <option>Pink</option>
+                            <option>Orange</option>
+                            <option>Yellow</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="textColor">Text Color <span class="required">*</span></label>
+                        <select id="textColor" name="textColor" required>
                             <option value="">Select a color…</option>
                             <option>White</option>
                             <option>Black</option>
@@ -177,7 +195,8 @@
                 name: formData.get('name'),
                 email: formData.get('email'),
                 quantity: quantity,
-                color: formData.get('color'),
+                bankColor: formData.get('bankColor'),
+                textColor: formData.get('textColor'),
                 bankText: formData.get('bankText'),
                 notes: formData.get('notes') || 'None',
                 pricePerUnit: '$10',
