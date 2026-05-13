@@ -185,7 +185,7 @@
 
         <!-- Filter bar -->
         <div class="filter-bar">
-            <input type="text" id="searchInput" placeholder="Search name, product, email…" autocomplete="off">
+            <input type="search" id="searchInput" placeholder="Search name, product, email…" autocomplete="nope" data-lpignore="true">
             <select id="productFilter"><option value="">All Products</option></select>
             <select id="paidFilter">
                 <option value="">Paid: All</option>
@@ -761,6 +761,11 @@ document.getElementById('confirmDel').addEventListener('click', async () => {
 
 if (savedKey()) { showDashboard(); loadOrders(); }
 else { showLogin(); }
+
+setTimeout(() => {
+    const s = document.getElementById('searchInput');
+    if (s && s.value.startsWith('http')) { s.value = ''; renderAll(); }
+}, 150);
 </script>
 </body>
 </html>
