@@ -226,9 +226,10 @@
                         <th data-col="email">Email</th>
                         <th data-col="quantity">Qty</th>
                         <th data-col="total_price">Total</th>
-                        <th class="no-sort">Status</th>
+                        <th class="no-sort">Paid</th>
+                        <th class="no-sort">Delivered</th>
+                        <th class="no-sort">Color</th>
                         <th class="no-sort">Details</th>
-                        <th data-col="source">Source</th>
                         <th class="no-sort">Actions</th>
                     </tr>
                 </thead>
@@ -579,17 +580,15 @@ function renderTable(orders) {
         return `<tr class="${pending ? 'is-pending' : ''}">
             <td style="color:#666;font-size:0.83em;">${o.id}</td>
             <td class="editable-cell" data-id="${o.id}" data-field="received_at" data-value="${escHtml((o.received_at||'').slice(0,10))}" onclick="startInlineEdit(this)" title="Click to edit" style="white-space:nowrap;">${fmtDate(o.received_at)}${newBadge}</td>
-            <td class="editable-cell" data-id="${o.id}" data-field="product" data-value="${escHtml(o.product||'')}" onclick="startInlineEdit(this)" title="Click to edit" style="white-space:nowrap;font-weight:bold;color:#FDD023;">${escHtml(o.product||'—')}</td>
+            <td style="white-space:nowrap;font-weight:bold;color:#FDD023;cursor:pointer;" onclick="openEditModal(${o.id})" title="Click to open details">${escHtml(o.product||'—')}</td>
             <td class="editable-cell" data-id="${o.id}" data-field="customer_name" data-value="${escHtml(o.customer_name||'')}" onclick="startInlineEdit(this)" title="Click to edit" style="white-space:nowrap;">${escHtml(o.customer_name||'—')}</td>
             <td class="editable-cell" data-id="${o.id}" data-field="email" data-value="${escHtml(o.email||'')}" onclick="startInlineEdit(this)" title="Click to edit" style="color:#888;font-size:0.82em;">${escHtml(o.email||'—')}</td>
             <td class="editable-cell" data-id="${o.id}" data-field="quantity" data-value="${o.quantity??1}" onclick="startInlineEdit(this)" title="Click to edit" style="text-align:center;">${o.quantity??1}</td>
             <td class="editable-cell" data-id="${o.id}" data-field="total_price" data-value="${escHtml(o.total_price||'')}" onclick="startInlineEdit(this)" title="Click to edit" style="color:#FDD023;font-weight:bold;">$${parseFloat(o.total_price||0).toFixed(2)}</td>
-            <td style="white-space:nowrap;">
-                <span class="badge ${d.paid==='Yes'?'badge-yes':'badge-no'} badge-toggle" data-id="${o.id}" data-field="paid" data-value="${escHtml(d.paid||'')}" onclick="toggleBadge(this)" title="Click to toggle">Paid: ${d.paid||'—'}</span>
-                <span class="badge ${d.delivered==='Yes'?'badge-yes':'badge-no'} badge-toggle" data-id="${o.id}" data-field="delivered" data-value="${escHtml(d.delivered||'')}" onclick="toggleBadge(this)" title="Click to toggle">Del: ${d.delivered||'—'}</span>
-            </td>
+            <td><span class="badge ${d.paid==='Yes'?'badge-yes':'badge-no'} badge-toggle" data-id="${o.id}" data-field="paid" data-value="${escHtml(d.paid||'')}" onclick="toggleBadge(this)" title="Click to toggle">${d.paid||'—'}</span></td>
+            <td><span class="badge ${d.delivered==='Yes'?'badge-yes':'badge-no'} badge-toggle" data-id="${o.id}" data-field="delivered" data-value="${escHtml(d.delivered||'')}" onclick="toggleBadge(this)" title="Click to toggle">${d.delivered||'—'}</span></td>
+            <td class="editable-cell" data-id="${o.id}" data-field="color" data-value="${escHtml(d.color||'')}" onclick="startInlineEdit(this)" title="Click to edit">${escHtml(d.color||'—')}</td>
             <td class="details-bits">${bits.map(b=>`<span>${b}</span>`).join('')||'—'}</td>
-            <td class="editable-cell" data-id="${o.id}" data-field="source" data-value="${escHtml(o.source||'')}" onclick="startInlineEdit(this)" title="Click to edit" style="color:#888;font-size:0.8em;">${escHtml(o.source||'—')}</td>
             <td>
                 <div class="row-actions">
                     <button class="btn-edit" onclick="openEditModal(${o.id})">✏ Details</button>
@@ -876,7 +875,7 @@ async function toggleBadge(span) {
         span.dataset.value = next;
         const yes = next === 'Yes';
         span.className = `badge ${yes ? 'badge-yes' : 'badge-no'} badge-toggle`;
-        span.textContent = (field === 'paid' ? 'Paid: ' : 'Del: ') + next;
+        span.textContent = next;
         // update pending highlight on the row
         const order = getOrderById(id);
         if (order) span.closest('tr').className = isPending(order) ? 'is-pending' : '';
