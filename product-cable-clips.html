@@ -16,19 +16,13 @@
         .back-link { display: inline-block; margin: 20px 40px; color: #FDD023; text-decoration: none; font-weight: bold; }
         .back-link:hover { text-decoration: underline; }
         .product-container { max-width: 1200px; margin: 0 auto 60px; padding: 0 40px; }
-
         .product-display { background: rgba(0,0,0,0.7); border-radius: 20px; padding: 40px; border: 3px solid #461D7C; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-
-        /* Color picker panel */
         .color-panel { display: flex; flex-direction: column; gap: 20px; }
         .color-panel-title { color: #FDD023; font-size: 1.15em; font-weight: bold; text-align: center; }
-
-        /* Visual diagram of clips */
         .clips-diagram { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(70,29,124,0.5); }
         .clips-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
         .clip-preview { width: 44px; height: 30px; border-radius: 6px; border: 3px solid rgba(255,255,255,0.3); transition: background 0.3s; }
         .clips-label { font-size: 0.82em; color: rgba(255,255,255,0.6); margin-top: 4px; }
-
         .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .color-tile { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; padding: 8px 4px; border-radius: 10px; border: 2px solid transparent; transition: all 0.2s; }
         .color-tile:hover { border-color: rgba(253,208,35,0.5); background: rgba(255,255,255,0.05); }
@@ -36,12 +30,10 @@
         .color-dot { width: 38px; height: 38px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); }
         .color-name { font-size: 0.76em; color: rgba(255,255,255,0.8); text-align: center; }
         .color-tile.selected .color-name { color: #FDD023; font-weight: bold; }
-
         .selected-display { background: rgba(70,29,124,0.3); border: 2px solid #461D7C; border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
         .selected-dot { width: 32px; height: 32px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); flex-shrink: 0; }
         .selected-text { font-size: 0.93em; }
         .selected-text span { color: #FDD023; font-weight: bold; }
-
         .product-info h1 { color: #FDD023; font-size: 2.3em; margin-bottom: 15px; }
         .price-block { margin-bottom: 20px; }
         .price { font-size: 2em; color: #FDD023; font-weight: bold; }
@@ -50,37 +42,25 @@
         .features { margin-bottom: 20px; }
         .features h3 { color: #FDD023; margin-bottom: 10px; }
         .features ul { list-style-position: inside; line-height: 1.9; }
-
         .order-form { background: rgba(0,0,0,0.8); padding: 30px; border-radius: 15px; border: 2px solid #461D7C; }
         .order-form h2 { color: #FDD023; margin-bottom: 25px; font-size: 2em; }
         .form-group { margin-bottom: 20px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         label { display: block; margin-bottom: 8px; color: #FDD023; font-weight: 600; }
         .required { color: #ff6b6b; }
-        input[type="text"], input[type="email"], input[type="number"], textarea {
-            width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #461D7C;
-            background: rgba(255,255,255,0.1); color: white; font-size: 1em;
-        }
+        input[type="text"], input[type="email"], input[type="number"], textarea { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #461D7C; background: rgba(255,255,255,0.1); color: white; font-size: 1em; }
         textarea { min-height: 80px; resize: vertical; }
-
         .submit-btn { background: #461D7C; color: #FDD023; padding: 18px 50px; border: 3px solid #FDD023; border-radius: 12px; font-size: 1.3em; font-weight: bold; cursor: pointer; width: 100%; transition: all 0.3s; text-transform: uppercase; box-shadow: 0 0 20px rgba(253,208,35,0.5); }
         .submit-btn:hover { background: #FDD023; color: #461D7C; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(253,208,35,0.7); }
         .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .message { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; }
         .message.success { background: rgba(76,175,80,0.8); border: 2px solid #4CAF50; }
         .message.error { background: rgba(220,53,69,0.8); border: 2px solid #dc3545; }
-
         .venmo-section { background: linear-gradient(135deg, #461D7C 0%, #FDD023 100%); padding: 25px; border-radius: 12px; text-align: center; border: 2px solid #FDD023; margin-top: 40px; }
         .venmo-section h3 { color: #000; font-size: 1.5em; margin-bottom: 12px; }
         .venmo-section p { color: #000; font-weight: 600; margin-bottom: 15px; }
         .venmo-section img { max-width: 250px; background: white; padding: 15px; border-radius: 10px; }
-
-        @media (max-width: 768px) {
-            .product-display { grid-template-columns: 1fr; }
-            .form-row { grid-template-columns: 1fr; }
-            .product-container { padding: 0 20px; }
-            .back-link { margin: 15px 20px; }
-        }
+        @media (max-width: 768px) { .product-display { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } .product-container { padding: 0 20px; } .back-link { margin: 15px 20px; } }
     </style>
 </head>
 <body>
@@ -98,11 +78,8 @@
 
     <div class="product-container">
         <div class="product-display">
-
-            <!-- LEFT: Color picker + diagram -->
             <div class="color-panel">
                 <div class="color-panel-title">Pick Your Color</div>
-
                 <div class="clips-diagram">
                     <div class="clips-row">
                         <div class="clip-preview" id="clipPreview1" style="background:#F0F0F0;"></div>
@@ -113,70 +90,31 @@
                     </div>
                     <div class="clips-label">Your 5-pack — color updates as you pick</div>
                 </div>
-
                 <div class="selected-display">
                     <div class="selected-dot" id="selectedDot" style="background:#F0F0F0;"></div>
                     <div class="selected-text">Selected: <span id="selectedColorName">White</span></div>
                 </div>
-
                 <div class="color-grid" id="colorGrid">
-                    <div class="color-tile selected" data-color="White"  data-hex="#F0F0F0" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#F0F0F0;"></div>
-                        <div class="color-name">White</div>
-                    </div>
-                    <div class="color-tile" data-color="Black"  data-hex="#222222" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#222222;"></div>
-                        <div class="color-name">Black</div>
-                    </div>
-                    <div class="color-tile" data-color="Grey"   data-hex="#888888" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#888888;"></div>
-                        <div class="color-name">Grey</div>
-                    </div>
-                    <div class="color-tile" data-color="Red"    data-hex="#CC3333" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#CC3333;"></div>
-                        <div class="color-name">Red</div>
-                    </div>
-                    <div class="color-tile" data-color="Purple" data-hex="#461D7C" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#461D7C;"></div>
-                        <div class="color-name">Purple</div>
-                    </div>
-                    <div class="color-tile" data-color="Green"  data-hex="#2d8a2d" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#2d8a2d;"></div>
-                        <div class="color-name">Green</div>
-                    </div>
-                    <div class="color-tile" data-color="Blue"   data-hex="#2255BB" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#2255BB;"></div>
-                        <div class="color-name">Blue</div>
-                    </div>
-                    <div class="color-tile" data-color="Brown"  data-hex="#8B4513" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#8B4513;"></div>
-                        <div class="color-name">Brown</div>
-                    </div>
-                    <div class="color-tile" data-color="Orange" data-hex="#EE6600" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#EE6600;"></div>
-                        <div class="color-name">Orange</div>
-                    </div>
-                    <div class="color-tile" data-color="Yellow" data-hex="#FDD023" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#FDD023;border-color:rgba(0,0,0,0.2);"></div>
-                        <div class="color-name">Yellow</div>
-                    </div>
-                    <div class="color-tile" data-color="Pink"   data-hex="#FF69B4" onclick="pickColor(this)">
-                        <div class="color-dot" style="background:#FF69B4;"></div>
-                        <div class="color-name">Pink</div>
-                    </div>
+                    <div class="color-tile selected" data-color="White" data-hex="#F0F0F0" onclick="pickColor(this)"><div class="color-dot" style="background:#F0F0F0;"></div><div class="color-name">White</div></div>
+                    <div class="color-tile" data-color="Black" data-hex="#222222" onclick="pickColor(this)"><div class="color-dot" style="background:#222222;"></div><div class="color-name">Black</div></div>
+                    <div class="color-tile" data-color="Grey" data-hex="#888888" onclick="pickColor(this)"><div class="color-dot" style="background:#888888;"></div><div class="color-name">Grey</div></div>
+                    <div class="color-tile" data-color="Red" data-hex="#CC3333" onclick="pickColor(this)"><div class="color-dot" style="background:#CC3333;"></div><div class="color-name">Red</div></div>
+                    <div class="color-tile" data-color="Purple" data-hex="#461D7C" onclick="pickColor(this)"><div class="color-dot" style="background:#461D7C;"></div><div class="color-name">Purple</div></div>
+                    <div class="color-tile" data-color="Green" data-hex="#2d8a2d" onclick="pickColor(this)"><div class="color-dot" style="background:#2d8a2d;"></div><div class="color-name">Green</div></div>
+                    <div class="color-tile" data-color="Blue" data-hex="#2255BB" onclick="pickColor(this)"><div class="color-dot" style="background:#2255BB;"></div><div class="color-name">Blue</div></div>
+                    <div class="color-tile" data-color="Brown" data-hex="#8B4513" onclick="pickColor(this)"><div class="color-dot" style="background:#8B4513;"></div><div class="color-name">Brown</div></div>
+                    <div class="color-tile" data-color="Orange" data-hex="#EE6600" onclick="pickColor(this)"><div class="color-dot" style="background:#EE6600;"></div><div class="color-name">Orange</div></div>
+                    <div class="color-tile" data-color="Yellow" data-hex="#FDD023" onclick="pickColor(this)"><div class="color-dot" style="background:#FDD023;border-color:rgba(0,0,0,0.2);"></div><div class="color-name">Yellow</div></div>
+                    <div class="color-tile" data-color="Pink" data-hex="#FF69B4" onclick="pickColor(this)"><div class="color-dot" style="background:#FF69B4;"></div><div class="color-name">Pink</div></div>
                 </div>
             </div>
-
-            <!-- RIGHT: Product Info -->
             <div class="product-info">
                 <h1>Cable Management Clips</h1>
                 <div class="price-block">
                     <div class="price">$6 <span style="font-size:0.45em;color:rgba(255,255,255,0.65);font-weight:normal;">5-pack</span></div>
                     <div class="price-sub">That's $1.20 per clip — cheapest desk upgrade you'll find</div>
                 </div>
-
                 <p>Cable chaos is the most annoying unsolved problem on every desk. These clips snap onto the edge of your desk and keep your mouse, charger, and headphone cables right where you left them — no more fishing under the desk.</p>
-
                 <div class="features">
                     <h3>Features:</h3>
                     <ul>
@@ -188,18 +126,15 @@
                         <li>Fast turnaround — small prints, quick delivery</li>
                     </ul>
                 </div>
-
                 <p><strong>Turnaround:</strong> 1–2 days</p>
                 <p><strong>Great for:</strong> Taming charger cables, mouse cables, headphone cables</p>
             </div>
         </div>
 
-        <!-- ORDER FORM -->
         <div class="order-form">
             <h2>Place Your Order</h2>
             <form id="orderForm">
                 <input type="hidden" name="productName" value="Cable Management Clips (5-pack)">
-
                 <div class="form-row">
                     <div class="form-group">
                         <label for="custName">Your Name <span class="required">*</span></label>
@@ -210,7 +145,6 @@
                         <input type="email" id="email" name="email" required placeholder="your@email.com">
                     </div>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label for="quantity">Packs <span class="required">*</span></label>
@@ -222,17 +156,14 @@
                         <input type="text" id="colorField" name="color" required readonly placeholder="Select a color above" style="cursor:pointer;">
                     </div>
                 </div>
-
                 <div class="form-group" style="background:rgba(70,29,124,0.25);border:2px solid #461D7C;border-radius:10px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;">
                     <span id="totalLabel">Total (1 pack = 5 clips):</span>
                     <span id="totalDisplay" style="color:#FDD023;font-size:1.3em;font-weight:bold;">$6</span>
                 </div>
-
                 <div class="form-group">
                     <label for="notes">Notes</label>
                     <textarea id="notes" name="notes" placeholder="Want a mix of colors across packs? Let us know here!"></textarea>
                 </div>
-
                 <button type="submit" class="submit-btn">Place Order</button>
                 <div class="message" id="message"></div>
             </form>
@@ -247,17 +178,16 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysViGtd1u0eHhYaxtUga6aITHAAEZGFIzBPsSlyRbQ2isR-Wc6a0AHfzvCvEHbyPLVLw/exec';
+        const WORKER_URL = 'https://v3d-orders.nicholas-vastano.workers.dev';
 
         function pickColor(el) {
             document.querySelectorAll('.color-tile').forEach(t => t.classList.remove('selected'));
             el.classList.add('selected');
             const color = el.dataset.color;
-            const hex   = el.dataset.hex;
+            const hex = el.dataset.hex;
             document.getElementById('selectedDot').style.background = hex;
             document.getElementById('selectedColorName').textContent = color;
             document.getElementById('colorField').value = color;
-            // Update clip diagram
             for (let i = 1; i <= 5; i++) {
                 document.getElementById('clipPreview' + i).style.background = hex;
             }
@@ -270,34 +200,31 @@
             document.getElementById('totalLabel').textContent = `Total (${qty} pack${qty > 1 ? 's' : ''} = ${clips} clips):`;
         }
 
-        // Pre-select White
         document.getElementById('colorField').value = 'White';
 
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const color = document.getElementById('colorField').value;
             if (!color) { alert('Please select a color.'); return; }
-
             const btn = document.querySelector('.submit-btn');
             btn.textContent = 'Submitting...';
             btn.disabled = true;
-
-            const qty  = parseInt(document.getElementById('quantity').value) || 1;
+            const qty = parseInt(document.getElementById('quantity').value) || 1;
             const data = {
-                timestamp:   new Date().toLocaleString(),
+                timestamp: new Date().toLocaleString(),
                 productName: 'Cable Management Clips (5-pack)',
-                name:        document.getElementById('custName').value,
-                email:       document.getElementById('email').value,
-                quantity:    qty,
-                totalClips:  qty * 5,
-                color:       color,
-                notes:       document.getElementById('notes').value || 'None',
+                name: document.getElementById('custName').value,
+                email: document.getElementById('email').value,
+                quantity: qty,
+                totalClips: qty * 5,
+                color: color,
+                notes: document.getElementById('notes').value || 'None',
                 pricePerPack: '$6',
-                totalPrice:   '$' + (qty * 6)
+                totalPrice: '$' + (qty * 6)
             };
-
             try {
-                await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+                const res = await fetch(WORKER_URL + '/orders', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+                if (!res.ok) throw new Error('Server error ' + res.status);
                 const msg = document.getElementById('message');
                 msg.textContent = `✓ Order submitted! Total: $${qty * 6}. Please send payment via Venmo below!`;
                 msg.className = 'message success';
