@@ -247,7 +247,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysViGtd1u0eHhYaxtUga6aITHAAEZGFIzBPsSlyRbQ2isR-Wc6a0AHfzvCvEHbyPLVLw/exec';
+        const WORKER_URL = 'https://v3d-orders.nicholas-vastano.workers.dev';
 
         function pickColor(el) {
             document.querySelectorAll('.color-tile').forEach(t => t.classList.remove('selected'));
@@ -297,7 +297,8 @@
             };
 
             try {
-                await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+                const res = await fetch(WORKER_URL + '/orders', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+                if (!res.ok) throw new Error('Server error ' + res.status);
                 const msg = document.getElementById('message');
                 msg.textContent = `✓ Order submitted! Total: $${qty * 6}. Please send payment via Venmo below!`;
                 msg.className = 'message success';
