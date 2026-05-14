@@ -182,7 +182,7 @@
             thumb.classList.add('active');
         }
 
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysViGtd1u0eHhYaxtUga6aITHAAEZGFIzBPsSlyRbQ2isR-Wc6a0AHfzvCvEHbyPLVLw/exec';
+        const WORKER_URL = 'https://v3d-orders.nicholas-vastano.workers.dev';
 
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -204,7 +204,8 @@
             };
             const msgEl = document.getElementById('message');
             try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                const res = await fetch(WORKER_URL + '/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                if (!res.ok) throw new Error('Server error ' + res.status);
                 msgEl.textContent = `✓ Order submitted! Total: $${totalPrice}. Please pay via Venmo below!`;
                 msgEl.className = 'message success';
                 msgEl.style.display = 'block';

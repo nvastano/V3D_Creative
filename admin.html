@@ -338,6 +338,7 @@
             <button class="btn-confirm-cancel" id="confirmCancel">Cancel</button>
             <button class="btn-confirm-del" id="confirmDel">Delete</button>
         </div>
+        <p id="deleteError" style="color:#ff6b6b;font-size:0.85em;margin-top:12px;display:none;"></p>
     </div>
 </div>
 
@@ -744,14 +745,22 @@ document.getElementById('confirmDel').addEventListener('click', async () => {
     if (!pendingDeleteId) return;
     const key = savedKey();
     const btn = document.getElementById('confirmDel');
+    const errEl = document.getElementById('deleteError');
     btn.textContent = 'Deleting…'; btn.disabled = true;
+    errEl.style.display = 'none';
     try {
         const res = await fetch(`${WORKER_URL}/orders/${pendingDeleteId}?key=${encodeURIComponent(key)}`, { method: 'DELETE' });
         if (res.ok) {
             document.getElementById('confirmOverlay').style.display = 'none';
             pendingDeleteId = null;
             await loadOrders();
+        } else {
+            errEl.textContent = `Delete failed (HTTP ${res.status}). Check your connection or try again.`;
+            errEl.style.display = 'block';
         }
+    } catch {
+        errEl.textContent = 'Delete failed. Could not reach the server.';
+        errEl.style.display = 'block';
     } finally {
         btn.textContent = 'Delete'; btn.disabled = false;
     }
