@@ -67,11 +67,15 @@
         .venmo-section p { color: #000; font-weight: 600; margin-bottom: 15px; }
         .venmo-section img { max-width: 250px; background: white; padding: 15px; border-radius: 10px; }
 
+        .photo-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .photo-strip img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 14px; border: 2px solid #461D7C; }
+
         @media (max-width: 768px) {
             .product-display { grid-template-columns: 1fr; }
             .form-row { grid-template-columns: 1fr; }
             .product-container { padding: 0 20px; }
             .back-link { margin: 15px 20px; }
+            .photo-strip { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -89,6 +93,11 @@
     <a href="index.html" class="back-link">← Back to All Prints</a>
 
     <div class="product-container">
+        <div class="photo-strip">
+            <img src="phone-stand-1.jpg" alt="Phone Stand front view">
+            <img src="phone-stand-2.jpg" alt="Phone Stand side view">
+        </div>
+
         <div class="product-display">
 
             <!-- LEFT: Color Picker -->
