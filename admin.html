@@ -185,7 +185,7 @@
 
         <!-- Filter bar -->
         <div class="filter-bar">
-            <input type="search" id="searchInput" placeholder="Search name, product, email…" autocomplete="nope" data-lpignore="true">
+            <input type="text" id="searchInput" placeholder="Search name, product, email…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <select id="productFilter"><option value="">All Products</option></select>
             <select id="paidFilter">
                 <option value="">Paid: All</option>
@@ -355,7 +355,7 @@ let lastVisit  = localStorage.getItem(VISITED_KEY) || null;
 
 function savedKey() { return localStorage.getItem(AUTH_KEY) || ''; }
 
-// ── Auth ────────────────────────────────────────────────────────────────────────────
+// ── Auth ─────────────────────────────────────────────────────────────────────────────
 
 function showLogin(err) {
     document.getElementById('dashboard').style.display = 'none';
@@ -425,7 +425,7 @@ async function loadOrders() {
     }
 }
 
-// ── New-orders banner ───────────────────────────────────────────────────────────────────────
+// ── New-orders banner ─────────────────────────────────────────────────────────────────
 
 function checkNewOrders() {
     if (!lastVisit) { updateLastVisit(); return; }
@@ -456,7 +456,7 @@ document.getElementById('markSeenBtn').addEventListener('click', () => {
     renderAll();
 });
 
-// ── Rendering ─────────────────────────────────────────────────────────────────────────────
+// ── Rendering ───────────────────────────────────────────────────────────────────────────
 
 function parseDetails(raw) { try { return JSON.parse(raw || '{}'); } catch { return {}; } }
 
@@ -579,7 +579,7 @@ function renderTable(orders) {
             <td style="color:#888;font-size:0.8em;">${escHtml(o.source||'—')}</td>
             <td>
                 <div class="row-actions">
-                    <button class="btn-edit" onclick="openEditModal(${o.id})">&#9999; Edit</button>
+                    <button class="btn-edit" onclick="openEditModal(${o.id})">✏ Edit</button>
                     <button class="btn-del"  onclick="openDeleteConfirm(${o.id})">✕</button>
                 </div>
             </td>
@@ -594,7 +594,7 @@ function renderAll() {
     renderTable(getSorted(filtered));
 }
 
-// ── Sort & filters ────────────────────────────────────────────────────────────────────────────
+// ── Sort & filters ──────────────────────────────────────────────────────────────────────────
 
 document.querySelectorAll('thead th[data-col]').forEach(th => {
     th.addEventListener('click', () => {
@@ -617,7 +617,7 @@ document.getElementById('pendingBtn').addEventListener('click', () => {
     renderAll();
 });
 
-// ── Edit / Create Modal ───────────────────────────────────────────────────────────────────────
+// ── Edit / Create Modal ───────────────────────────────────────────────────────────────────
 
 function getOrderById(id) { return allOrders.find(o => o.id === id); }
 
@@ -771,10 +771,11 @@ document.getElementById('confirmDel').addEventListener('click', async () => {
 if (savedKey()) { showDashboard(); loadOrders(); }
 else { showLogin(); }
 
-setTimeout(() => {
+// Clear any browser-autofilled garbage from the search field
+[100, 500, 1500].forEach(ms => setTimeout(() => {
     const s = document.getElementById('searchInput');
-    if (s && s.value.startsWith('http')) { s.value = ''; renderAll(); }
-}, 150);
+    if (s && (s.value.startsWith('http') || s.value.startsWith('www'))) { s.value = ''; renderAll(); }
+}, ms));
 </script>
 </body>
 </html>
