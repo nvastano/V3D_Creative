@@ -252,6 +252,12 @@
             border-radius: 10px;
         }
 
+        .color-pick-label { font-size: 0.8em; color: #aaa; margin-top: 6px; }
+        .color-tiles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .ctile { display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; font-size: 0.85em; background: rgba(255,255,255,0.05); transition: all 0.15s; }
+        .ctile:hover { border-color: rgba(253,208,35,0.5); }
+        .ctile.active { border-color: #FDD023; background: rgba(253,208,35,0.1); color: #FDD023; font-weight: bold; }
+        .cswatch { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0; }
         @media (max-width: 768px) {
             .product-display {
                 grid-template-columns: 1fr;
@@ -367,7 +373,24 @@
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysViGtd1u0eHhYaxtUga6aITHAAEZGFIzBPsSlyRbQ2isR-Wc6a0AHfzvCvEHbyPLVLw/exec';
-
+        const COLORS = [
+            { name: 'White', hex: '#F0F0F0' }, { name: 'Black', hex: '#222222' },
+            { name: 'Grey', hex: '#888888' }, { name: 'Red', hex: '#CC3333' },
+            { name: 'Purple', hex: '#461D7C' }, { name: 'Green', hex: '#2d8a2d' },
+            { name: 'Blue', hex: '#2255BB' }, { name: 'Brown', hex: '#8B4513' },
+            { name: 'Orange', hex: '#EE6600' }, { name: 'Yellow', hex: '#FDD023' },
+            { name: 'Pink', hex: '#FF69B4' },
+        ];
+        function colorTilesHTML(inputName) {
+            return `<input type="hidden" name="${inputName}"><div class="color-tiles">${COLORS.map(c => `<div class="ctile" data-color="${c.name}" data-input="${inputName}" onclick="pickTileColor(this)"><div class="cswatch" style="background:${c.hex}"></div>${c.name}</div>`).join('')}</div><div class="color-pick-label">No color selected</div>`;
+        }
+        function pickTileColor(tile) {
+            const inputName = tile.dataset.input;
+            tile.closest('.color-tiles').querySelectorAll('.ctile').forEach(t => t.classList.remove('active'));
+            tile.classList.add('active');
+            document.querySelector(`input[name="${inputName}"]`).value = tile.dataset.color;
+            tile.closest('.form-group').querySelector('.color-pick-label').textContent = 'Selected: ' + tile.dataset.color;
+        }
         function updateHookFields() {
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
             const colorType = document.getElementById('colorType').value;
@@ -376,7 +399,6 @@
 
             if (!colorType) return;
 
-            const colors = ['White', 'Black', 'Grey', 'Red', 'Purple', 'Green', 'Blue', 'Brown', 'Orange', 'Yellow', 'Pink'];
             const isSingle = colorType.includes('Single');
 
             for (let i = 1; i <= quantity; i++) {
@@ -386,38 +408,11 @@
                 div.style.background = 'rgba(70, 29, 124, 0.2)';
                 div.style.borderRadius = '10px';
                 div.style.border = '2px solid #461D7C';
-                
+
                 if (isSingle) {
-                    div.innerHTML = `
-                        <h4 style="color: #FDD023; margin-bottom: 15px;">Hook ${i}</h4>
-                        <div class="form-group">
-                            <label>Color</label>
-                            <select name="hook${i}Color" required>
-                                <option value="">Select...</option>
-                                ${colors.map(c => `<option value="${c}">${c}</option>`).join('')}
-                            </select>
-                        </div>
-                    `;
+                    div.innerHTML = `<h4 style="color:#FDD023;margin-bottom:15px;">Hook ${i}</h4><div class="form-group"><label style="color:#FDD023;font-weight:600;display:block;margin-bottom:8px;">Color</label>${colorTilesHTML('hook'+i+'Color')}</div>`;
                 } else {
-                    div.innerHTML = `
-                        <h4 style="color: #FDD023; margin-bottom: 15px;">Hook ${i}</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Primary Color</label>
-                                <select name="hook${i}Primary" required>
-                                    <option value="">Select...</option>
-                                    ${colors.map(c => `<option value="${c}">${c}</option>`).join('')}
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Secondary Color</label>
-                                <select name="hook${i}Secondary" required>
-                                    <option value="">Select...</option>
-                                    ${colors.map(c => `<option value="${c}">${c}</option>`).join('')}
-                                </select>
-                            </div>
-                        </div>
-                    `;
+                    div.innerHTML = `<h4 style="color:#FDD023;margin-bottom:15px;">Hook ${i}</h4><div class="form-row"><div class="form-group"><label style="color:#FDD023;font-weight:600;display:block;margin-bottom:8px;">Primary Color</label>${colorTilesHTML('hook'+i+'Primary')}</div><div class="form-group"><label style="color:#FDD023;font-weight:600;display:block;margin-bottom:8px;">Secondary Color</label>${colorTilesHTML('hook'+i+'Secondary')}</div></div>`;
                 }
                 container.appendChild(div);
             }
@@ -434,11 +429,14 @@
             
             const hooks = [];
             const isSingle = colorType.includes('Single');
-            
+
             for (let i = 1; i <= quantity; i++) {
                 if (isSingle) {
+                    if (!formData.get(`hook${i}Color`)) { alert(`Please select a color for Hook ${i}.`); return; }
                     hooks.push({ hookNumber: i, color: formData.get(`hook${i}Color`) });
                 } else {
+                    if (!formData.get(`hook${i}Primary`)) { alert(`Please select a primary color for Hook ${i}.`); return; }
+                    if (!formData.get(`hook${i}Secondary`)) { alert(`Please select a secondary color for Hook ${i}.`); return; }
                     hooks.push({
                         hookNumber: i,
                         primaryColor: formData.get(`hook${i}Primary`),
