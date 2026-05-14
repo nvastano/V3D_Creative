@@ -185,7 +185,7 @@
 
         <!-- Filter bar -->
         <div class="filter-bar">
-            <input type="search" id="searchInput" placeholder="Search name, product, email…" autocomplete="nope" data-lpignore="true">
+            <input type="text" id="searchInput" placeholder="Search name, product, email…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <select id="productFilter"><option value="">All Products</option></select>
             <select id="paidFilter">
                 <option value="">Paid: All</option>
@@ -771,10 +771,11 @@ document.getElementById('confirmDel').addEventListener('click', async () => {
 if (savedKey()) { showDashboard(); loadOrders(); }
 else { showLogin(); }
 
-setTimeout(() => {
+// Clear any browser-autofilled garbage from the search field
+[100, 500, 1500].forEach(ms => setTimeout(() => {
     const s = document.getElementById('searchInput');
-    if (s && s.value.startsWith('http')) { s.value = ''; renderAll(); }
-}, 150);
+    if (s && (s.value.startsWith('http') || s.value.startsWith('www'))) { s.value = ''; renderAll(); }
+}, ms));
 </script>
 </body>
 </html>
