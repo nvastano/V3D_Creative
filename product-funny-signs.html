@@ -528,7 +528,7 @@
         let _font = null;
         async function getFont() {
             if (_font) return _font;
-            const buf = await (await fetch('fonts/Roboto-Bold.ttf')).arrayBuffer();
+            const buf = await (await fetch('https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjalmUiA8.ttf')).arrayBuffer();
             _font = opentype.parse(buf);
             return _font;
         }
