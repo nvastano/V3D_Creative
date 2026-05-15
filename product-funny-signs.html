@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funny Work Signs - V3D Creative</title>
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/earcut@2.2.4/src/earcut.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #461D7C 0%, #000000 100%); min-height: 100vh; color: white; }
@@ -64,6 +67,10 @@
         .swatch[data-color="Yellow"] { background: #FDD023; }
         .swatch[data-color="Pink"]   { background: #FF69B4; }
 
+
+        .download-btn { background: #1a1a2e; color: #FDD023; padding: 12px 20px; border: 2px solid #FDD023; border-radius: 10px; font-size: 1em; font-weight: bold; cursor: pointer; width: 100%; transition: all 0.3s; margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .download-btn:hover { background: #FDD023; color: #1a1a2e; }
+        .download-btn:disabled { opacity: 0.5; cursor: wait; }
 
         /* Order form */
         .order-form { background: rgba(0,0,0,0.8); padding: 30px; border-radius: 15px; border: 2px solid #461D7C; }
@@ -207,6 +214,9 @@
                         <div class="swatch"          data-color="Pink"   title="Pink"   onclick="selectTextColor(this)"></div>
                     </div>
                 </div>
+                <button class="download-btn" id="downloadBtn" onclick="generate3mf()">
+                    ⬇ Download .3mf for Printing
+                </button>
             </div>
         </div>
 
@@ -513,6 +523,300 @@
         });
 
         drawPreview();
-    </script>
+
+        /* ── 3MF Generator ── */
+        let _font = null;
+        async function getFont() {
+            if (_font) return _font;
+            const buf = await (await fetch('fonts/Roboto-Bold.ttf')).arrayBuffer();
+            _font = opentype.parse(buf);
+            return _font;
+        }
+
+        // Convert opentype path commands → array of contours [[x,y],...]
+        function pathToContours(path) {
+            const contours = [], STEPS = 8;
+            let cur = null;
+            for (const c of path.commands) {
+                if (c.type === 'M') {
+                    if (cur && cur.length >= 3) contours.push(cur);
+                    cur = [[c.x, c.y]];
+                } else if (c.type === 'L') {
+                    cur.push([c.x, c.y]);
+                } else if (c.type === 'Q') {
+                    const [px, py] = cur[cur.length-1];
+                    for (let i = 1; i <= STEPS; i++) {
+                        const t = i/STEPS, m = 1-t;
+                        cur.push([m*m*px+2*m*t*c.x1+t*t*c.x, m*m*py+2*m*t*c.y1+t*t*c.y]);
+                    }
+                } else if (c.type === 'C') {
+                    const [px, py] = cur[cur.length-1];
+                    for (let i = 1; i <= STEPS; i++) {
+                        const t = i/STEPS, m = 1-t;
+                        cur.push([m*m*m*px+3*m*m*t*c.x1+3*m*t*t*c.x2+t*t*t*c.x, m*m*m*py+3*m*m*t*c.y1+3*m*t*t*c.y2+t*t*t*c.y]);
+                    }
+                } else if (c.type === 'Z') {
+                    if (cur && cur.length >= 3) contours.push(cur);
+                    cur = null;
+                }
+            }
+            if (cur && cur.length >= 3) contours.push(cur);
+            return contours;
+        }
+
+        function signedArea2D(pts) {
+            let a = 0;
+            for (let i = 0; i < pts.length; i++) {
+                const [x0,y0] = pts[i], [x1,y1] = pts[(i+1)%pts.length];
+                a += x0*y1 - x1*y0;
+            }
+            return a/2;
+        }
+
+        // Build vertex+triangle arrays for extruded 2D contours
+        // contours in font coords (Y down); dx/dy offset on sign; zBot/zTop in mm
+        function extrudeContours(contours, dx, dy, zBot, zTop) {
+            const V = [], T = [];
+            let vi = 0;
+            const addV = (x,y,z) => { V.push(x,y,z); return vi++; };
+
+            // Classify: outer = CW in screen (negative area), hole = CCW (positive area)
+            const outers = contours.filter(c => signedArea2D(c) < 0);
+            const holes  = contours.filter(c => signedArea2D(c) >= 0);
+
+            // Build flat 2D list for earcut (Y flipped: font Y-down → 3D Y-up)
+            const flat2d = [], holeIdx = [];
+            let off = 0;
+            for (const c of outers) { for (const [x,y] of c) flat2d.push(x+dx, -y+dy); off += c.length; }
+            for (const h of holes)  { holeIdx.push(off); for (const [x,y] of h) flat2d.push(x+dx, -y+dy); off += h.length; }
+
+            const allPts = [...outers, ...holes];
+            const triIdx = earcut(flat2d, holeIdx.length ? holeIdx : null, 2);
+
+            // Top face (zTop)
+            const topBase = vi;
+            for (const c of allPts) for (const [x,y] of c) addV(x+dx, -y+dy, zTop);
+            for (let i = 0; i < triIdx.length; i+=3) T.push(topBase+triIdx[i], topBase+triIdx[i+1], topBase+triIdx[i+2]);
+
+            // Bottom face (zBot) — reversed winding
+            const botBase = vi;
+            for (const c of allPts) for (const [x,y] of c) addV(x+dx, -y+dy, zBot);
+            for (let i = 0; i < triIdx.length; i+=3) T.push(botBase+triIdx[i+2], botBase+triIdx[i+1], botBase+triIdx[i]);
+
+            // Side walls
+            let pOff = 0;
+            for (const c of allPts) {
+                const n = c.length, isHole = holes.includes(c);
+                for (let i = 0; i < n; i++) {
+                    const j = (i+1)%n;
+                    const t0=topBase+pOff+i, t1=topBase+pOff+j, b0=botBase+pOff+i, b1=botBase+pOff+j;
+                    if (!isHole) { T.push(t0,b0,t1); T.push(b0,b1,t1); }
+                    else         { T.push(t0,t1,b0); T.push(b0,t1,b1); }
+                }
+                pOff += n;
+            }
+            return { V, T };
+        }
+
+        // Simple box mesh: 0→W, 0→H, 0→D
+        function boxMesh(W, H, D) {
+            const V = [
+                0,0,0, W,0,0, W,H,0, 0,H,0,
+                0,0,D, W,0,D, W,H,D, 0,H,D
+            ];
+            const T = [
+                0,2,1, 0,3,2,   // bottom
+                4,5,6, 4,6,7,   // top
+                0,1,5, 0,5,4,   // front
+                1,2,6, 1,6,5,   // right
+                2,3,7, 2,7,6,   // back
+                3,0,4, 3,4,7    // left
+            ];
+            return { V, T };
+        }
+
+        function meshToXml(id, V, T) {
+            let vxml = '', txml = '';
+            for (let i = 0; i < V.length; i+=3)
+                vxml += `<vertex x="${V[i].toFixed(4)}" y="${V[i+1].toFixed(4)}" z="${V[i+2].toFixed(4)}"/>`;
+            for (let i = 0; i < T.length; i+=3)
+                txml += `<triangle v1="${T[i]}" v2="${T[i+1]}" v3="${T[i+2]}"/>`;
+            return `<object id="${id}" type="model"><mesh><vertices>${vxml}</vertices><triangles>${txml}</triangles></mesh></object>`;
+        }
+
+        async function generate3mf() {
+            const btn = document.getElementById('downloadBtn');
+            btn.disabled = true;
+            btn.textContent = 'Generating…';
+            try {
+                const rawText = document.getElementById('signText').value.trim() || 'My Sign';
+                const font = await getFont();
+
+                // Sign dimensions (mm)
+                const SW = 149.5, SH = 40, SD = 5, TH = 1.5;
+                const maxTextW = SW * 0.85, maxTextH = SH * 0.70;
+
+                // Determine lines (mirror preview wrap logic)
+                const words = rawText.split(' ');
+                const lines = [];
+                let cur = '';
+                // Estimate using a test size
+                const testSize = 20;
+                const testPath = font.getPath(rawText, 0, 0, testSize);
+                const testBB = testPath.getBoundingBox();
+                const testW = testBB.x2 - testBB.x1;
+                if (testW <= maxTextW * (testSize / testSize)) {
+                    lines.push(rawText);
+                } else {
+                    for (const w of words) {
+                        const t = cur ? cur+' '+w : w;
+                        const p = font.getPath(t, 0, 0, testSize);
+                        const bb = p.getBoundingBox();
+                        if (bb.x2 - bb.x1 > maxTextW && cur) { lines.push(cur); cur = w; }
+                        else cur = t;
+                    }
+                    if (cur) lines.push(cur);
+                }
+                const nLines = Math.min(lines.length, 4);
+
+                // Find font size that fits both width and height
+                let fontSize = 30;
+                for (let iter = 0; iter < 20; iter++) {
+                    let maxW = 0, totalH = 0;
+                    for (const ln of lines.slice(0, nLines)) {
+                        const p = font.getPath(ln, 0, 0, fontSize);
+                        const bb = p.getBoundingBox();
+                        maxW = Math.max(maxW, bb.x2 - bb.x1);
+                        totalH += (bb.y2 - bb.y1) * 1.3;
+                    }
+                    const scaleW = maxW > maxTextW ? maxTextW / maxW : 1;
+                    const scaleH = totalH > maxTextH ? maxTextH / totalH : 1;
+                    const scale = Math.min(scaleW, scaleH);
+                    if (Math.abs(scale - 1) < 0.01) break;
+                    fontSize *= scale;
+                }
+                fontSize = Math.min(fontSize, 28);
+
+                // Generate text mesh for all lines
+                let allTextV = [], allTextT = [];
+                let vtOff = 0;
+
+                // Layout lines vertically centered on sign face (z = SD top, text extends to SD+TH)
+                const lineHeights = lines.slice(0, nLines).map(ln => {
+                    const bb = font.getPath(ln, 0, 0, fontSize).getBoundingBox();
+                    return bb.y2 - bb.y1;
+                });
+                const lineGap = fontSize * 0.15;
+                const totalH = lineHeights.reduce((s,h)=>s+h,0) + lineGap*(nLines-1);
+                let curY = (SH + totalH) / 2; // start Y in sign coords (Y up, from 0)
+
+                for (let li = 0; li < nLines; li++) {
+                    const ln = lines[li];
+                    const path = font.getPath(ln, 0, 0, fontSize);
+                    const bb = path.getBoundingBox();
+                    const tw = bb.x2 - bb.x1;
+                    const dx = (SW - tw) / 2 - bb.x1;  // center horizontally
+                    // In font coords (Y down), text baseline at 0
+                    // We want text top at curY (measured from sign bottom, Y up)
+                    // font bb.y1 is typically negative (above baseline), bb.y2 positive (below)
+                    // actual glyph top in font coords = bb.y1 (most negative)
+                    // In 3D: textTop = curY, so fontY origin (baseline) = curY - (-bb.y1) = curY + bb.y1...
+                    // flip: 3D_y = -font_y + dy_offset
+                    // We want top of text at curY: -bb.y1 + dy = curY → dy = curY + bb.y1
+                    // Wait: flip is: 3D_y = -font_y + dy
+                    // Glyph top in font coords = bb.y1 (most negative for ascenders)
+                    // In 3D: glyph top = -bb.y1 + dy = curY → dy = curY - (-bb.y1) = curY + bb.y1
+                    // Hmm, for Roboto Bold: bb.y1 is negative, bb.y2 is positive
+                    // glyph occupies font y from bb.y1 to bb.y2
+                    // after flip: 3D y from -bb.y2+dy to -bb.y1+dy
+                    // we want 3D top = curY: -bb.y1 + dy = curY → dy = curY + bb.y1
+                    const dy = curY + bb.y1;
+
+                    const contours = pathToContours(path);
+                    if (contours.length === 0) { curY -= lineHeights[li] + lineGap; continue; }
+                    const { V, T } = extrudeContours(contours, dx, dy, SD, SD + TH);
+
+                    // Offset triangle indices by current vertex count
+                    for (const t of T) allTextT.push(t + vtOff);
+                    for (const v of V) allTextV.push(v);
+                    vtOff += V.length / 3;
+
+                    curY -= lineHeights[li] + lineGap;
+                }
+
+                // Base plate mesh
+                const plate = boxMesh(SW, SH, SD);
+
+                // Build 3MF XML
+                const model = `<?xml version="1.0" encoding="UTF-8"?>
+<model unit="millimeter" xml:lang="en-US"
+  xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+  xmlns:p="http://schemas.microsoft.com/3dmanufacturing/production/2015/06"
+  requiredextensions="p">
+  <resources>
+    ${meshToXml(1, plate.V, plate.T)}
+    ${allTextV.length ? meshToXml(2, allTextV, allTextT) : ''}
+  </resources>
+  <build>
+    <item objectid="1"/>
+    ${allTextV.length ? '<item objectid="2"/>' : ''}
+  </build>
+</model>`;
+
+                const settings = `<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <object id="1">
+    <metadata key="name" value="Sign Base"/>
+    <metadata key="extruder" value="1"/>
+    <part id="1" subtype="normal_part">
+      <metadata key="name" value="Sign Base"/>
+      <metadata key="extruder" value="1"/>
+      <metadata key="matrix" value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </part>
+  </object>
+  ${allTextV.length ? `<object id="2">
+    <metadata key="name" value="Sign Text"/>
+    <metadata key="extruder" value="2"/>
+    <part id="2" subtype="normal_part">
+      <metadata key="name" value="Sign Text"/>
+      <metadata key="extruder" value="2"/>
+      <metadata key="matrix" value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </part>
+  </object>` : ''}
+</config>`;
+
+                const contentTypes = `<?xml version="1.0" encoding="UTF-8"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="model" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml"/>
+  <Default Extension="config" ContentType="application/xml"/>
+</Types>`;
+
+                const rels = `<?xml version="1.0" encoding="UTF-8"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Target="/3D/3dmodel.model" Id="rel-1" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>
+</Relationships>`;
+
+                const zip = new JSZip();
+                zip.file('[Content_Types].xml', contentTypes);
+                zip.file('_rels/.rels', rels);
+                zip.file('3D/3dmodel.model', model);
+                zip.file('Metadata/model_settings.config', settings);
+
+                const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+                const safe = rawText.replace(/[^a-z0-9]/gi, '_').slice(0, 30);
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `sign_${safe}.3mf`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+            } catch(err) {
+                console.error(err);
+                alert('Error generating .3mf: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '⬇ Download .3mf for Printing';
+            }
+        }
 </body>
 </html>
