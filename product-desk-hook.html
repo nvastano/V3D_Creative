@@ -5,50 +5,280 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desk Hook - V3D Creative</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #461D7C 0%, #000000 100%); min-height: 100vh; color: white; }
-        nav { background: rgba(0, 0, 0, 0.9); padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid #461D7C; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo img { height: 80px; }
-        .nav-links { display: flex; list-style: none; gap: 30px; }
-        .nav-links a { color: white; text-decoration: none; font-weight: 600; padding: 10px 20px; border-radius: 5px; transition: all 0.3s; }
-        .nav-links a:hover { background: #461D7C; color: #FDD023; }
-        .back-link { display: inline-block; margin: 20px 40px; color: #FDD023; text-decoration: none; font-weight: bold; }
-        .back-link:hover { text-decoration: underline; }
-        .product-container { max-width: 1200px; margin: 0 auto 60px; padding: 0 40px; }
-        .product-display { background: rgba(0, 0, 0, 0.7); border-radius: 20px; padding: 40px; border: 3px solid #461D7C; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .product-images { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .product-images img { width: 100%; border-radius: 10px; border: 2px solid #461D7C; }
-        .product-info h1 { color: #FDD023; font-size: 2.5em; margin-bottom: 15px; }
-        .price { font-size: 2em; color: #FDD023; font-weight: bold; margin-bottom: 20px; }
-        .product-info p { line-height: 1.6; margin-bottom: 20px; font-size: 1.1em; }
-        .features { margin-bottom: 20px; }
-        .features h3 { color: #FDD023; margin-bottom: 10px; }
-        .features ul { list-style-position: inside; line-height: 1.8; }
-        .order-form { background: rgba(0, 0, 0, 0.8); padding: 30px; border-radius: 15px; border: 2px solid #461D7C; }
-        .order-form h2 { color: #FDD023; margin-bottom: 25px; font-size: 2em; }
-        .form-group { margin-bottom: 20px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        label { display: block; margin-bottom: 8px; color: #FDD023; font-weight: 600; }
-        .required { color: #ff6b6b; }
-        input, select, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #461D7C; background: rgba(255, 255, 255, 0.1); color: white; font-size: 1em; }
-        textarea { min-height: 100px; resize: vertical; }
-        .submit-btn { background: #461D7C; color: #FDD023; padding: 18px 50px; border: 3px solid #FDD023; border-radius: 12px; font-size: 1.3em; font-weight: bold; cursor: pointer; width: 100%; transition: all 0.3s; text-transform: uppercase; box-shadow: 0 0 20px rgba(253, 208, 35, 0.5); }
-        .submit-btn:hover { background: #FDD023; color: #461D7C; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(253, 208, 35, 0.7); }
-        .message { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; }
-        .message.success { background: rgba(76, 175, 80, 0.8); border: 2px solid #4CAF50; }
-        .message.error { background: rgba(220, 53, 69, 0.8); border: 2px solid #dc3545; }
-        .venmo-section { background: linear-gradient(135deg, #461D7C 0%, #FDD023 100%); padding: 25px; border-radius: 12px; text-align: center; border: 2px solid #FDD023; margin-top: 40px; }
-        .venmo-section h3 { color: #000; font-size: 1.5em; margin-bottom: 12px; }
-        .venmo-section p { color: #000; font-weight: 600; margin-bottom: 15px; }
-        .venmo-section img { max-width: 250px; background: white; padding: 15px; border-radius: 10px; }
-        @media (max-width: 768px) { .product-display { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #461D7C 0%, #000000 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid #461D7C;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 80px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #461D7C;
+            color: #FDD023;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 40px;
+            color: #FDD023;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .product-container {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 40px;
+        }
+
+        .product-display {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            border: 3px solid #461D7C;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .product-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .product-images img {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #461D7C;
+        }
+
+        .product-info h1 {
+            color: #FDD023;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 2em;
+            color: #FDD023;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .product-info p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .features {
+            margin-bottom: 20px;
+        }
+
+        .features h3 {
+            color: #FDD023;
+            margin-bottom: 10px;
+        }
+
+        .features ul {
+            list-style-position: inside;
+            line-height: 1.8;
+        }
+
+        /* Order Form */
+        .order-form {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #461D7C;
+        }
+
+        .order-form h2 {
+            color: #FDD023;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #FDD023;
+            font-weight: 600;
+        }
+
+        .required {
+            color: #ff6b6b;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #461D7C;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1em;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: #461D7C;
+            color: #FDD023;
+            padding: 18px 50px;
+            border: 3px solid #FDD023;
+            border-radius: 12px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(253, 208, 35, 0.5);
+        }
+
+        .submit-btn:hover {
+            background: #FDD023;
+            color: #461D7C;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(253, 208, 35, 0.7);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(76, 175, 80, 0.8);
+            border: 2px solid #4CAF50;
+        }
+
+        .message.error {
+            background: rgba(220, 53, 69, 0.8);
+            border: 2px solid #dc3545;
+        }
+
+        /* Venmo Section */
+        .venmo-section {
+            background: linear-gradient(135deg, #461D7C 0%, #FDD023 100%);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #FDD023;
+            margin-top: 40px;
+        }
+
+        .venmo-section h3 {
+            color: #000;
+            font-size: 1.5em;
+            margin-bottom: 12px;
+        }
+
+        .venmo-section p {
+            color: #000;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .venmo-section img {
+            max-width: 250px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .color-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+        .ctile { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 10px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1); cursor: pointer; background: rgba(255,255,255,0.04); transition: all 0.15s; }
+        .ctile:hover { border-color: rgba(253,208,35,0.4); background: rgba(255,255,255,0.08); }
+        .ctile.active { border-color: #FDD023; background: rgba(0,0,0,0.5); }
+        .ctile.active .ctile-name { color: #FDD023; font-weight: bold; }
+        .ctile-swatch { width: 52px; height: 52px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); }
+        .ctile-name { font-size: 0.82em; color: rgba(255,255,255,0.9); }
+        .color-selected-display { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: rgba(70,29,124,0.35); border: 2px solid #461D7C; border-radius: 10px; margin-bottom: 10px; }
+        .color-selected-display .ctile-swatch { width: 36px; height: 36px; flex-shrink: 0; }
+        .selected-name { color: #FDD023; font-weight: bold; }
+        @media (max-width: 768px) {
+            .product-display {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <nav>
         <div class="nav-container">
-            <div class="logo"><img src="images/logo.svg" alt="V3D Creative"></div>
+            <div class="logo">
+                <img src="images/logo.svg" alt="V3D Creative">
+            </div>
             <ul class="nav-links">
                 <li><a href="index.html">Our Prints</a></li>
                 <li><a href="about.html">About Us</a></li>
@@ -73,7 +303,9 @@
             <div class="product-info">
                 <h1>Headphone/Backpack/Purse Desk Hook</h1>
                 <div class="price">$5 flat rate</div>
+                
                 <p>Keep your workspace organized! This versatile desk hook is perfect for hanging headphones, bags, purses, backpacks, or anything you want within easy reach. Attaches securely to your desk or shelf edge.</p>
+
                 <div class="features">
                     <h3>Features:</h3>
                     <ul>
@@ -86,26 +318,32 @@
                         <li>Great for offices, gaming setups, and home use</li>
                     </ul>
                 </div>
+
                 <p><strong>Turnaround:</strong> 2-3 days</p>
             </div>
         </div>
 
+        <!-- Order Form -->
         <div class="order-form">
             <h2>Place Your Order</h2>
             <form id="orderForm">
                 <input type="hidden" name="productName" value="Headphone/Backpack/Purse Desk Hook">
+
                 <div class="form-group">
                     <label for="name">Name <span class="required">*</span></label>
                     <input type="text" id="name" name="name" required>
                 </div>
+
                 <div class="form-group">
                     <label for="email">Email <span class="required">*</span></label>
                     <input type="email" id="email" name="email" required>
                 </div>
+
                 <div class="form-group">
                     <label for="quantity">Quantity <span class="required">*</span></label>
                     <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required onchange="updateHookFields()">
                 </div>
+
                 <div class="form-group">
                     <label for="colorType">Color Option <span class="required">*</span></label>
                     <select id="colorType" name="colorType" required onchange="updateHookFields()">
@@ -114,16 +352,21 @@
                         <option value="Dual Color - $5">Dual Color - $5</option>
                     </select>
                 </div>
+
                 <div id="hookColorFields"></div>
+
                 <div class="form-group">
                     <label for="notes">Special Requests or Notes</label>
                     <textarea id="notes" name="notes" placeholder="Any special instructions?"></textarea>
                 </div>
+
                 <button type="submit" class="submit-btn">Place Order</button>
+
                 <div class="message" id="message"></div>
             </form>
         </div>
 
+        <!-- Venmo Payment -->
         <div class="venmo-section">
             <h3>💳 Payment: Venmo</h3>
             <p>After submitting your order, send payment to:</p>
@@ -133,16 +376,37 @@
     </div>
 
     <script>
-        const WORKER_URL = 'https://v3d-orders.nicholas-vastano.workers.dev';
-
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysViGtd1u0eHhYaxtUga6aITHAAEZGFIzBPsSlyRbQ2isR-Wc6a0AHfzvCvEHbyPLVLw/exec';
+        const COLORS = [
+            { name: 'White', hex: '#F0F0F0' }, { name: 'Black', hex: '#222222' },
+            { name: 'Grey', hex: '#888888' }, { name: 'Red', hex: '#CC3333' },
+            { name: 'Purple', hex: '#461D7C' }, { name: 'Green', hex: '#2d8a2d' },
+            { name: 'Blue', hex: '#2255BB' }, { name: 'Brown', hex: '#8B4513' },
+            { name: 'Orange', hex: '#EE6600' }, { name: 'Yellow', hex: '#FDD023' },
+            { name: 'Pink', hex: '#FF69B4' },
+        ];
+        function colorTilesHTML(inputName) {
+            const first = COLORS[0];
+            return `<input type="hidden" name="${inputName}" value="${first.name}"><div class="color-selected-display" id="cpd_${inputName}"><div class="ctile-swatch" style="background:${first.hex}"></div><span>Selected: <strong class="selected-name">${first.name}</strong></span></div><div class="color-tiles">${COLORS.map((c,i) => `<div class="ctile${i===0?' active':''}" data-color="${c.name}" data-hex="${c.hex}" data-input="${inputName}" onclick="pickTileColor(this)"><div class="ctile-swatch" style="background:${c.hex}"></div><span class="ctile-name">${c.name}</span></div>`).join('')}</div>`;
+        }
+        function pickTileColor(tile) {
+            const inputName = tile.dataset.input;
+            tile.closest('.color-tiles').querySelectorAll('.ctile').forEach(t => t.classList.remove('active'));
+            tile.classList.add('active');
+            document.querySelector(`input[name="${inputName}"]`).value = tile.dataset.color;
+            const d = document.getElementById('cpd_' + inputName);
+            if (d) { d.querySelector('.ctile-swatch').style.background = tile.dataset.hex; d.querySelector('.selected-name').textContent = tile.dataset.color; }
+        }
         function updateHookFields() {
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
             const colorType = document.getElementById('colorType').value;
             const container = document.getElementById('hookColorFields');
             container.innerHTML = '';
+
             if (!colorType) return;
-            const colors = ['White', 'Black', 'Grey', 'Red', 'Purple', 'Green', 'Blue', 'Brown', 'Orange', 'Yellow', 'Pink'];
+
             const isSingle = colorType.includes('Single');
+
             for (let i = 1; i <= quantity; i++) {
                 const div = document.createElement('div');
                 div.style.marginBottom = '20px';
@@ -150,10 +414,11 @@
                 div.style.background = 'rgba(70, 29, 124, 0.2)';
                 div.style.borderRadius = '10px';
                 div.style.border = '2px solid #461D7C';
+
                 if (isSingle) {
-                    div.innerHTML = `<h4 style="color: #FDD023; margin-bottom: 15px;">Hook ${i}</h4><div class="form-group"><label>Color</label><select name="hook${i}Color" required><option value="">Select...</option>${colors.map(c => `<option value="${c}">${c}</option>`).join('')}</select></div>`;
+                    div.innerHTML = `<h4 style="color:#FDD023;margin-bottom:15px;">Hook ${i}</h4><div class="form-group"><label style="color:#FDD023;font-weight:600;display:block;margin-bottom:8px;">Color</label>${colorTilesHTML('hook'+i+'Color')}</div>`;
                 } else {
-                    div.innerHTML = `<h4 style="color: #FDD023; margin-bottom: 15px;">Hook ${i}</h4><div class="form-row"><div class="form-group"><label>Primary Color</label><select name="hook${i}Primary" required><option value="">Select...</option>${colors.map(c => `<option value="${c}">${c}</option>`).join('')}</select></div><div class="form-group"><label>Secondary Color</label><select name="hook${i}Secondary" required><option value="">Select...</option>${colors.map(c => `<option value="${c}">${c}</option>`).join('')}</select></div></div>`;
+                    div.innerHTML = `<h4 style="color:#FDD023;margin-bottom:15px;">Hook ${i}</h4><div class="form-row"><div class="form-group"><label style="color:#FDD023;font-weight:600;display:block;margin-bottom:8px;">Primary Color</label>${colorTilesHTML('hook'+i+'Primary')}</div><div class="form-group"><label style="color:#FDD023;font-weight:600;display:block;margin-bottom:8px;">Secondary Color</label>${colorTilesHTML('hook'+i+'Secondary')}</div></div>`;
                 }
                 container.appendChild(div);
             }
@@ -161,20 +426,31 @@
 
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const formData = new FormData(e.target);
             const quantity = parseInt(formData.get('quantity'));
             const colorType = formData.get('colorType');
             const pricePerUnit = 5;
             const totalPrice = quantity * pricePerUnit;
+            
             const hooks = [];
             const isSingle = colorType.includes('Single');
+
             for (let i = 1; i <= quantity; i++) {
                 if (isSingle) {
+                    if (!formData.get(`hook${i}Color`)) { alert(`Please select a color for Hook ${i}.`); return; }
                     hooks.push({ hookNumber: i, color: formData.get(`hook${i}Color`) });
                 } else {
-                    hooks.push({ hookNumber: i, primaryColor: formData.get(`hook${i}Primary`), secondaryColor: formData.get(`hook${i}Secondary`) });
+                    if (!formData.get(`hook${i}Primary`)) { alert(`Please select a primary color for Hook ${i}.`); return; }
+                    if (!formData.get(`hook${i}Secondary`)) { alert(`Please select a secondary color for Hook ${i}.`); return; }
+                    hooks.push({
+                        hookNumber: i,
+                        primaryColor: formData.get(`hook${i}Primary`),
+                        secondaryColor: formData.get(`hook${i}Secondary`)
+                    });
                 }
             }
+            
             const data = {
                 timestamp: new Date().toLocaleString(),
                 productName: formData.get('productName'),
@@ -187,9 +463,15 @@
                 pricePerUnit: '$' + pricePerUnit,
                 totalPrice: '$' + totalPrice
             };
+
             try {
-                const res = await fetch(WORKER_URL + '/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                if (!res.ok) throw new Error('Server error ' + res.status);
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
                 document.getElementById('message').textContent = `✓ Order submitted! Total: $${totalPrice}. Please pay via Venmo below!`;
                 document.getElementById('message').className = 'message success';
                 document.getElementById('message').style.display = 'block';
