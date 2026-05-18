@@ -565,8 +565,16 @@ function renderTable(orders) {
             <td style="text-align:center;">${o.quantity??1}</td>
             <td style="color:#FDD023;font-weight:bold;">$${(parseFloat(String(o.total_price||'').replace(/[^0-9.]/g,''))||0).toFixed(2)}</td>
             <td style="white-space:nowrap;">
-                <span class="badge badge-toggle ${d.paid==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'paid')" title="Click to toggle">${d.paid||'—'}</span>
-                <span class="badge badge-toggle ${d.delivered==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'delivered')" title="Click to toggle">${d.delivered||'—'}</span>
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                    <div style="display:flex;align-items:center;gap:5px;">
+                        <span style="font-size:0.72em;color:#888;width:52px;">Paid</span>
+                        <span class="badge badge-toggle ${d.paid==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'paid')" title="Click to toggle paid status">${d.paid||'—'}</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:5px;">
+                        <span style="font-size:0.72em;color:#888;width:52px;">Delivered</span>
+                        <span class="badge badge-toggle ${d.delivered==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'delivered')" title="Click to toggle delivered status">${d.delivered||'—'}</span>
+                    </div>
+                </div>
             </td>
             <td class="details-bits">${bits.map(b=>`<span>${b}</span>`).join('')||'—'}</td>
             <td>
