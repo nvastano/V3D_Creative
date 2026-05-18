@@ -740,8 +740,8 @@ document.getElementById('confirmDel').addEventListener('click', async () => {
             errEl.textContent = `Delete failed (HTTP ${res.status}). Check your connection or try again.`;
             errEl.style.display = 'block';
         }
-    } catch {
-        errEl.textContent = 'Delete failed. Could not reach the server.';
+    } catch (err) {
+        errEl.textContent = 'Delete failed: ' + (err?.message || 'Could not reach the server.');
         errEl.style.display = 'block';
     } finally {
         btn.textContent = 'Delete'; btn.disabled = false;
