@@ -87,6 +87,9 @@
         .badge-yes { background: rgba(45,138,45,0.3); color: #6dfc6d; border: 1px solid #2d8a2d; }
         .badge-no  { background: rgba(204,51,51,0.25); color: #ff8080; border: 1px solid #cc3333; }
         .badge-new { background: rgba(253,208,35,0.2); color: #FDD023; border: 1px solid #FDD023; font-size: 0.68em; vertical-align: middle; margin-left: 4px; }
+        .badge-toggle { cursor: pointer; user-select: none; transition: opacity 0.15s; }
+        .badge-toggle:hover { opacity: 0.75; }
+        .badge-toggle.saving { opacity: 0.4; pointer-events: none; }
 
         .details-bits { font-size: 0.8em; color: #aaa; }
         .details-bits span { display: block; line-height: 1.5; }
@@ -561,7 +564,10 @@ function renderTable(orders) {
             <td style="white-space:nowrap;">${escHtml(o.customer_name||'—')}</td>
             <td style="text-align:center;">${o.quantity??1}</td>
             <td style="color:#FDD023;font-weight:bold;">$${(parseFloat(String(o.total_price||'').replace(/[^0-9.]/g,''))||0).toFixed(2)}</td>
-            <td style="white-space:nowrap;">${badge(d.paid)} ${badge(d.delivered)}</td>
+            <td style="white-space:nowrap;">
+                <span class="badge badge-toggle ${d.paid==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'paid')" title="Click to toggle">${d.paid||'—'}</span>
+                <span class="badge badge-toggle ${d.delivered==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'delivered')" title="Click to toggle">${d.delivered||'—'}</span>
+            </td>
             <td class="details-bits">${bits.map(b=>`<span>${b}</span>`).join('')||'—'}</td>
             <td>
                 <div class="row-actions">
@@ -705,6 +711,36 @@ document.getElementById('modalSave').addEventListener('click', async () => {
         btn.textContent = id ? 'Save Order' : 'Create Order';
     }
 });
+
+// ── Inline status toggle ──────────────────────────────────────────────────────────────────────
+
+async function toggleStatus(id, field) {
+    const o = getOrderById(id);
+    if (!o) return;
+    const d = parseDetails(o.details);
+    const cur = d[field];
+    d[field] = cur === 'Yes' ? 'No' : 'Yes';
+
+    // Optimistic UI update
+    o.details = JSON.stringify(d);
+    renderAll();
+
+    const key = savedKey();
+    try {
+        const res = await fetch(`${WORKER_URL}/orders/${id}?key=${encodeURIComponent(key)}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                product: o.product, customer_name: o.customer_name, email: o.email || '',
+                quantity: o.quantity, total_price: o.total_price, source: o.source || '',
+                received_at: o.received_at, details: JSON.stringify(d),
+            }),
+        });
+        if (!res.ok) { d[field] = cur; o.details = JSON.stringify(d); renderAll(); }
+    } catch {
+        d[field] = cur; o.details = JSON.stringify(d); renderAll();
+    }
+}
 
 // ── Delete Confirm ────────────────────────────────────────────────────────────────────────────
 
