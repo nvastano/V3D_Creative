@@ -87,6 +87,9 @@
         .badge-yes { background: rgba(45,138,45,0.3); color: #6dfc6d; border: 1px solid #2d8a2d; }
         .badge-no  { background: rgba(204,51,51,0.25); color: #ff8080; border: 1px solid #cc3333; }
         .badge-new { background: rgba(253,208,35,0.2); color: #FDD023; border: 1px solid #FDD023; font-size: 0.68em; vertical-align: middle; margin-left: 4px; }
+        .badge-toggle { cursor: pointer; user-select: none; transition: opacity 0.15s; }
+        .badge-toggle:hover { opacity: 0.75; }
+        .badge-toggle.saving { opacity: 0.4; pointer-events: none; }
 
         .details-bits { font-size: 0.8em; color: #aaa; }
         .details-bits span { display: block; line-height: 1.5; }
@@ -185,7 +188,7 @@
 
         <!-- Filter bar -->
         <div class="filter-bar">
-            <input type="text" id="searchInput" placeholder="Search name, product, email…" autocomplete="off" autocorrect="off" spellcheck="false">
+            <input type="search" id="searchInput" placeholder="Search name, product, email…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')">
             <select id="productFilter"><option value="">All Products</option></select>
             <select id="paidFilter">
                 <option value="">Paid: All</option>
@@ -212,12 +215,10 @@
                         <th data-col="received_at">Date</th>
                         <th data-col="product">Product</th>
                         <th data-col="customer_name">Customer</th>
-                        <th data-col="email">Email</th>
                         <th data-col="quantity">Qty</th>
                         <th data-col="total_price">Total</th>
                         <th class="no-sort">Status</th>
                         <th class="no-sort">Details</th>
-                        <th data-col="source">Source</th>
                         <th class="no-sort">Actions</th>
                     </tr>
                 </thead>
@@ -280,10 +281,6 @@
                     <select id="fPaid"><option value="">—</option><option value="Yes">Yes</option><option value="No">No</option></select>
                 </div>
                 <div class="form-group">
-                    <label>File Received</label>
-                    <select id="fFile"><option value="">—</option><option value="Yes">Yes</option><option value="No">No</option></select>
-                </div>
-                <div class="form-group">
                     <label>Created</label>
                     <select id="fCreated"><option value="">—</option><option value="Yes">Yes</option><option value="No">No</option></select>
                 </div>
@@ -295,13 +292,9 @@
 
             <div class="form-section">Optional Details</div>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group full">
                     <label>Color</label>
                     <input type="text" id="fColor" placeholder="e.g. Purple">
-                </div>
-                <div class="form-group">
-                    <label>Seat</label>
-                    <input type="text" id="fSeat" placeholder="e.g. B3.413B">
                 </div>
             </div>
             <div class="form-row">
@@ -338,6 +331,7 @@
             <button class="btn-confirm-cancel" id="confirmCancel">Cancel</button>
             <button class="btn-confirm-del" id="confirmDel">Delete</button>
         </div>
+        <p id="deleteError" style="color:#ff6b6b;font-size:0.85em;margin-top:12px;display:none;"></p>
     </div>
 </div>
 
@@ -354,7 +348,7 @@ let lastVisit  = localStorage.getItem(VISITED_KEY) || null;
 
 function savedKey() { return localStorage.getItem(AUTH_KEY) || ''; }
 
-// ── Auth ─────────────────────────────────────────────────────────────────────
+// ── Auth ─────────────────────────────────────────────────────────────────────────────
 
 function showLogin(err) {
     document.getElementById('dashboard').style.display = 'none';
@@ -405,7 +399,7 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 
 document.getElementById('refreshBtn').addEventListener('click', loadOrders);
 
-// ── Data ─────────────────────────────────────────────────────────────────────
+// ── Data ─────────────────────────────────────────────────────────────────────────────
 
 async function loadOrders() {
     const key = savedKey();
@@ -424,7 +418,7 @@ async function loadOrders() {
     }
 }
 
-// ── New-orders banner ─────────────────────────────────────────────────────────
+// ── New-orders banner ─────────────────────────────────────────────────────────────────
 
 function checkNewOrders() {
     if (!lastVisit) { updateLastVisit(); return; }
@@ -455,7 +449,7 @@ document.getElementById('markSeenBtn').addEventListener('click', () => {
     renderAll();
 });
 
-// ── Rendering ─────────────────────────────────────────────────────────────────
+// ── Rendering ───────────────────────────────────────────────────────────────────────────
 
 function parseDetails(raw) { try { return JSON.parse(raw || '{}'); } catch { return {}; } }
 
@@ -494,7 +488,7 @@ function isNew(o) {
 }
 
 function renderStats(orders) {
-    const revenue = orders.reduce((s, o) => s + (parseFloat(o.total_price) || 0), 0);
+    const revenue = orders.reduce((s, o) => s + (parseFloat(String(o.total_price||'').replace(/[^0-9.]/g,'')) || 0), 0);
     const customers = new Set(orders.map(o => (o.customer_name||'').toLowerCase().trim())).size;
     const paid = orders.filter(o => parseDetails(o.details).paid === 'Yes').length;
     const pending = allOrders.filter(isPending).length;
@@ -516,11 +510,10 @@ function populateProductFilter(orders) {
 
 function getFiltered() {
     const rawSearch = document.getElementById('searchInput').value;
-    // Wipe it if the browser autofilled a URL into the search box
-    if (rawSearch.startsWith('http')) {
+    if (rawSearch.startsWith('http') || rawSearch.startsWith('www')) {
         document.getElementById('searchInput').value = '';
     }
-    const search    = rawSearch.startsWith('http') ? '' : rawSearch.toLowerCase();
+    const search = (rawSearch.startsWith('http') || rawSearch.startsWith('www')) ? '' : rawSearch.toLowerCase();
     const product   = document.getElementById('productFilter').value;
     const paid      = document.getElementById('paidFilter').value;
     const delivered = document.getElementById('deliveredFilter').value;
@@ -565,8 +558,6 @@ function renderTable(orders) {
         if (d.signColor) bits.push('Sign: '     + escHtml(d.signColor));
         if (d.textColor) bits.push('Text: '     + escHtml(d.textColor));
         if (d.text)      bits.push('"'           + escHtml(d.text) + '"');
-        if (d.seat)      bits.push('Seat: '     + escHtml(d.seat));
-        if (d.file)      bits.push('File: '     + escHtml(d.file));
         if (d.created)   bits.push('Created: '  + escHtml(d.created));
         const newBadge = isNew(o) ? '<span class="badge badge-new">NEW</span>' : '';
         const pending = isPending(o);
@@ -575,12 +566,21 @@ function renderTable(orders) {
             <td style="white-space:nowrap;">${fmtDate(o.received_at)}${newBadge}</td>
             <td style="white-space:nowrap;font-weight:bold;color:#FDD023;">${escHtml(o.product||'—')}</td>
             <td style="white-space:nowrap;">${escHtml(o.customer_name||'—')}</td>
-            <td style="color:#888;font-size:0.82em;">${escHtml(o.email||'—')}</td>
             <td style="text-align:center;">${o.quantity??1}</td>
-            <td style="color:#FDD023;font-weight:bold;">$${parseFloat(o.total_price||0).toFixed(2)}</td>
-            <td style="white-space:nowrap;">${badge(d.paid)} ${badge(d.delivered)}</td>
+            <td style="color:#FDD023;font-weight:bold;">$${(parseFloat(String(o.total_price||'').replace(/[^0-9.]/g,''))||0).toFixed(2)}</td>
+            <td style="white-space:nowrap;">
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                    <div style="display:flex;align-items:center;gap:5px;">
+                        <span style="font-size:0.72em;color:#888;width:52px;">Paid</span>
+                        <span class="badge badge-toggle ${d.paid==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'paid')" title="Click to toggle paid status">${d.paid||'—'}</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:5px;">
+                        <span style="font-size:0.72em;color:#888;width:52px;">Delivered</span>
+                        <span class="badge badge-toggle ${d.delivered==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'delivered')" title="Click to toggle delivered status">${d.delivered||'—'}</span>
+                    </div>
+                </div>
+            </td>
             <td class="details-bits">${bits.map(b=>`<span>${b}</span>`).join('')||'—'}</td>
-            <td style="color:#888;font-size:0.8em;">${escHtml(o.source||'—')}</td>
             <td>
                 <div class="row-actions">
                     <button class="btn-edit" onclick="openEditModal(${o.id})">✏ Edit</button>
@@ -598,7 +598,7 @@ function renderAll() {
     renderTable(getSorted(filtered));
 }
 
-// ── Sort & filters ────────────────────────────────────────────────────────────
+// ── Sort & filters ──────────────────────────────────────────────────────────────────────────
 
 document.querySelectorAll('thead th[data-col]').forEach(th => {
     th.addEventListener('click', () => {
@@ -621,7 +621,7 @@ document.getElementById('pendingBtn').addEventListener('click', () => {
     renderAll();
 });
 
-// ── Edit / Create Modal ───────────────────────────────────────────────────────
+// ── Edit / Create Modal ───────────────────────────────────────────────────────────────────
 
 function getOrderById(id) { return allOrders.find(o => o.id === id); }
 
@@ -639,11 +639,9 @@ function openEditModal(id) {
     document.getElementById('fTotal').value    = o.total_price || '';
     document.getElementById('fSource').value   = o.source || '';
     document.getElementById('fPaid').value     = d.paid || '';
-    document.getElementById('fFile').value     = d.file || '';
     document.getElementById('fCreated').value  = d.created || '';
     document.getElementById('fDelivered').value= d.delivered || '';
     document.getElementById('fColor').value    = d.color || '';
-    document.getElementById('fSeat').value     = d.seat || '';
     document.getElementById('fSignColor').value= d.signColor || '';
     document.getElementById('fTextColor').value= d.textColor || '';
     document.getElementById('fText').value     = d.text || '';
@@ -663,11 +661,9 @@ document.getElementById('newOrderBtn').addEventListener('click', () => {
     document.getElementById('fTotal').value     = '';
     document.getElementById('fSource').value    = 'Admin';
     document.getElementById('fPaid').value      = '';
-    document.getElementById('fFile').value      = '';
     document.getElementById('fCreated').value   = '';
     document.getElementById('fDelivered').value = '';
     document.getElementById('fColor').value     = '';
-    document.getElementById('fSeat').value      = '';
     document.getElementById('fSignColor').value = '';
     document.getElementById('fTextColor').value = '';
     document.getElementById('fText').value      = '';
@@ -692,9 +688,9 @@ document.getElementById('modalSave').addEventListener('click', async () => {
 
     const details = {};
     const addDetail = (key, elId) => { const v = document.getElementById(elId).value.trim(); if (v) details[key] = v; };
-    addDetail('paid', 'fPaid'); addDetail('file', 'fFile');
+    addDetail('paid', 'fPaid');
     addDetail('created', 'fCreated'); addDetail('delivered', 'fDelivered');
-    addDetail('color', 'fColor'); addDetail('seat', 'fSeat');
+    addDetail('color', 'fColor');
     addDetail('signColor', 'fSignColor'); addDetail('textColor', 'fTextColor');
     addDetail('text', 'fText');
 
@@ -728,7 +724,37 @@ document.getElementById('modalSave').addEventListener('click', async () => {
     }
 });
 
-// ── Delete Confirm ────────────────────────────────────────────────────────────
+// ── Inline status toggle ──────────────────────────────────────────────────────────────────────
+
+async function toggleStatus(id, field) {
+    const o = getOrderById(id);
+    if (!o) return;
+    const d = parseDetails(o.details);
+    const cur = d[field];
+    d[field] = cur === 'Yes' ? 'No' : 'Yes';
+
+    // Optimistic UI update
+    o.details = JSON.stringify(d);
+    renderAll();
+
+    const key = savedKey();
+    try {
+        const res = await fetch(`${WORKER_URL}/orders/${id}?key=${encodeURIComponent(key)}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                product: o.product, customer_name: o.customer_name, email: o.email || '',
+                quantity: o.quantity, total_price: o.total_price, source: o.source || '',
+                received_at: o.received_at, details: JSON.stringify(d),
+            }),
+        });
+        if (!res.ok) { d[field] = cur; o.details = JSON.stringify(d); renderAll(); }
+    } catch {
+        d[field] = cur; o.details = JSON.stringify(d); renderAll();
+    }
+}
+
+// ── Delete Confirm ────────────────────────────────────────────────────────────────────────────
 
 let pendingDeleteId = null;
 
@@ -749,23 +775,37 @@ document.getElementById('confirmDel').addEventListener('click', async () => {
     if (!pendingDeleteId) return;
     const key = savedKey();
     const btn = document.getElementById('confirmDel');
+    const errEl = document.getElementById('deleteError');
     btn.textContent = 'Deleting…'; btn.disabled = true;
+    errEl.style.display = 'none';
     try {
         const res = await fetch(`${WORKER_URL}/orders/${pendingDeleteId}?key=${encodeURIComponent(key)}`, { method: 'DELETE' });
         if (res.ok) {
             document.getElementById('confirmOverlay').style.display = 'none';
             pendingDeleteId = null;
             await loadOrders();
+        } else {
+            errEl.textContent = `Delete failed (HTTP ${res.status}). Check your connection or try again.`;
+            errEl.style.display = 'block';
         }
+    } catch (err) {
+        errEl.textContent = 'Delete failed: ' + (err?.message || 'Could not reach the server.');
+        errEl.style.display = 'block';
     } finally {
         btn.textContent = 'Delete'; btn.disabled = false;
     }
 });
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────────────────────────────
 
 if (savedKey()) { showDashboard(); loadOrders(); }
 else { showLogin(); }
+
+// Clear any browser-autofilled garbage from the search field
+[100, 500, 1500].forEach(ms => setTimeout(() => {
+    const s = document.getElementById('searchInput');
+    if (s && (s.value.startsWith('http') || s.value.startsWith('www'))) { s.value = ''; renderAll(); }
+}, ms));
 </script>
 </body>
 </html>
