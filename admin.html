@@ -509,7 +509,11 @@ function populateProductFilter(orders) {
 }
 
 function getFiltered() {
-    const search    = document.getElementById('searchInput').value.toLowerCase();
+    const rawSearch = document.getElementById('searchInput').value;
+    if (rawSearch.startsWith('http') || rawSearch.startsWith('www')) {
+        document.getElementById('searchInput').value = '';
+    }
+    const search = (rawSearch.startsWith('http') || rawSearch.startsWith('www')) ? '' : rawSearch.toLowerCase();
     const product   = document.getElementById('productFilter').value;
     const paid      = document.getElementById('paidFilter').value;
     const delivered = document.getElementById('deliveredFilter').value;

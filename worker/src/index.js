@@ -1,3 +1,5 @@
+const ADMIN_KEY = 'eKw4FTjnfLHIwBO';
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -11,8 +13,8 @@ function json(data, status = 200) {
   });
 }
 
-function authed(url, env) {
-  return url.searchParams.get('key') === env.ADMIN_KEY;
+function authed(url) {
+  return url.searchParams.get('key') === ADMIN_KEY;
 }
 
 export default {
@@ -25,7 +27,7 @@ export default {
 
     // GET /orders?key=... — list all orders (admin)
     if (request.method === 'GET' && url.pathname === '/orders') {
-      if (!authed(url, env)) return json({ error: 'Unauthorized' }, 401);
+      if (!authed(url)) return json({ error: 'Unauthorized' }, 401);
       const { results } = await env.DB.prepare(
         'SELECT * FROM orders ORDER BY id DESC'
       ).all();
@@ -38,7 +40,7 @@ export default {
       try { data = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
 
       // Admin creating order directly
-      if (authed(url, env)) {
+      if (authed(url)) {
         await env.DB.prepare(
           `INSERT INTO orders (received_at, product, customer_name, email, quantity, total_price, details, source)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
@@ -74,7 +76,7 @@ export default {
     // PUT /orders/:id?key=... — update an order (admin)
     const idMatch = /^\/orders\/(\d+)$/.exec(url.pathname);
     if (idMatch) {
-      if (!authed(url, env)) return json({ error: 'Unauthorized' }, 401);
+      if (!authed(url)) return json({ error: 'Unauthorized' }, 401);
       const id = idMatch[1];
 
       if (request.method === 'PUT') {
