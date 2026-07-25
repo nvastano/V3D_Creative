@@ -240,7 +240,20 @@
             <div class="form-row">
                 <div class="form-group">
                     <label>Product</label>
-                    <input type="text" id="fProduct" placeholder="e.g. Minecraft Name Plate">
+                    <select id="fProduct">
+                        <option value="">— Select product —</option>
+                        <option>Brick Letter Name Plate</option>
+                        <option>Bunny Silhouette</option>
+                        <option>Cable Management Clips (5-pack)</option>
+                        <option>Desk Wall Hook</option>
+                        <option>Funny Work Sign</option>
+                        <option>Headphone/Backpack/Purse Desk Hook</option>
+                        <option>Hello Spring Circle Sign</option>
+                        <option>Hello Spring Sign</option>
+                        <option>Minecraft Custom Name Plate</option>
+                        <option>Phone Stand</option>
+                        <option>Text Piggy Bank</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Customer Name</label>
@@ -254,7 +267,7 @@
                 </div>
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="datetime-local" id="fDate">
+                    <input type="date" id="fDate">
                 </div>
             </div>
             <div class="form-row">
@@ -464,7 +477,7 @@ function toDatetimeLocal(s) {
     const d = new Date(s.includes('T') ? s : s + 'T00:00:00');
     if (isNaN(d)) return '';
     const p = n => String(n).padStart(2, '0');
-    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
 }
 
 function badge(val) {
@@ -558,7 +571,6 @@ function renderTable(orders) {
         if (d.signColor) bits.push('Sign: '     + escHtml(d.signColor));
         if (d.textColor) bits.push('Text: '     + escHtml(d.textColor));
         if (d.text)      bits.push('"'           + escHtml(d.text) + '"');
-        if (d.created)   bits.push('Created: '  + escHtml(d.created));
         const newBadge = isNew(o) ? '<span class="badge badge-new">NEW</span>' : '';
         const pending = isPending(o);
         return `<tr class="${pending ? 'is-pending' : ''}">
@@ -573,6 +585,10 @@ function renderTable(orders) {
                     <div style="display:flex;align-items:center;gap:5px;">
                         <span style="font-size:0.72em;color:#888;width:52px;">Paid</span>
                         <span class="badge badge-toggle ${d.paid==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'paid')" title="Click to toggle paid status">${d.paid||'—'}</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:5px;">
+                        <span style="font-size:0.72em;color:#888;width:52px;">Created</span>
+                        <span class="badge badge-toggle ${d.created==='Yes'?'badge-yes':'badge-no'}" onclick="toggleStatus(${o.id},'created')" title="Click to toggle created status">${d.created||'—'}</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:5px;">
                         <span style="font-size:0.72em;color:#888;width:52px;">Delivered</span>
@@ -702,7 +718,7 @@ document.getElementById('modalSave').addEventListener('click', async () => {
         quantity:      parseInt(document.getElementById('fQty').value) || 1,
         total_price:   document.getElementById('fTotal').value.trim(),
         source:        document.getElementById('fSource').value.trim(),
-        received_at:   dateVal ? new Date(dateVal).toISOString().replace('T',' ').slice(0,19) : '',
+        received_at:   dateVal || '',
         details:       JSON.stringify(details),
     };
 
