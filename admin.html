@@ -131,6 +131,26 @@
         .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
         .modal-error { color: #ff6b6b; font-size: 0.82em; margin-right: auto; }
 
+        /* ── Tabs ── */
+        .tab-bar { background: rgba(0,0,0,0.6); border-bottom: 2px solid #461D7C; display: flex; gap: 0; }
+        .tab-btn { padding: 11px 24px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 0.9em; font-weight: bold; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; }
+        .tab-btn:hover { color: white; }
+        .tab-btn.active { color: #FDD023; border-bottom-color: #FDD023; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── Inventory admin ── */
+        .inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 4px; }
+        .inv-card { background: rgba(0,0,0,0.7); border: 2px solid #461D7C; border-radius: 11px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+        .inv-card-name { font-weight: bold; color: #FDD023; font-size: 1em; }
+        .inv-card-meta { font-size: 0.8em; color: #aaa; display: flex; gap: 10px; flex-wrap: wrap; }
+        .inv-card-actions { display: flex; gap: 6px; margin-top: 4px; }
+
+        /* ── Claims table ── */
+        .badge-pending  { background: rgba(204,136,0,0.25); color: #ffbb33; border: 1px solid #cc8800; }
+        .badge-paid     { background: rgba(45,138,45,0.3);  color: #6dfc6d; border: 1px solid #2d8a2d; }
+        .badge-cancelled{ background: rgba(100,100,100,0.2); color: #888;   border: 1px solid #555; }
+
         /* ── Confirm dialog ── */
         .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .confirm-box { background: #0e0e1a; border: 2px solid #cc3333; border-radius: 12px; padding: 28px; max-width: 360px; text-align: center; }
@@ -160,70 +180,154 @@
 <div class="dashboard" id="dashboard">
     <nav>
         <div class="nav-container">
-            <div class="nav-logo">V3D Creative — Orders</div>
+            <div class="nav-logo">V3D Creative — Admin</div>
             <div class="nav-right">
-                <button class="btn-sm btn-new" id="newOrderBtn">+ New Order</button>
+                <button class="btn-sm btn-new" id="newOrderBtn" style="display:none;">+ New Order</button>
+                <button class="btn-sm btn-new" id="newItemBtn" style="display:none;">+ Add Item</button>
                 <button class="btn-sm btn-refresh" id="refreshBtn">↺ Refresh</button>
                 <button class="btn-sm btn-logout" id="logoutBtn">Sign Out</button>
             </div>
         </div>
     </nav>
 
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="orders">Orders</button>
+        <button class="tab-btn" data-tab="inventory">Inventory</button>
+        <button class="tab-btn" data-tab="claims">Claims</button>
+    </div>
+
     <div class="content">
 
-        <!-- New orders banner -->
-        <div class="new-banner hidden" id="newBanner">
-            <div class="new-banner-text" id="newBannerText"></div>
-            <button class="btn-seen" id="markSeenBtn">Mark as seen</button>
+        <!-- ── Orders tab ── -->
+        <div class="tab-panel active" id="tab-orders">
+            <div class="new-banner hidden" id="newBanner">
+                <div class="new-banner-text" id="newBannerText"></div>
+                <button class="btn-seen" id="markSeenBtn">Mark as seen</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-value" id="statOrders">—</div><div class="stat-label">Total Orders</div></div>
+                <div class="stat-card"><div class="stat-value" id="statRevenue">—</div><div class="stat-label">Total Revenue</div></div>
+                <div class="stat-card"><div class="stat-value" id="statCustomers">—</div><div class="stat-label">Customers</div></div>
+                <div class="stat-card"><div class="stat-value" id="statPaid">—</div><div class="stat-label">Paid</div></div>
+                <div class="stat-card pending"><div class="stat-value" id="statPending">—</div><div class="stat-label">⚠ Pending</div></div>
+            </div>
+            <div class="filter-bar">
+                <input type="search" id="searchInput" placeholder="Search name, product, email…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')">
+                <select id="productFilter"><option value="">All Products</option></select>
+                <select id="paidFilter">
+                    <option value="">Paid: All</option>
+                    <option value="Yes">Paid: Yes</option>
+                    <option value="No">Paid: No</option>
+                </select>
+                <select id="deliveredFilter">
+                    <option value="">Delivered: All</option>
+                    <option value="Yes">Delivered: Yes</option>
+                    <option value="No">Delivered: No</option>
+                </select>
+                <button class="btn-pending" id="pendingBtn">⚠ Pending Only</button>
+                <span class="filter-count" id="filterCount"></span>
+            </div>
+            <div class="table-wrap">
+                <div class="loading-msg" id="loadingMsg">Loading orders…</div>
+                <div class="no-results" id="noResults" style="display:none;">No orders match your filters.</div>
+                <table id="ordersTable" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th data-col="id">#</th>
+                            <th data-col="received_at">Date</th>
+                            <th data-col="product">Product</th>
+                            <th data-col="customer_name">Customer</th>
+                            <th data-col="quantity">Qty</th>
+                            <th data-col="total_price">Total</th>
+                            <th class="no-sort">Status</th>
+                            <th class="no-sort">Details</th>
+                            <th class="no-sort">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody"></tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Stats -->
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-value" id="statOrders">—</div><div class="stat-label">Total Orders</div></div>
-            <div class="stat-card"><div class="stat-value" id="statRevenue">—</div><div class="stat-label">Total Revenue</div></div>
-            <div class="stat-card"><div class="stat-value" id="statCustomers">—</div><div class="stat-label">Customers</div></div>
-            <div class="stat-card"><div class="stat-value" id="statPaid">—</div><div class="stat-label">Paid</div></div>
-            <div class="stat-card pending"><div class="stat-value" id="statPending">—</div><div class="stat-label">⚠ Pending</div></div>
+        <!-- ── Inventory tab ── -->
+        <div class="tab-panel" id="tab-inventory">
+            <div class="loading-msg" id="invLoadingMsg">Loading inventory…</div>
+            <div class="no-results" id="invEmpty" style="display:none;">No items yet — add your first one.</div>
+            <div class="inv-grid" id="invGrid" style="display:none;"></div>
         </div>
 
-        <!-- Filter bar -->
-        <div class="filter-bar">
-            <input type="search" id="searchInput" placeholder="Search name, product, email…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')">
-            <select id="productFilter"><option value="">All Products</option></select>
-            <select id="paidFilter">
-                <option value="">Paid: All</option>
-                <option value="Yes">Paid: Yes</option>
-                <option value="No">Paid: No</option>
-            </select>
-            <select id="deliveredFilter">
-                <option value="">Delivered: All</option>
-                <option value="Yes">Delivered: Yes</option>
-                <option value="No">Delivered: No</option>
-            </select>
-            <button class="btn-pending" id="pendingBtn">⚠ Pending Only</button>
-            <span class="filter-count" id="filterCount"></span>
+        <!-- ── Claims tab ── -->
+        <div class="tab-panel" id="tab-claims">
+            <div class="loading-msg" id="claimsLoadingMsg">Loading claims…</div>
+            <div class="no-results" id="claimsEmpty" style="display:none;">No claims yet.</div>
+            <div class="table-wrap" id="claimsTableWrap" style="display:none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="no-sort">#</th>
+                            <th class="no-sort">Item</th>
+                            <th class="no-sort">Color</th>
+                            <th class="no-sort">Price</th>
+                            <th class="no-sort">Claimed By</th>
+                            <th class="no-sort">Date</th>
+                            <th class="no-sort">Status</th>
+                            <th class="no-sort">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="claimsBody"></tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Table -->
-        <div class="table-wrap">
-            <div class="loading-msg" id="loadingMsg">Loading orders…</div>
-            <div class="no-results" id="noResults" style="display:none;">No orders match your filters.</div>
-            <table id="ordersTable" style="display:none;">
-                <thead>
-                    <tr>
-                        <th data-col="id">#</th>
-                        <th data-col="received_at">Date</th>
-                        <th data-col="product">Product</th>
-                        <th data-col="customer_name">Customer</th>
-                        <th data-col="quantity">Qty</th>
-                        <th data-col="total_price">Total</th>
-                        <th class="no-sort">Status</th>
-                        <th class="no-sort">Details</th>
-                        <th class="no-sort">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="ordersBody"></tbody>
-            </table>
+    </div>
+</div>
+
+<!-- ── Inventory Modal ── -->
+<div class="modal-overlay" id="invModalOverlay" style="display:none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="invModalTitle">Add Item</h2>
+            <button class="modal-close" id="invModalClose">✕</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="fInvId">
+            <div class="form-row">
+                <div class="form-group full">
+                    <label>Item Name</label>
+                    <input type="text" id="fInvName" placeholder="e.g. Purple Minecraft Nameplate">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full">
+                    <label>Description</label>
+                    <input type="text" id="fInvDesc" placeholder="Short description (optional)">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Price ($)</label>
+                    <input type="text" id="fInvPrice" placeholder="7.00">
+                </div>
+                <div class="form-group">
+                    <label>Quantity Available</label>
+                    <input type="number" id="fInvQty" min="1" value="1">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Color</label>
+                    <input type="text" id="fInvColor" placeholder="e.g. Purple">
+                </div>
+                <div class="form-group">
+                    <label>Image URL (optional)</label>
+                    <input type="text" id="fInvImg" placeholder="https://…">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span class="modal-error" id="invModalError"></span>
+            <button class="btn-cancel" id="invModalCancel">Cancel</button>
+            <button class="btn-save" id="invModalSave">Save Item</button>
         </div>
     </div>
 </div>
@@ -811,6 +915,183 @@ document.getElementById('confirmDel').addEventListener('click', async () => {
         btn.textContent = 'Delete'; btn.disabled = false;
     }
 });
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────────────
+
+let activeTab = 'orders';
+
+function switchTab(tab) {
+    activeTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + tab));
+    document.getElementById('newOrderBtn').style.display = tab === 'orders' ? '' : 'none';
+    document.getElementById('newItemBtn').style.display  = tab === 'inventory' ? '' : 'none';
+    if (tab === 'inventory' && allInventory.length === 0) loadInventory();
+    if (tab === 'claims') loadClaims();
+}
+
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+document.getElementById('refreshBtn').addEventListener('click', () => {
+    if (activeTab === 'orders') loadOrders();
+    else if (activeTab === 'inventory') loadInventory();
+    else loadClaims();
+});
+
+// ── Inventory ─────────────────────────────────────────────────────────────────────────
+
+let allInventory = [];
+
+async function loadInventory() {
+    const key = savedKey();
+    document.getElementById('invLoadingMsg').style.display = 'block';
+    document.getElementById('invGrid').style.display = 'none';
+    document.getElementById('invEmpty').style.display = 'none';
+    try {
+        const res = await fetch(`${WORKER_URL}/inventory?key=${encodeURIComponent(key)}`);
+        allInventory = await res.json();
+        renderInventory();
+    } catch {
+        document.getElementById('invLoadingMsg').textContent = '⚠ Failed to load inventory.';
+    }
+}
+
+function renderInventory() {
+    document.getElementById('invLoadingMsg').style.display = 'none';
+    if (!allInventory.length) { document.getElementById('invEmpty').style.display = 'block'; return; }
+    const grid = document.getElementById('invGrid');
+    grid.style.display = 'grid';
+    grid.innerHTML = allInventory.map(item => {
+        const avail = Math.max(0, item.quantity - (item.claimed_count || 0));
+        return `<div class="inv-card">
+            <div class="inv-card-name">${escHtml(item.name)}</div>
+            ${item.description ? `<div style="font-size:0.82em;color:rgba(255,255,255,0.6);">${escHtml(item.description)}</div>` : ''}
+            <div class="inv-card-meta">
+                <span>$${parseFloat(item.price||0).toFixed(2)}</span>
+                ${item.color ? `<span>${escHtml(item.color)}</span>` : ''}
+                <span>${avail} of ${item.quantity} available</span>
+                ${item.claimed_count > 0 ? `<span style="color:#ffbb33;">${item.claimed_count} claimed</span>` : ''}
+            </div>
+            <div class="inv-card-actions">
+                <button class="btn-edit" onclick="openInvModal(${item.id})">✏ Edit</button>
+                <button class="btn-del" onclick="deleteInvItem(${item.id}, '${escHtml(item.name).replace(/'/g,"\\'")}')">✕</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function openInvModal(id) {
+    const item = id ? allInventory.find(i => i.id === id) : null;
+    document.getElementById('invModalTitle').textContent = item ? 'Edit Item' : 'Add Item';
+    document.getElementById('fInvId').value    = item ? item.id : '';
+    document.getElementById('fInvName').value  = item ? item.name : '';
+    document.getElementById('fInvDesc').value  = item ? item.description || '' : '';
+    document.getElementById('fInvPrice').value = item ? item.price : '';
+    document.getElementById('fInvQty').value   = item ? item.quantity : 1;
+    document.getElementById('fInvColor').value = item ? item.color || '' : '';
+    document.getElementById('fInvImg').value   = item ? item.image_url || '' : '';
+    document.getElementById('invModalError').textContent = '';
+    document.getElementById('invModalSave').textContent = item ? 'Save Item' : 'Add Item';
+    document.getElementById('invModalOverlay').style.display = 'flex';
+}
+
+function closeInvModal() { document.getElementById('invModalOverlay').style.display = 'none'; }
+document.getElementById('invModalClose').addEventListener('click', closeInvModal);
+document.getElementById('invModalCancel').addEventListener('click', closeInvModal);
+document.getElementById('newItemBtn').addEventListener('click', () => openInvModal(null));
+
+document.getElementById('invModalSave').addEventListener('click', async () => {
+    const key = savedKey();
+    const id = document.getElementById('fInvId').value;
+    const errEl = document.getElementById('invModalError');
+    const btn = document.getElementById('invModalSave');
+    const name = document.getElementById('fInvName').value.trim();
+    if (!name) { errEl.textContent = 'Name is required.'; return; }
+    const body = {
+        name, description: document.getElementById('fInvDesc').value.trim(),
+        price: document.getElementById('fInvPrice').value.trim(),
+        quantity: document.getElementById('fInvQty').value,
+        color: document.getElementById('fInvColor').value.trim(),
+        image_url: document.getElementById('fInvImg').value.trim(),
+    };
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+        const url = id ? `${WORKER_URL}/inventory/${id}?key=${encodeURIComponent(key)}` : `${WORKER_URL}/inventory?key=${encodeURIComponent(key)}`;
+        const res = await fetch(url, { method: id ? 'PUT' : 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+        if (!res.ok) { errEl.textContent = `Error ${res.status}`; return; }
+        closeInvModal();
+        await loadInventory();
+    } catch { errEl.textContent = 'Save failed.'; }
+    finally { btn.disabled = false; btn.textContent = id ? 'Save Item' : 'Add Item'; }
+});
+
+async function deleteInvItem(id, name) {
+    if (!confirm(`Delete "${name}" and all its claims? This cannot be undone.`)) return;
+    const key = savedKey();
+    try {
+        await fetch(`${WORKER_URL}/inventory/${id}?key=${encodeURIComponent(key)}`, { method: 'DELETE' });
+        await loadInventory();
+    } catch { alert('Delete failed.'); }
+}
+
+// ── Claims ────────────────────────────────────────────────────────────────────────────
+
+async function loadClaims() {
+    const key = savedKey();
+    document.getElementById('claimsLoadingMsg').style.display = 'block';
+    document.getElementById('claimsTableWrap').style.display = 'none';
+    document.getElementById('claimsEmpty').style.display = 'none';
+    try {
+        const res = await fetch(`${WORKER_URL}/claims?key=${encodeURIComponent(key)}`);
+        const claims = await res.json();
+        renderClaims(claims);
+    } catch {
+        document.getElementById('claimsLoadingMsg').textContent = '⚠ Failed to load claims.';
+    }
+}
+
+function renderClaims(claims) {
+    document.getElementById('claimsLoadingMsg').style.display = 'none';
+    if (!claims.length) { document.getElementById('claimsEmpty').style.display = 'block'; return; }
+    const wrap = document.getElementById('claimsTableWrap');
+    wrap.style.display = 'block';
+    document.getElementById('claimsBody').innerHTML = claims.map(c => {
+        const statusClass = c.status === 'paid' ? 'badge-paid' : c.status === 'cancelled' ? 'badge-cancelled' : 'badge-pending';
+        return `<tr>
+            <td style="color:#666;font-size:0.83em;">${c.id}</td>
+            <td style="font-weight:bold;color:#FDD023;">${escHtml(c.item_name||'—')}</td>
+            <td style="color:#aaa;">${escHtml(c.item_color||'—')}</td>
+            <td style="color:#FDD023;">$${parseFloat(c.item_price||0).toFixed(2)}</td>
+            <td>${escHtml(c.claimer_name||'—')}</td>
+            <td style="color:#888;font-size:0.82em;white-space:nowrap;">${fmtDate(c.claimed_at)}</td>
+            <td>
+                <select class="claim-status-sel" data-id="${c.id}" style="background:rgba(255,255,255,0.07);border:1px solid #461D7C;border-radius:5px;color:white;padding:3px 6px;font-size:0.82em;">
+                    <option value="pending"   ${c.status==='pending'  ?'selected':''}>Pending</option>
+                    <option value="paid"      ${c.status==='paid'     ?'selected':''}>Paid</option>
+                    <option value="cancelled" ${c.status==='cancelled'?'selected':''}>Cancelled</option>
+                </select>
+            </td>
+            <td><button class="btn-del" onclick="deleteClaim(${c.id})">✕</button></td>
+        </tr>`;
+    }).join('');
+
+    document.querySelectorAll('.claim-status-sel').forEach(sel => {
+        sel.addEventListener('change', async function() {
+            const key = savedKey();
+            await fetch(`${WORKER_URL}/claims/${this.dataset.id}?key=${encodeURIComponent(key)}`, {
+                method: 'PUT', headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ status: this.value }),
+            });
+        });
+    });
+}
+
+async function deleteClaim(id) {
+    if (!confirm('Remove this claim?')) return;
+    const key = savedKey();
+    await fetch(`${WORKER_URL}/claims/${id}?key=${encodeURIComponent(key)}`, { method: 'DELETE' });
+    loadClaims();
+}
 
 // ── Init ──────────────────────────────────────────────────────────────────────────────
 
