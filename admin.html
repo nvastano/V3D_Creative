@@ -224,7 +224,7 @@
                     <option value="Yes">Delivered: Yes</option>
                     <option value="No">Delivered: No</option>
                 </select>
-                <button class="btn-pending" id="pendingBtn">⚠ Pending Only</button>
+                <button class="btn-pending active" id="pendingBtn">⚠ Pending Only</button>
                 <span class="filter-count" id="filterCount"></span>
             </div>
             <div class="table-wrap">
@@ -460,7 +460,7 @@ const VISITED_KEY  = 'v3d_last_visit';
 let allOrders  = [];
 let sortCol    = 'id';
 let sortDir    = 'desc';
-let pendingOnly = false;
+let pendingOnly = true;
 let lastVisit  = localStorage.getItem(VISITED_KEY) || null;
 
 function savedKey() { return localStorage.getItem(AUTH_KEY) || ''; }
